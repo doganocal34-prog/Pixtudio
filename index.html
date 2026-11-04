@@ -169,6 +169,12 @@ main:has(#v-edit.on){max-width:1680px}
 .seg{display:flex;background:var(--panel2);border:1px solid var(--line);border-radius:13px;padding:3px;gap:3px}
 .seg button{flex:1;border:0;background:none;color:var(--mut);font:inherit;font-weight:600;font-size:13px;padding:8px;border-radius:10px;cursor:pointer}.seg button.on{background:var(--acc);color:#fff}
 #exGo{margin-top:18px}
+.st{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:5px 0;color:#c9ccd8}.st span{flex:1}.st em{font-style:normal;color:var(--mut);font-size:11.5px}.st.big{font-size:13px;margin-bottom:6px}
+.sd{width:9px;height:9px;border-radius:50%;flex:none;background:#555}.sd.ok{background:var(--acc2);box-shadow:0 0 0 3px rgba(31,209,165,.18)}.sd.wait{background:var(--warn);animation:pl 1.2s infinite}.sd.bad{background:#ff5c6c}@keyframes pl{50%{opacity:.35}}
+.tok{display:flex;justify-content:space-between;align-items:center;background:rgba(31,209,165,.08);border:1px solid rgba(31,209,165,.3);border-radius:12px;padding:9px 12px;font-size:13px;margin-bottom:6px}
+.ta{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:13px;padding:11px 12px;font:inherit;resize:vertical;outline:none}.ta:focus{border-color:var(--acc)}
+.tipcard a{color:#b9a6ff}.warnc{border-color:rgba(255,181,71,.35);background:rgba(255,181,71,.07)}.ai-res.err{border-color:rgba(255,92,108,.45);background:rgba(255,92,108,.08)}
+#editCv{background-color:#d9d9de;background-image:linear-gradient(45deg,#b8b8c0 25%,transparent 25%),linear-gradient(-45deg,#b8b8c0 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#b8b8c0 75%),linear-gradient(-45deg,transparent 75%,#b8b8c0 75%);background-size:18px 18px;background-position:0 0,0 9px,9px -9px,-9px 0}
 @media(max-width:900px){
  .px{grid-template-columns:1fr;height:auto;min-height:0;gap:8px}
  .px-center{height:58vh;min-height:360px;order:1}
@@ -530,7 +536,7 @@ function renderTo(x,src,a,texts){
   (texts||[]).forEach(t=>{const f=Math.round(w*t.size/100);x.save();x.font=`800 ${f}px system-ui,sans-serif`;x.textAlign='center';x.textBaseline='middle';x.lineWidth=f*.12;x.strokeStyle='rgba(0,0,0,.55)';x.lineJoin='round';x.strokeText(t.text,t.x*w,t.y*h);x.fillStyle=t.color;x.fillText(t.text,t.x*w,t.y*h);x.restore()});
 }
 
-const FXN={smooth:'Pürüzsüz cilt',glow:'Işıltı',undereye:'Göz altı',teeth:'Beyaz diş',smile:'Gülümseme',brow:'Kaş kaldır',young:'Genç',old:'Yaşlı',hair:'Saç rengi',beard:'Tam sakal',mustache:'Bıyık',goatee:'Keçi sakal',glasses:'Gözlük',sunglasses:'Güneş gözlüğü',lips:'Ruj',blush:'Allık',liner:'Göz kalemi',bigeyes:'İri gözler',slim:'İnce yüz',nose:'Küçük burun',bgblur:'Bulanık arka plan',bggray:'S/B arka plan'};
+const FXN={smooth:'Pürüzsüz cilt',glow:'Işıltı',undereye:'Göz altı',teeth:'Beyaz diş',smile:'Gülümseme',brow:'Kaş kaldır',young:'Genç',old:'Yaşlı',hair:'Saç rengi',beard:'Tam sakal',mustache:'Bıyık',goatee:'Keçi sakal',glasses:'Gözlük',sunglasses:'Güneş gözlüğü',lips:'Ruj',blush:'Allık',liner:'Göz kalemi',bigeyes:'İri gözler',slim:'İnce yüz',nose:'Küçük burun',bgblur:'Bulanık arka plan',bggray:'S/B arka plan',clothes:'Kıyafet rengi'};
 const FXKEYS=Object.keys(FXN);const defFx=()=>Object.fromEntries(FXKEYS.map(k=>[k,0]));
 const HAIR_COLORS={'Sarı':'#e3c16f','Platin':'#efe4cc','Kızıl':'#b5432a','Kahve':'#5a3a22','Siyah':'#1a1414','Gri':'#a9a9a9','Pembe':'#e86aa6','Mavi':'#3d6fe0','Mor':'#7a4bd1'};
 const BEARD_COLORS={'Siyah':'#1c1512','Kahve':'#4a2f1d','Kızıl':'#9c3f22','Gri':'#9a9a9a'};
@@ -540,6 +546,7 @@ const CATS=[
  {id:'expr',icon:'😊',name:'İfade',opts:[['smile','😁'],['brow','🤨']]},
  {id:'age',icon:'⏳',name:'Yaş',opts:[['young','👶'],['old','👴']]},
  {id:'hair',icon:'💇',name:'Saç',hair:true},
+ {id:'cloth',icon:'👕',name:'Kıyafet',cloth:true},
  {id:'beard',icon:'🧔',name:'Sakal',opts:[['beard','🧔'],['mustache','👨'],['goatee','🐐']],colors:'beard'},
  {id:'acc',icon:'👓',name:'Aksesuar',opts:[['glasses','👓'],['sunglasses','🕶️']]},
  {id:'makeup',icon:'💄',name:'Makyaj',opts:[['lips','💋'],['blush','🌸'],['liner','✏️']],colors:'lips'},
@@ -569,14 +576,14 @@ function warp(x,w,h,fl){let x0=w,y0=h,x1=0,y1=0;fl.forEach(f=>{x0=Math.min(x0,f.
     for(let c=0;c<4;c++)D[o+c]=(S[i00+c]*(1-ax)+S[i10+c]*ax)*(1-ay)+(S[i01+c]*(1-ax)+S[i11+c]*ax)*ay}
   x.putImageData(id,x0,y0)}
 
-function skinPass(x,c,g,o){const e=g.e,d=g.d;const x0=Math.max(0,Math.floor(e.cx-e.rx*1.1)),y0=Math.max(0,Math.floor(e.cy-e.ry*1.1)),x1=Math.min(c.width,Math.ceil(e.cx+e.rx*1.1)),y1=Math.min(c.height,Math.ceil(e.cy+e.ry*1.1));
+function skinPass(x,c,g,o){const e=g.e,d=g.d,F=o.M?1.35:1.1;const x0=Math.max(0,Math.floor(e.cx-e.rx*F)),y0=Math.max(0,Math.floor(e.cy-e.ry*F)),x1=Math.min(c.width,Math.ceil(e.cx+e.rx*F)),y1=Math.min(c.height,Math.ceil(e.cy+e.ry*F));
   const rw=x1-x0,rh=y1-y0;if(rw<4||rh<4)return;const id=x.getImageData(x0,y0,rw,rh),D=id.data;let B=null;
   if(o.sm){const reg=mk(rw,rh);reg.getContext('2d').putImageData(id,0,0);B=blurCopy(reg,Math.max(2,e.rx/20)).getContext('2d').getImageData(0,0,rw,rh).data}
   const eh=d*.24,mwx=g.mw*1.15,mwy=d*.2;
-  for(let yy=0;yy<rh;yy++)for(let xx=0;xx<rw;xx++){const px=xx+x0,py=yy+y0,qx=(px-e.cx)/(e.rx*1.02),qy=(py-e.cy)/(e.ry*1.05),q=qx*qx+qy*qy;if(q>=1)continue;
-    const m=cl((1-q)/.3,0,1),i=(yy*rw+xx)*4;let r=D[i],gg=D[i+1],b=D[i+2];
+  for(let yy=0;yy<rh;yy++)for(let xx=0;xx<rw;xx++){const px=xx+x0,py=yy+y0,qx=(px-e.cx)/(e.rx*1.02),qy=(py-e.cy)/(e.ry*1.05),q=qx*qx+qy*qy;if(q>=1&&!o.M)continue;
+    const i=(yy*rw+xx)*4,m=o.M?o.M.skin[(py*o.M.w+px)*4+3]/255:cl((1-q)/.3,0,1);if(o.M&&m<.01&&!o.teeth&&!o.ue)continue;let r=D[i],gg=D[i+1],b=D[i+2];
     const de=Math.min(Math.hypot(px-g.eL.x,py-g.eL.y),Math.hypot(px-g.eR.x,py-g.eR.y))/eh,mx=(px-g.m.x)/mwx,my=(py-g.m.y)/mwy,dm=Math.sqrt(mx*mx+my*my);
-    const hole=Math.max(cl(1.5-de,0,1),cl(1.4-dm,0,1));
+    const hole=o.M?0:Math.max(cl(1.5-de,0,1),cl(1.4-dm,0,1));
     if(B){const L=lum(r,gg,b),LB=lum(B[i],B[i+1],B[i+2]),keep=cl(Math.abs(L-LB)/30,0,1),a=o.sm*m*(1-hole)*(1-keep)*.92;r+=(B[i]-r)*a;gg+=(B[i+1]-gg)*a;b+=(B[i+2]-b)*a}
     if(o.young){const k=9*o.young*m;r+=k;gg+=k;b+=k}
     if(o.old){const L=lum(r,gg,b),k=.35*o.old*m*(1-hole*.5);r+=(L-r)*k;gg+=(L-gg)*k;b+=(L-b)*k;r-=5*o.old*m;gg-=6*o.old*m;b-=10*o.old*m}
@@ -585,7 +592,7 @@ function skinPass(x,c,g,o){const e=g.e,d=g.d;const x0=Math.max(0,Math.floor(e.cx
     D[i]=r;D[i+1]=gg;D[i+2]=b}
   x.putImageData(id,x0,y0)}
 
-function hairPass(x,w,h,g,T,amt){const e=g.e;const ref=sampleAt(x,g.hp.x,g.hp.y,Math.max(2,g.d*.05)),skin=sampleAt(x,e.cx,e.cy+e.ry*.12,Math.max(2,g.d*.07));if(!ref||!skin)return;
+function hairPass(x,w,h,g,T,amt,HM){if(HM){recolorMask(x,w,h,HM,T,amt);return}const e=g.e;const ref=sampleAt(x,g.hp.x,g.hp.y,Math.max(2,g.d*.05)),skin=sampleAt(x,e.cx,e.cy+e.ry*.12,Math.max(2,g.d*.07));if(!ref||!skin)return;
   const X0=Math.max(0,Math.floor(e.cx-e.rx*1.9)),Y0=Math.max(0,Math.floor(e.cy-e.ry*1.95)),X1=Math.min(w,Math.ceil(e.cx+e.rx*1.9)),Y1=Math.min(h,Math.ceil(e.cy+e.ry*2));const rw=X1-X0,rh=Y1-Y0;if(rw<4||rh<4)return;
   const id=x.getImageData(X0,Y0,rw,rh),D=id.data,Lr=lum(...ref)+1,browY=Math.min(g.eL.y,g.eR.y)-g.d*.35;
   for(let yy=0;yy<rh;yy++)for(let xx=0;xx<rw;xx++){const px=xx+X0,py=yy+Y0,ox=(px-e.cx)/(e.rx*1.85),oy=(py-(e.cy+e.ry*.05))/(e.ry*1.9),o=ox*ox+oy*oy;if(o>=1)continue;
@@ -603,11 +610,11 @@ function wrinkles(x,g,a){const e=g.e,d=g.d,cx=e.cx;x.save();x.globalCompositeOpe
     x.beginPath();x.moveTo(cx+sd*d*.2,(ey+g.m.y)/2);x.quadraticCurveTo(cx+sd*d*.42,g.m.y-d*.05,g.m.x+sd*(g.mw+d*.08),g.m.y+d*.14);x.stroke()});
   x.restore()}
 
-function lipPass(x,g,T,amt){const d=g.d,mx=g.mw*1.25,my=d*.24,skin=sampleAt(x,g.eL.x,g.eL.y+d*.45,Math.max(2,d*.06));if(!skin)return;
+function lipPass(x,g,T,amt,M){const d=g.d,mx=g.mw*1.25,my=d*.24,skin=sampleAt(x,g.eL.x,g.eL.y+d*.45,Math.max(2,d*.06));if(!skin)return;
   const X0=Math.max(0,Math.floor(g.m.x-mx)),Y0=Math.max(0,Math.floor(g.m.y-my)),rw=Math.min(x.canvas.width-X0,Math.ceil(mx*2)),rh=Math.min(x.canvas.height-Y0,Math.ceil(my*2));if(rw<2||rh<2)return;
   const id=x.getImageData(X0,Y0,rw,rh),D=id.data,srg=skin[0]-skin[1],Lt=lum(...T)+1;
   for(let yy=0;yy<rh;yy++)for(let xx=0;xx<rw;xx++){const qx=(xx+X0-g.m.x)/mx,qy=(yy+Y0-g.m.y)/my,q=qx*qx+qy*qy;if(q>=1)continue;
-    const i=(yy*rw+xx)*4,r=D[i],gg=D[i+1],b=D[i+2],lip=cl((r-gg-srg-10)/28,0,1),wt=cl((1-q)/.35,0,1)*lip*amt*.85;if(wt<.01)continue;
+    const i=(yy*rw+xx)*4,r=D[i],gg=D[i+1],b=D[i+2],wt=M?M.lips[((yy+Y0)*M.w+xx+X0)*4+3]/255*amt*.9:cl((1-q)/.35,0,1)*cl((r-gg-srg-10)/28,0,1)*amt*.85;if(wt<.01)continue;
     const k=(lum(r,gg,b)+1)/Lt*1.05;D[i]=r+(T[0]*k-r)*wt;D[i+1]=gg+(T[1]*k-gg)*wt;D[i+2]=b+(T[2]*k-b)*wt}
   x.putImageData(id,X0,Y0)}
 
@@ -636,7 +643,7 @@ function glasses(x,g,kind,a){const d=g.d,lw=d*.035;x.save();x.globalAlpha=Math.m
 
 function bgPass(x,c,g,blurA,grayA){const w=c.width,h=c.height,e=g.e;const M=mk(w,h),mx=M.getContext('2d');mx.fillStyle='#fff';
   mx.beginPath();mx.ellipse(e.cx,e.cy-e.ry*.12,e.rx*1.45,e.ry*1.5,0,0,7);mx.fill();mx.beginPath();mx.ellipse(e.cx,e.cy+e.ry*2.35,e.rx*2.5,e.ry*1.55,0,0,7);mx.fill();mx.fillRect(e.cx-e.rx*.5,e.cy,e.rx,e.ry*1.4);
-  const Ms=blurCopy(M,14),B=blurA?blurCopy(c,1+blurA*14):clone(c),bx=B.getContext('2d',{willReadFrequently:true});
+  const Ms=pmaskScaled(w,h,40)||blurCopy(M,14),B=blurA?blurCopy(c,1+blurA*14):clone(c),bx=B.getContext('2d',{willReadFrequently:true});
   if(grayA){const id=bx.getImageData(0,0,w,h),D=id.data;for(let i=0;i<D.length;i+=4){const L=lum(D[i],D[i+1],D[i+2]);D[i]+=(L-D[i])*grayA;D[i+1]+=(L-D[i+1])*grayA;D[i+2]+=(L-D[i+2])*grayA}bx.putImageData(id,0,0)}
   bx.globalCompositeOperation='destination-out';bx.drawImage(Ms,0,0);x.drawImage(B,0,0)}
 
@@ -660,6 +667,8 @@ const ICONS={
  plus:'<path d="M12 5v14M5 12h14"/>',minus:'<path d="M5 12h14"/>',
  rot:'<path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/>',
  flip:'<path d="M12 3v18M8 7l-5 5 5 5zM16 7l5 5-5 5z"/>',
+ gen:'<path d="M15 4V2M15 16v-2M8 9h2M20 9h2M17.8 11.8L19 13M17.8 6.2L19 5M3 21l9-9M12.2 6.2L11 5"/>',
+ bg:'<path d="M12 2l10 6-10 6L2 8z"/><path d="M2 16l10 6 10-6"/>',
  image:'<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/>'
 };
 const ic=n=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICONS[n]}</svg>`;
@@ -687,19 +696,20 @@ const LOOKS={
 const HUEGRAD='linear-gradient(90deg,#ff3b3b,#ffd93b,#4cd964,#3cd6d6,#3c7dff,#c84dff,#ff3b3b)';
 const GRADS={exposure:'linear-gradient(90deg,#15161c,#e9eaf0)',temp:'linear-gradient(90deg,#3d7dff,#d9dbe3,#ffb13d)',tint:'linear-gradient(90deg,#3dcf5a,#d9dbe3,#e04de0)',
  vibrance:'linear-gradient(90deg,#8a8a8a,#ff7a3d)',saturation:'linear-gradient(90deg,#8a8a8a,#ff3d6e)'};
-const TOOLS=[['ai','AI'],['adjust','Ayarla'],['looks','Görünüm'],['face','Yüz'],['crop','Kırp'],['heal','Rötuş'],['text','Metin'],['history','Geçmiş']];
-const TOOL_TITLES={ai:'AI Asistan',adjust:'Ayarlar',looks:'Görünümler',face:'Yüz rötuşu',crop:'Kırp ve döndür',heal:'Leke ve nesne silme',text:'Metin',history:'Geçmiş'};
+const TOOLS=[['ai','AI'],['gen','Oluştur'],['adjust','Ayarla'],['looks','Görünüm'],['face','Yüz'],['bg','Arka plan'],['crop','Kırp'],['heal','Rötuş'],['text','Metin'],['history','Geçmiş']];
+const TOOL_TITLES={gen:'AI Stüdyo',bg:'Arka plan',ai:'AI Asistan',adjust:'Ayarlar',looks:'Görünümler',face:'Yüz rötuşu',crop:'Kırp ve döndür',heal:'Leke ve nesne silme',text:'Metin',history:'Geçmiş'};
 const FONTS={'Modern':'800 {s}px Inter,system-ui,sans-serif','Klasik':'700 {s}px Georgia,"Times New Roman",serif','Daktilo':'700 {s}px "Courier New",monospace','Poster':'900 {s}px Impact,"Arial Black",sans-serif','El yazısı':'italic 600 {s}px "Brush Script MT","Segoe Script",cursive'};
+const CLOTH_COLORS={'Siyah':'#1b1b1f','Beyaz':'#f1f1f1','Kırmızı':'#c62828','Lacivert':'#1e3a8a','Yeşil':'#2e7d32','Bej':'#c8b08a','Pembe':'#e91e63','Sarı':'#f2c230'};
 const TEXT_COLORS=['#ffffff','#111111','#ffd23f','#ff5c8a','#7c5cff','#1fd1a5','#3d8bff'];
 
-const P={orig:null,prev:null,ps:1,e:null,pts:null,faceOk:false,fx:defFx(),col:{hair:HAIR_COLORS['Sarı'],beard:BEARD_COLORS['Siyah'],lips:LIP_COLORS['Kırmızı']},dev:defDev(),look:'Orijinal',lookAmt:100,texts:[],
+const P={orig:null,prev:null,ps:1,e:null,pts:null,faceOk:false,fx:defFx(),col:{hair:HAIR_COLORS['Sarı'],beard:BEARD_COLORS['Siyah'],lips:LIP_COLORS['Kırmızı'],clothes:'#1e3a8a'},dev:defDev(),look:'Orijinal',lookAmt:100,texts:[],
  hist:[],idx:-1,tool:'ai',faceCat:'beauty',faceActive:null,editFace:false,split:false,splitX:.5,hold:false,zoom:1,panX:0,panY:0,crop:null,heal:{size:4},hslSel:'orange',name:'',fcache:null,selText:-1,
- tFont:'Modern',tColor:'#ffffff',tSize:8,aiOut:'',lookThumbs:null,healMask:null};
+ tFont:'Modern',tColor:'#ffffff',tSize:8,aiOut:'',lookThumbs:null,healMask:null,bg:{mode:'none',blur:60,color:'#ffffff',grad:0,img:null,feather:30,aiPrompt:''},healMode:'brush',magic:null,lm:null,pm:null,mc:null};
 const ecv=$('#editCv'),ectx=ecv.getContext('2d',{willReadFrequently:true}),view=$('#pxView');
 const prevMap=new WeakMap();
 function setPrev(){const o=P.orig;let pv=prevMap.get(o);
   if(!pv){const s=Math.min(1,1100/Math.max(o.width,o.height));if(s<1){pv=mk(Math.round(o.width*s),Math.round(o.height*s));const x=pv.getContext('2d');x.imageSmoothingQuality='high';x.drawImage(o,0,0,pv.width,pv.height)}else pv=o;prevMap.set(o,pv)}
-  P.prev=pv;P.ps=pv.width/o.width;ecv.width=pv.width;ecv.height=pv.height;P.healMask=mk(pv.width,pv.height);P.fcache=null;P.lookThumbs=null}
+  P.prev=pv;P.ps=pv.width/o.width;ecv.width=pv.width;ecv.height=pv.height;P.healMask=mk(pv.width,pv.height);P.fcache=null;P.lookThumbs=null;P.mcache=null;P.maskCache=null;P.magic=null}
 function needImg(){if(!P.orig){toast('Önce bir fotoğraf aç');return false}return true}
 
 /* ---- Yüz efektleri (ölçekli) ---- */
@@ -712,7 +722,7 @@ async function detectFaceFull(cv){if(!('FaceDetector' in window))return null;
     const lm=f.landmarks||[],eyes=lm.filter(l=>l.type==='eye').map(l=>l.locations[0]).filter(Boolean).sort((a,b)=>a.x-b.x),mo=lm.find(l=>l.type==='mouth');
     if(eyes.length===2){pts.eyeL={x:eyes[0].x,y:eyes[0].y};pts.eyeR={x:eyes[1].x,y:eyes[1].y}}if(mo&&mo.locations[0])pts.mouth={x:mo.locations[0].x,y:mo.locations[0].y};
     return{e,pts}}catch(err){return null}}
-function processFace(src,sc){const w=src.width,h=src.height,c=clone(src),x=c.getContext('2d',{willReadFrequently:true});
+function processFace(src,sc){const w=src.width,h=src.height,c=clone(src),x=c.getContext('2d',{willReadFrequently:true}),lmM=P.lm&&P.lmOf===P.orig?lmMasks(w,h,sc):null;
   const g=geomS(sc),fx=P.fx,s=k=>fx[k]/100,R=g.R,e=g.e,d=g.d,fl=[];
   if(s('smile')){const v=s('smile');[-1,1].forEach(sd=>fl.push({t:'m',x:g.m.x+sd*g.mw,y:g.m.y,r:d*.42,vx:sd*d*.05*v,vy:-d*.11*v}))}
   if(s('brow'))[g.eL,g.eR].forEach(p=>fl.push({t:'m',x:p.x,y:p.y-d*.25,r:d*.4,vx:0,vy:-d*.09*s('brow')}));
@@ -722,10 +732,11 @@ function processFace(src,sc){const w=src.width,h=src.height,c=clone(src),x=c.get
   if(s('old'))[-1,1].forEach(sd=>fl.push({t:'m',x:e.cx+sd*R*.65,y:e.cy+e.ry*.65,r:R*.45,vx:0,vy:d*.05*s('old')}));
   if(fl.length)warp(x,w,h,fl);
   const sm=Math.min(1,s('smooth')+s('young')*.7);
-  if(sm||s('old')||s('undereye')||s('teeth')||s('young'))skinPass(x,c,g,{sm,old:s('old'),ue:s('undereye'),teeth:s('teeth'),young:s('young')});
-  const hA=s('hair'),gA=s('old')*.85;if(hA||gA)hairPass(x,w,h,g,hex(hA?P.col.hair:'#bdbdbd'),Math.max(hA,gA));
+  if(sm||s('old')||s('undereye')||s('teeth')||s('young'))skinPass(x,c,g,{M:lmM,sm,old:s('old'),ue:s('undereye'),teeth:s('teeth'),young:s('young')});
+  const hA=s('hair'),gA=s('old')*.85;if(hA||gA)hairPass(x,w,h,g,hex(hA?P.col.hair:'#bdbdbd'),Math.max(hA,gA),mcData('hair',w,h));
+  if(s('clothes')){const CM=mcData('clothes',w,h);if(CM)recolorMask(x,w,h,CM,hex(P.col.clothes),s('clothes'))}
   if(s('old'))wrinkles(x,g,s('old'));
-  if(s('lips'))lipPass(x,g,hex(P.col.lips),s('lips'));
+  if(s('lips'))lipPass(x,g,hex(P.col.lips),s('lips'),lmM);
   if(s('blush')){x.save();[g.eL,g.eR].forEach((p,i)=>{const sd=i?1:-1,bx=p.x+sd*d*.08,by=p.y+d*.5,r=d*.36,gr=x.createRadialGradient(bx,by,0,bx,by,r);gr.addColorStop(0,`rgba(240,80,110,${.32*s('blush')})`);gr.addColorStop(1,'rgba(240,80,110,0)');x.fillStyle=gr;x.beginPath();x.arc(bx,by,r,0,7);x.fill()});x.restore()}
   if(s('liner')){x.save();x.strokeStyle=`rgba(15,10,10,${.9*s('liner')})`;x.lineWidth=d*.025;x.lineCap='round';[[g.eL,-1],[g.eR,1]].forEach(([p,so])=>{const ew=d*.2;x.beginPath();x.moveTo(p.x-so*ew,p.y-d*.02);x.quadraticCurveTo(p.x,p.y-d*.13,p.x+so*ew,p.y-d*.03);x.lineTo(p.x+so*(ew+d*.08),p.y-d*.08);x.stroke()});x.restore()}
   const bc=hex(P.col.beard);
@@ -779,9 +790,9 @@ function develop(x,d){const w=x.canvas.width,h=x.canvas.height,id=x.getImageData
 function textFont(t,w){return FONTS[t.font||'Modern'].replace('{s}',Math.max(4,Math.round(w*t.size/100)))}
 function drawTexts(x,w,h){P.texts.forEach(t=>{x.save();x.font=textFont(t,w);x.textAlign='center';x.textBaseline='middle';const f=w*t.size/100;
   x.shadowColor='rgba(0,0,0,.45)';x.shadowBlur=f*.15;x.shadowOffsetY=f*.04;x.fillStyle=t.color;const ls=String(t.text).split('\n');ls.forEach((ln,i)=>x.fillText(ln,t.x*w,t.y*h+(i-(ls.length-1)/2)*f*1.15));x.restore()})}
-function faceStage(src,s,cache){if(!faceActive())return src;if(!cache)return processFace(src,s);const k=JSON.stringify([P.fx,P.col,P.e,P.pts]);
+function faceStage(src,s,cache){if(!faceActive())return src;if(!cache)return processFace(src,s);const k=JSON.stringify([P.fx,P.col,P.e,P.pts,AIS.ver]);
   if(P.fcache&&P.fcache.k===k&&P.fcache.src===src)return P.fcache.c;const c=processFace(src,s);P.fcache={k,src,c};return c}
-function renderEdited(src,s,cache){const out=clone(faceStage(src,s,cache)),x=out.getContext('2d',{willReadFrequently:true}),d=effDev();if(!devNeutral(d))develop(x,d);drawTexts(x,out.width,out.height);return out}
+function renderEdited(src,s,cache){const out=clone(faceStage(src,s,cache)),x=out.getContext('2d',{willReadFrequently:true}),d=effDev();if(P.bg.mode!=='none')bgComposite(x,out.width,out.height);if(!devNeutral(d))develop(x,d);drawTexts(x,out.width,out.height);return out}
 
 /* ---- Önizleme ---- */
 function drawHist(src){const hc=$('#pxHist');if(!hc||!src)return;const t=mk(160,Math.max(1,Math.round(160*src.height/src.width)));t.getContext('2d').drawImage(src,0,0,t.width,t.height);
@@ -800,7 +811,7 @@ function drawFaceUI(){const s=P.ps,sc=scaleOf(ecv),e=P.e;drawEllipseUI(ectx,{cx:
   for(const k in L){const p={x:P.pts[k].x*s,y:P.pts[k].y*s};ectx.save();ectx.fillStyle=L[k][0];ectx.strokeStyle='#fff';ectx.lineWidth=2*sc;ectx.beginPath();ectx.arc(p.x,p.y,9*sc,0,7);ectx.fill();ectx.stroke();
     ectx.font=`700 ${12*sc}px Inter,system-ui`;ectx.textAlign='center';ectx.lineWidth=3*sc;ectx.strokeStyle='rgba(0,0,0,.7)';ectx.strokeText(L[k][1],p.x,p.y-15*sc);ectx.fillStyle='#fff';ectx.fillText(L[k][1],p.x,p.y-15*sc);ectx.restore()}}
 function textBox(t,w,h){ectx.save();ectx.font=textFont(t,w);const ls=String(t.text).split('\n'),tw=Math.max(...ls.map(l=>ectx.measureText(l).width)),f=w*t.size/100;ectx.restore();return{w:tw,h:ls.length*f*1.15}}
-let rq=0;function renderPreview(){if(rq)return;rq=requestAnimationFrame(()=>{rq=0;if(!P.prev)return;const w=ecv.width,h=ecv.height,sc=scaleOf(ecv);
+let rq=0;function renderPreview(){if(rq)return;rq=requestAnimationFrame(()=>{rq=0;if(!P.prev)return;ensureAI();const w=ecv.width,h=ecv.height,sc=scaleOf(ecv);
   if(P.tool==='crop'&&P.crop){drawCropView();return}
   const ed=P.hold?P.prev:renderEdited(P.prev,P.ps,true);ectx.clearRect(0,0,w,h);ectx.drawImage(ed,0,0);
   if(P.split&&!P.hold){const sx=P.splitX*w;ectx.save();ectx.beginPath();ectx.rect(0,0,sx,h);ectx.clip();ectx.drawImage(P.prev,0,0);ectx.restore();
@@ -810,14 +821,14 @@ let rq=0;function renderPreview(){if(rq)return;rq=requestAnimationFrame(()=>{rq=
     pill('Önce',sx,-1);pill('Sonra',sx,1);ectx.restore()}
   if(P.hold){ectx.save();ectx.font=`700 ${12*sc}px Inter,system-ui`;ectx.fillStyle='rgba(0,0,0,.55)';ectx.fillRect(10*sc,10*sc,70*sc,24*sc);ectx.fillStyle='#fff';ectx.textBaseline='middle';ectx.fillText('Orijinal',18*sc,22*sc);ectx.restore()}
   if(P.tool==='face'&&P.editFace)drawFaceUI();
-  if(P.tool==='heal'){ectx.save();ectx.globalAlpha=.5;ectx.drawImage(P.healMask,0,0);ectx.restore()}
+  if(P.tool==='heal'){ectx.save();ectx.globalAlpha=.5;ectx.drawImage(P.healMask,0,0);ectx.restore();if(P.magic&&P.magic.mask){const t=mk(w,h),tx=t.getContext('2d');tx.drawImage(P.magic.mask,0,0,w,h);tx.globalCompositeOperation='source-in';tx.fillStyle='rgba(40,200,255,.55)';tx.fillRect(0,0,w,h);ectx.drawImage(t,0,0)}}
   if(P.tool==='text'&&P.texts[P.selText]){const t=P.texts[P.selText],b=textBox(t,w,h);ectx.save();ectx.setLineDash([6*sc,4*sc]);ectx.strokeStyle='#fff';ectx.lineWidth=1.5*sc;ectx.strokeRect(t.x*w-b.w/2-8*sc,t.y*h-b.h/2-6*sc,b.w+16*sc,b.h+12*sc);ectx.restore()}
   drawHist(ed)})}
 
 /* ---- Geçmiş ---- */
-function snap(){return{orig:P.orig,e:{...P.e},pts:JSON.parse(JSON.stringify(P.pts)),fx:{...P.fx},col:{...P.col},dev:JSON.parse(JSON.stringify(P.dev)),look:P.look,lookAmt:P.lookAmt,texts:JSON.parse(JSON.stringify(P.texts))}}
+function snap(){return{orig:P.orig,e:{...P.e},pts:JSON.parse(JSON.stringify(P.pts)),fx:{...P.fx},col:{...P.col},dev:JSON.parse(JSON.stringify(P.dev)),look:P.look,lookAmt:P.lookAmt,texts:JSON.parse(JSON.stringify(P.texts)),bg:{...P.bg}}}
 function commit(label){if(!P.orig)return;P.hist=P.hist.slice(0,P.idx+1);P.hist.push({label,s:snap()});if(P.hist.length>60)P.hist.shift();P.idx=P.hist.length-1;updBar();if(P.tool==='history')renderPanel()}
-function restore(s){const oc=P.orig!==s.orig;Object.assign(P,{orig:s.orig,e:{...s.e},pts:JSON.parse(JSON.stringify(s.pts)),fx:{...s.fx},col:{...s.col},dev:JSON.parse(JSON.stringify(s.dev)),look:s.look,lookAmt:s.lookAmt,texts:JSON.parse(JSON.stringify(s.texts)),selText:-1});
+function restore(s){const oc=P.orig!==s.orig;Object.assign(P,{orig:s.orig,e:{...s.e},pts:JSON.parse(JSON.stringify(s.pts)),fx:{...s.fx},col:{...s.col},dev:JSON.parse(JSON.stringify(s.dev)),look:s.look,lookAmt:s.lookAmt,texts:JSON.parse(JSON.stringify(s.texts)),bg:{...(s.bg||P.bg)},selText:-1});
   if(oc)setPrev();if(P.tool==='crop')enterCrop();renderPanel();renderPreview();updBar()}
 function pxUndo(){if(P.idx>0){P.idx--;restore(P.hist[P.idx].s)}}
 function pxRedo(){if(P.idx<P.hist.length-1){P.idx++;restore(P.hist[P.idx].s)}}
@@ -825,10 +836,11 @@ window.pxUndo=pxUndo;
 function updBar(){$('#pxUndo').disabled=P.idx<=0;$('#pxRedo').disabled=P.idx>=P.hist.length-1;$('#pxSplit').classList.toggle('on',P.split);$('#pxExport').disabled=!P.orig;$('#pxZoomBar').hidden=!P.orig}
 
 /* ---- Yükleme ---- */
-async function loadEdit(img,e,name,noFace){Object.assign(P,{orig:img,fx:defFx(),dev:defDev(),look:'Orijinal',lookAmt:100,texts:[],hist:[],idx:-1,faceActive:null,editFace:false,split:false,hold:false,zoom:1,panX:0,panY:0,crop:null,selText:-1,aiOut:'',name:name||'foto',faceOk:!!e});
+async function loadEdit(img,e,name,noFace){Object.assign(P,{orig:img,fx:defFx(),dev:defDev(),look:'Orijinal',lookAmt:100,texts:[],hist:[],idx:-1,faceActive:null,editFace:false,split:false,hold:false,zoom:1,panX:0,panY:0,crop:null,selText:-1,aiOut:'',name:name||'foto',faceOk:!!e,bg:{mode:'none',blur:60,color:'#ffffff',grad:0,img:null,feather:30,aiPrompt:''},magic:null,lm:null,pm:null,mc:null});
   P.e=e?{...e}:{cx:img.width/2,cy:img.height*.42,rx:img.width*.17,ry:img.width*.21};P.pts=defPts(P.e);
   setPrev();$('#pxEmpty').hidden=true;ecv.hidden=false;applyZoom();$('#pxName').textContent=P.name+' · '+img.width+'×'+img.height;commit('Fotoğraf açıldı');
   if(P.tool==='crop')enterCrop();renderPanel();renderPreview();updBar();
+  if(!noFace&&canHttp){autoFace();return}
   if(!e&&!noFace){const det=await detectFaceFull(img);if(det&&P.orig===img){P.e=det.e;P.pts=det.pts;P.faceOk=true;P.hist[P.idx].s=snap();if(P.tool==='face')renderPanel();renderPreview()}}}
 async function loadFile(f){if(!f||!/^image\//.test(f.type))return toast('Lütfen bir görsel dosyası seç');try{const c=await fileToCanvas(f,2400);loadEdit(c,null,f.name.replace(/\.[^.]+$/,'').slice(0,40))}catch(err){toast('Bu dosya açılamadı')}}
 async function openFile(){const f=await pickFile('image/*');if(f)loadFile(f)}
@@ -869,7 +881,7 @@ function cropAct(p){const C=P.crop,w=ecv.width,h=ecv.height,R={x:C.r.x*w,y:C.r.y
 function startAct(ev){const p=evP(ev),w=ecv.width;
   if(P.split&&P.tool!=='crop'&&Math.abs(p.x-P.splitX*w)<24*p.s)return{move:e=>{P.splitX=cl(evP(e).x/w,0,1);renderPreview()}};
   if(P.tool==='crop'&&P.crop){const a=cropAct(p);if(a)return a}
-  else if(P.tool==='heal')return healAct(p);
+  else if(P.tool==='heal'){if(P.healMode==='magic'){if(!(P.magic&&P.magic.busy))magicSelect(p);return null}return healAct(p)}
   else if(P.tool==='face'&&P.editFace)return faceAct(p);
   else if(P.tool==='text'){const a=textAct(p);if(a)return a}
   if(P.zoom>1){const sx=ev.clientX,sy=ev.clientY,px=P.panX,py=P.panY;return{move:e=>{P.panX=px+e.clientX-sx;P.panY=py+e.clientY-sy;applyZoom()}}}
@@ -942,7 +954,7 @@ function autoEnhance(){const src=P.prev,t=mk(200,Math.max(1,Math.round(200*src.h
 /* ---- AI asistan ---- */
 function summarize(p){const out=[];for(const [k,v] of Object.entries(p.dev||{})){const d=DEV.find(x=>x[0]===k);if(d&&v)out.push(`${d[1]} ${v>0?'+':''}${Math.round(v)}`)}
   if(p.look&&LOOKS[p.look]&&p.look!=='Orijinal')out.push('Görünüm: '+p.look);for(const k in (p.hsl||{})){const c=HSLC.find(c=>c[0]===k);if(c)out.push(c[1]+' tonları')}
-  if(p.grade&&(p.grade.ss||p.grade.hs))out.push('Renk derecelendirme');for(const [k,v] of Object.entries(p.face||{}))if(FXN[k]&&v)out.push(FXN[k]);return out.slice(0,10)}
+  if(p.grade&&(p.grade.ss||p.grade.hs))out.push('Renk derecelendirme');if(p.background&&p.background.mode)out.push('Arka plan: '+({remove:'kaldırıldı',blur:'bulanık',gray:'renk vurgusu',color:'düz renk',none:'orijinal'}[p.background.mode]||''));for(const [k,v] of Object.entries(p.face||{}))if(FXN[k]&&v)out.push(FXN[k]);return out.slice(0,10)}
 function pxPrompt(q,hasImg){const nz=o=>Object.fromEntries(Object.entries(o).filter(([k,v])=>typeof v==='number'&&v));
   return `Sen "Pixtudio" adlı profesyonel fotoğraf düzenleme uygulamasının yapay zekâ rötuş uzmanısın. ${hasImg?'Ekteki fotoğrafı dikkatle incele (ışık, renk, beyaz dengesi, konu, kompozisyon, yüz olup olmadığı).':'Fotoğrafı göremiyorsun; yalnızca komuta göre karar ver.'} Kullanıcının isteğine göre düzenleme ayarlarını belirle ve YALNIZCA JSON döndür.
 Kullanıcının isteği: "${(q||'Bu fotoğrafı profesyonel bir editör gibi en iyi hâline getir.').slice(0,600)}"
@@ -951,9 +963,10 @@ hsl renkleri: ${HSLC.map(c=>c[0]+'='+c[1]).join(', ')}; her biri {"h":-100..100,
 grade (renk derecelendirme): {"sh": gölge tonu 0-360, "ss": 0-100, "hh": parlak alan tonu 0-360, "hs": 0-100}.
 look (hazır görünüm): ${Object.keys(LOOKS).join(', ')}; lookStrength 0-100.
 face (yüz efektleri 0-100, yalnızca fotoğrafta belirgin bir yüz varsa): ${FXKEYS.map(k=>k+'='+FXN[k]).join(', ')}. hairColor: ${Object.keys(HAIR_COLORS).join('/')}; beardColor: ${Object.keys(BEARD_COLORS).join('/')}; lipColor: ${Object.keys(LIP_COLORS).join('/')}.
+background (arka plan, yalnızca kişi varsa ve istenirse): {"mode":"none|remove|blur|gray|color","color":"#hex"}.
 crop: "1:1" | "4:5" | "16:9" | "9:16" | null (yalnızca istenirse ya da kompozisyon belirgin şekilde iyileşecekse).
 Şu anki ayarlar: ${JSON.stringify({dev:nz(P.dev),look:P.look,face:nz(P.fx)})}
-JSON şeması: {"reply":"1-2 kısa Türkçe cümle: ne gördün ve ne yaptın","changes":["kısa Türkçe madde, en fazla 6"],"dev":{},"hsl":{},"grade":{},"look":"","lookStrength":100,"face":{},"hairColor":"","beardColor":"","lipColor":"","crop":null,"refuse":false,"reason":""}
+JSON şeması: {"reply":"1-2 kısa Türkçe cümle: ne gördün ve ne yaptın","changes":["kısa Türkçe madde, en fazla 6"],"dev":{},"hsl":{},"grade":{},"look":"","lookStrength":100,"face":{},"hairColor":"","beardColor":"","lipColor":"","background":null,"crop":null,"refuse":false,"reason":""}
 Kurallar: Yalnızca değiştirmek istediğin alanları yaz; dev değerleri mutlaktır. Doğal ve profesyonel sonuç hedefle, genelde ±40 içinde kal; kullanıcı belirgin bir stil isterse daha cesur olabilirsin. Kullanıcı istemedikçe yüz efektlerini hafif tut (en fazla 30). Yanıltıcı amaçlı istekleri (ör. sahte kimlik belgesi fotoğrafı) refuse:true ile reddet.`}
 function pxLocalPlan(q){const s=q.toLocaleLowerCase('tr'),has=(...w)=>w.some(x=>s.includes(x)),p={dev:{},face:{},hsl:{}},D=p.dev;
   const k=has('çok','iyice','aşırı','bayağı')?1.5:has('biraz','hafif','azıcık')?.5:1,v=n=>Math.round(cl(n*k,-100,100)),off=has('kaldır','çıkar','kapat','olmasın','istemiyorum');
@@ -970,10 +983,11 @@ function pxLocalPlan(q){const s=q.toLocaleLowerCase('tr'),has=(...w)=>w.some(x=>
   const fv=off?0:has('biraz','hafif')?35:has('çok','iyice')?85:60;
   [[['gülümse','gülümset','gülsün'],'smile'],[['yaşlandır','yaşlı','ihtiyar'],'old'],[['gençleştir','genç'],'young'],[['pürüzsüz','cildi'],'smooth'],[['ışıltı','ışıl'],'glow'],[['göz alt'],'undereye'],[['diş'],'teeth'],[['kaş'],'brow'],[['güneş gözlü'],'sunglasses'],[['ruj','dudak'],'lips'],[['allık'],'blush'],[['göz kalem','eyeliner'],'liner'],[['iri göz','büyük göz'],'bigeyes'],[['ince yüz','yüzü incelt'],'slim'],[['burun'],'nose'],[['arka planı bulanık','arka plan bulanık','portre modu','bokeh'],'bgblur'],[['arka planı siyah','s/b arka'],'bggray'],[['bıyık'],'mustache'],[['keçi'],'goatee']]
     .forEach(([ws,key])=>{if(has(...ws))p.face[key]=fv});
+  if(has('arka planı kaldır','arka planı sil','arka planı yok','dekupe'))p.background={mode:'remove'};else if(has('arka planı beyaz'))p.background={mode:'color',color:'#ffffff'};
   if(has('sakal')&&!has('keçi'))p.face.beard=fv;if(has('gözlük')&&!has('güneş gözlü'))p.face.glasses=fv;
   if(has('saç','sarışın')){for(const n of Object.keys(HAIR_COLORS))if(has(n.toLocaleLowerCase('tr'))){p.hairColor=n;p.face.hair=off?0:80;break}if(has('sarışın')){p.hairColor='Sarı';p.face.hair=80}}
   for(const n of Object.keys(LIP_COLORS))if(has(n.toLocaleLowerCase('tr')+' ruj'))p.lipColor=n;
-  const any=Object.keys(D).length||p.look||Object.keys(p.face).length||Object.keys(p.hsl).length;
+  const any=Object.keys(D).length||p.background||p.look||Object.keys(p.face).length||Object.keys(p.hsl).length;
   if(!any&&!p.reset){if(has('otomatik','iyileştir','düzelt','güzelleştir','profesyonel','en iyi'))p.auto=true;else p.none=true}
   p.changes=summarize(p);p.reply=p.reset&&!p.changes.length?'Fotoğraf orijinal hâline döndü.':'Komutuna göre düzenledim.';return p}
 function aiShow(msg,changes){P.aiOut=`<div class="ai-res"><div>${esc(msg)}</div>${changes&&changes.length?'<div class="ai-tags">'+changes.map(c=>`<span>${esc(c)}</span>`).join('')+'</div>':''}${P.orig?'<button class="btn sm" onclick="pxUndo()">↶ Geri al</button>':''}</div>`;const o=$('#pxAiOut');if(o)o.innerHTML=P.aiOut}
@@ -985,6 +999,7 @@ function applyPxPlan(p,label){if(!p||typeof p!=='object')throw new Error('plan')
   if(p.look&&LOOKS[p.look]){P.look=p.look;P.lookAmt=Math.round(cl(p.lookStrength!=null?+p.lookStrength:100,0,100))}
   for(const [k,v] of Object.entries(p.face||{}))if(FXKEYS.includes(k))P.fx[k]=Math.round(cl(+v||0,0,100));
   if(HAIR_COLORS[p.hairColor])P.col.hair=HAIR_COLORS[p.hairColor];if(BEARD_COLORS[p.beardColor])P.col.beard=BEARD_COLORS[p.beardColor];if(LIP_COLORS[p.lipColor])P.col.lips=LIP_COLORS[p.lipColor];
+  if(p.background&&['none','remove','blur','gray','color'].includes(p.background.mode)){P.bg={...P.bg,mode:p.background.mode};if(/^#[0-9a-f]{6}$/i.test(p.background.color||''))P.bg.color=p.background.color;ensurePerson()}
   commit('AI: '+String(label).slice(0,30));renderPanel();renderPreview();
   aiShow('✨ '+(p.reply||'Düzenleme uygulandı.'),Array.isArray(p.changes)&&p.changes.length?p.changes.slice(0,8).map(String):summarize(p));
   const ars={'1:1':1,'4:5':.8,'16:9':16/9,'9:16':9/16};if(p.crop&&ars[p.crop]){setTool('crop');setAspect(ars[p.crop],p.crop);renderPanel();toast('AI '+p.crop+' kırpma önerdi — beğenirsen “Uygula”ya bas')}}
@@ -1004,6 +1019,185 @@ async function runPxAI(vision){if(pxBusy)return;const inp=$('#pxAiIn'),q=(inp&&i
   else{try{applyPxPlan(plan,q||'Analiz')}catch(e){applyPxPlan(pxLocalPlan(q),q)}}
   if(inp&&!vision)inp.value='';pxBusy=false}
 
+/* ================= AI MOTORLARI ================= */
+const AIBASE=(()=>{try{return new URL('ai/',location.href).href}catch(e){return 'ai/'}})();
+const canHttp=/^https?:$/.test(location.protocol),inClaude=!!window.claude;
+const AIM={fm:null,ss:null,vis:null,mc:null,is:null};
+const AIS={face:'bekliyor',person:'bekliyor',adv:'bekliyor',ver:0};
+const MP_MODELS={multiclass:'https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_multiclass_256x256/float32/latest/selfie_multiclass_256x256.tflite',
+  magic:'https://storage.googleapis.com/mediapipe-models/interactive_segmenter/magic_touch/float32/1/magic_touch.tflite'};
+function loadScript(src){return new Promise((res,rej)=>{if(document.querySelector(`script[data-src="${src}"]`))return res();const s=document.createElement('script');s.src=src;s.dataset.src=src;s.onload=res;s.onerror=()=>rej(new Error('Dosya yüklenemedi: '+src));document.head.appendChild(s)})}
+function runSol(sol,img){return new Promise((res,rej)=>{let d=false;sol.onResults(r=>{if(!d){d=true;res(r)}});Promise.resolve(sol.send({image:img})).catch(e=>{if(!d){d=true;rej(e)}})})}
+async function aiFaceMesh(){if(AIM.fm)return AIM.fm;await loadScript(AIBASE+'face_mesh/face_mesh.js');const fm=new FaceMesh({locateFile:f=>AIBASE+'face_mesh/'+f});
+  fm.setOptions({maxNumFaces:1,refineLandmarks:false,minDetectionConfidence:.4,minTrackingConfidence:.4});await fm.initialize();AIM.fm=fm;return fm}
+async function aiSelfie(){if(AIM.ss)return AIM.ss;await loadScript(AIBASE+'selfie/selfie_segmentation.js');const ss=new SelfieSegmentation({locateFile:f=>AIBASE+'selfie/'+f});
+  ss.setOptions({modelSelection:0});await ss.initialize();AIM.ss=ss;return ss}
+async function cleanModule(fn){const sv=window.Module;try{window.Module=undefined}catch(e){}try{return await fn()}finally{try{window.Module=sv}catch(e){}}}
+async function aiVisionLib(){if(AIM.vis)return AIM.vis;const mod=await import(AIBASE+'tasks/vision_bundle.mjs');const fs=await mod.FilesetResolver.forVisionTasks(AIBASE+'tasks');AIM.vis={mod,fs};return AIM.vis}
+async function mpCreate(Cls,opts){return cleanModule(()=>mpCreate0(Cls,opts))}
+async function mpCreate0(Cls,opts){const {mod,fs}=await aiVisionLib();try{return await mod[Cls].createFromOptions(fs,{...opts,baseOptions:{...opts.baseOptions,delegate:'GPU'}})}catch(e){return await mod[Cls].createFromOptions(fs,{...opts,baseOptions:{...opts.baseOptions,delegate:'CPU'}})}}
+async function aiMulticlass(){if(!AIM.mc)AIM.mc=await mpCreate('ImageSegmenter',{baseOptions:{modelAssetPath:MP_MODELS.multiclass},runningMode:'IMAGE',outputCategoryMask:false,outputConfidenceMasks:true});return AIM.mc}
+async function aiMagic(){if(!AIM.is)AIM.is=await mpCreate('InteractiveSegmenter',{baseOptions:{modelAssetPath:MP_MODELS.magic},outputCategoryMask:true,outputConfidenceMasks:false});return AIM.is}
+function aiErrText(e){const m=String(e&&e.message||e||'');if(!canHttp)return 'Yapay zekâ modelleri dosyadan açılınca çalışmaz; uygulamayı pixtudio.vercel.app adresinden aç.';
+  if(/fetch|network|load|CSP|Content Security/i.test(m))return inClaude?'Bu önizleme modeli indiremiyor; pixtudio.vercel.app adresinde çalışır.':'Model indirilemedi; internet bağlantını kontrol et.';return 'Model çalıştırılamadı: '+m.slice(0,120)}
+
+/* ---- Yüz ağı (468 nokta) ---- */
+const LM={oval:[10,338,297,332,284,251,389,356,454,323,361,288,397,365,379,378,400,377,152,148,176,149,150,136,172,58,132,93,234,127,162,21,54,103,67,109],
+  lipO:[61,185,40,39,37,0,267,269,270,409,291,375,321,405,314,17,84,181,91,146],lipI:[78,191,80,81,82,13,312,311,310,415,308,324,318,402,317,14,87,178,88,95],
+  eyeA:[33,7,163,144,145,153,154,155,133,173,157,158,159,160,161,246],eyeB:[362,382,381,380,374,373,390,249,263,466,388,387,386,385,384,398],
+  browA:[70,63,105,66,107,55,65,52,53,46],browB:[336,296,334,293,300,276,283,282,295,285]};
+const lmCache=new WeakMap();let faceBusy=null;
+function applyLandmarks(lm){const av=ids=>{let x=0,y=0;ids.forEach(i=>{x+=lm[i].x;y+=lm[i].y});return{x:x/ids.length,y:y/ids.length}};
+  const ov=LM.oval.map(i=>lm[i]),xs=ov.map(p=>p.x),ys=ov.map(p=>p.y),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
+  P.e={cx:(x0+x1)/2,cy:(y0+y1)/2+(y1-y0)*.04,rx:(x1-x0)/2*.9,ry:(y1-y0)/2*.95};
+  const a=av([33,133,159,145]),b=av([362,263,386,374]),[eL,eR]=a.x<b.x?[a,b]:[b,a],top=lm[10],chin=lm[152];
+  P.pts={eyeL:eL,eyeR:eR,mouth:av([13,14,78,308]),hair:{x:top.x+(top.x-chin.x)*.15,y:Math.max(2,top.y+(top.y-chin.y)*.15)}};P.lm=lm;P.lmOf=P.orig;P.faceOk=true;P.mcache=null}
+async function autoFace(force){const o=P.orig;if(!o||!canHttp)return;if(!force&&lmCache.has(o)){const lm=lmCache.get(o);if(lm){applyLandmarks(lm);if(P.hist[P.idx])P.hist[P.idx].s=snap()}return}
+  if(faceBusy)return;AIS.face='yükleniyor';updAIStatus();
+  faceBusy=(async()=>{try{const fm=await aiFaceMesh();if(fm.reset)fm.reset();const r=await runSol(fm,P.prev),L=r.multiFaceLandmarks&&r.multiFaceLandmarks[0];
+      const lm=L?L.map(p=>({x:p.x*o.width,y:p.y*o.height})):null;lmCache.set(o,lm);AIS.face=lm?'hazır':'yüz yok';
+      if(lm&&P.orig===o){applyLandmarks(lm);if(P.hist[P.idx])P.hist[P.idx].s=snap();AIS.ver++;renderPreview();if(P.tool==='face')renderPanel()}}
+    catch(e){console.warn(e);AIS.face='kullanılamıyor';AIS.faceErr=aiErrText(e)}finally{faceBusy=null;updAIStatus()}})()}
+function polyPath(x,ids,s){x.beginPath();ids.forEach((i,k)=>{const p=P.lm[i];k?x.lineTo(p.x*s,p.y*s):x.moveTo(p.x*s,p.y*s)});x.closePath()}
+function lmMasks(w,h,s){const key=w+'x'+h+':'+s;if(P.mcache&&P.mcache.key===key&&P.mcache.of===P.orig)return P.mcache;
+  const sk=mk(w,h),x=sk.getContext('2d'),d=Math.hypot(P.pts.eyeR.x-P.pts.eyeL.x,P.pts.eyeR.y-P.pts.eyeL.y)*s;x.fillStyle='#fff';polyPath(x,LM.oval,s);x.fill();
+  x.globalCompositeOperation='destination-out';x.lineWidth=d*.06;x.lineJoin='round';[LM.eyeA,LM.eyeB,LM.lipO,LM.browA,LM.browB].forEach(ids=>{polyPath(x,ids,s);x.fill();x.stroke()});
+  const lp=mk(w,h),y=lp.getContext('2d');y.fillStyle='#fff';polyPath(y,LM.lipO,s);y.fill();y.globalCompositeOperation='destination-out';polyPath(y,LM.lipI,s);y.fill();
+  const skin=blurCopy(sk,Math.max(2,w/220)),lips=blurCopy(lp,Math.max(1.5,w/700));
+  P.mcache={key,of:P.orig,w,h,skin:skin.getContext('2d').getImageData(0,0,w,h).data,lips:lips.getContext('2d').getImageData(0,0,w,h).data};return P.mcache}
+
+/* ---- Kişi maskesi (arka plan) ---- */
+let personBusy=null;
+async function ensurePerson(){const o=P.orig;if(!o||P.pm&&P.pm.of===o)return P.pm;if(!canHttp){AIS.person='kullanılamıyor';AIS.personErr=aiErrText();updAIStatus();return null}
+  if(personBusy)return personBusy;AIS.person='yükleniyor';updAIStatus();
+  personBusy=(async()=>{try{const ss=await aiSelfie(),r=await runSol(ss,P.prev),c=mk(o.width,o.height),x=c.getContext('2d',{willReadFrequently:true});x.imageSmoothingQuality='high';x.drawImage(r.segmentationMask,0,0,c.width,c.height);
+      const id=x.getImageData(0,0,c.width,c.height),D=id.data;for(let i=3;i<D.length;i+=4){const t=cl((D[i]/255-.25)/.5,0,1);D[i]=t*t*(3-2*t)*255;D[i-3]=D[i-2]=D[i-1]=255}x.putImageData(id,0,0);
+      if(P.orig===o){P.pm={of:o,c};AIS.person='hazır';AIS.ver++;P.maskCache=null;renderPreview();if(['bg','face'].includes(P.tool))renderPanel()}return P.pm}
+    catch(e){console.warn(e);AIS.person='kullanılamıyor';AIS.personErr=aiErrText(e);if(P.tool==='bg')renderPanel();return null}finally{personBusy=null;updAIStatus()}})();return personBusy}
+function maskScaled(src,w,h,feather,tag){P.maskCache=P.maskCache||{};const key=tag+':'+w+'x'+h+':'+feather;const c0=P.maskCache[key];if(c0&&c0.src===src)return c0.c;
+  const m=mk(w,h),x=m.getContext('2d');x.imageSmoothingQuality='high';x.drawImage(src,0,0,w,h);const c=feather>0?blurCopy(m,1+feather/100*7):m;P.maskCache[key]={src,c};return c}
+function pmaskScaled(w,h,f){return P.pm&&P.pm.of===P.orig?maskScaled(P.pm.c,w,h,f==null?P.bg.feather:f,'pm'):null}
+
+/* ---- Saç / kıyafet / cilt maskeleri (gelişmiş, internet) ---- */
+let advBusy=null;
+async function ensureAdvanced(){const o=P.orig;if(!o||P.mc&&P.mc.of===o)return P.mc;if(!canHttp){AIS.adv='kullanılamıyor';AIS.advErr=aiErrText();updAIStatus();return null}
+  if(advBusy)return advBusy;AIS.adv='yükleniyor';updAIStatus();
+  advBusy=(async()=>{try{const seg=await aiMulticlass(),src=P.prev,out={of:o};
+      await new Promise((res,rej)=>{try{seg.segment(src,r=>{try{const ms=r.confidenceMasks;const mkMask=(idxs)=>{const W=ms[0].width,H=ms[0].height,arr=idxs.map(i=>ms[i].getAsFloat32Array()),c=mk(W,H),x=c.getContext('2d'),id=x.createImageData(W,H);
+            for(let p=0;p<W*H;p++){let v=0;arr.forEach(a=>v+=a[p]);id.data[p*4]=id.data[p*4+1]=id.data[p*4+2]=255;id.data[p*4+3]=cl(v,0,1)*255}x.putImageData(id,0,0);const C=mk(o.width,o.height),cx=C.getContext('2d');cx.imageSmoothingQuality='high';cx.drawImage(c,0,0,C.width,C.height);return C};
+            out.hair=mkMask([1]);out.skin=mkMask([2,3]);out.clothes=mkMask([4]);res()}catch(e){rej(e)}})}catch(e){rej(e)}});
+      if(P.orig===o){P.mc=out;AIS.adv='hazır';AIS.ver++;P.maskCache=null;renderPreview()}return out}
+    catch(e){console.warn(e);AIS.adv='kullanılamıyor';AIS.advErr=aiErrText(e);toast(AIS.advErr);return null}finally{advBusy=null;updAIStatus()}})();return advBusy}
+function mcData(kind,w,h){if(!P.mc||P.mc.of!==P.orig||!P.mc[kind])return null;const c=maskScaled(P.mc[kind],w,h,8,'mc-'+kind);return c.getContext('2d',{willReadFrequently:true}).getImageData(0,0,w,h).data}
+function recolorMask(x,w,h,M,T,amt){const id=x.getImageData(0,0,w,h),D=id.data;let s=0,n=0;for(let i=0;i<D.length;i+=16)if(M[i+3]>128){s+=lum(D[i],D[i+1],D[i+2]);n++}const Lr=(n?s/n:90)+1;
+  for(let i=0;i<D.length;i+=4){const a=M[i+3]/255*amt;if(a<.01)continue;const r=D[i],g=D[i+1],b=D[i+2],k=cl((lum(r,g,b)+1)/Lr,.35,1.8);D[i]=r+(T[0]*k-r)*a;D[i+1]=g+(T[1]*k-g)*a;D[i+2]=b+(T[2]*k-b)*a}x.putImageData(id,0,0)}
+function ensureAI(){if(!P.orig)return;const needP=P.bg.mode!=='none'||P.fx.bgblur||P.fx.bggray,needA=P.fx.hair||P.fx.clothes;
+  if(needP&&!(P.pm&&P.pm.of===P.orig)&&AIS.person!=='kullanılamıyor')ensurePerson();if(needA&&!(P.mc&&P.mc.of===P.orig)&&AIS.adv!=='kullanılamıyor')ensureAdvanced()}
+
+/* ---- Arka plan değiştirme ---- */
+const BG_GRADS=[['#ff9a9e','#fecfef'],['#a1c4fd','#c2e9fb'],['#667eea','#764ba2'],['#f6d365','#fda085'],['#0f2027','#2c5364'],['#d4fc79','#96e6a1'],['#141414','#3a3a3a'],['#fbc2eb','#a6c1ee']];
+const BG_COLORS=['#ffffff','#f2efe9','#111111','#1f6feb','#e11d48','#16a34a','#f59e0b','#7c3aed'];
+function bgComposite(x,w,h){const M=pmaskScaled(w,h);if(!M)return;const B=P.bg,fg=clone(x.canvas),fx=fg.getContext('2d');fx.globalCompositeOperation='destination-in';fx.drawImage(M,0,0,w,h);
+  if(B.mode==='remove')x.clearRect(0,0,w,h);
+  else if(B.mode==='blur'){const b=blurCopy(x.canvas,1+B.blur/100*18);x.drawImage(b,0,0)}
+  else if(B.mode==='gray'){const id=x.getImageData(0,0,w,h),D=id.data;for(let i=0;i<D.length;i+=4){const L=lum(D[i],D[i+1],D[i+2]);D[i]=D[i+1]=D[i+2]=L}x.putImageData(id,0,0)}
+  else if(B.mode==='color'){x.fillStyle=B.color;x.fillRect(0,0,w,h)}
+  else if(B.mode==='grad'){const g=BG_GRADS[B.grad]||BG_GRADS[0],gr=x.createLinearGradient(0,0,w,h);gr.addColorStop(0,g[0]);gr.addColorStop(1,g[1]);x.fillStyle=gr;x.fillRect(0,0,w,h)}
+  else if((B.mode==='image'||B.mode==='ai')&&B.img){const im=B.img,s=Math.max(w/im.width,h/im.height);x.fillStyle='#000';x.fillRect(0,0,w,h);x.drawImage(im,(w-im.width*s)/2,(h-im.height*s)/2,im.width*s,im.height*s)}
+  x.drawImage(fg,0,0)}
+
+/* ---- Sihirli seçim ---- */
+async function magicSelect(p){const o=P.orig;P.magic={busy:true};renderPanel();
+  try{const seg=await aiMagic(),src=P.prev,nx=cl(p.x/src.width,0,1),ny=cl(p.y/src.height,0,1);
+    const mask=await new Promise((res,rej)=>{try{seg.segment(src,{keypoint:{x:nx,y:ny}},r=>{try{const m=r.categoryMask,W=m.width,H=m.height,a=m.getAsUint8Array(),ci=Math.min(H-1,Math.round(ny*(H-1)))*W+Math.min(W-1,Math.round(nx*(W-1))),obj=a[ci];
+          const c=mk(W,H),x=c.getContext('2d'),id=x.createImageData(W,H);let n=0;for(let i=0;i<W*H;i++){const on=a[i]===obj;if(on)n++;id.data[i*4]=id.data[i*4+1]=id.data[i*4+2]=255;id.data[i*4+3]=on?255:0}x.putImageData(id,0,0);
+          if(n>W*H*.9)return rej(new Error('Seçim çok büyük, nesnenin tam üstüne dokun'));res(c)}catch(e){rej(e)}})}catch(e){rej(e)}});
+    if(P.orig!==o)return;const C=mk(o.width,o.height),cx=C.getContext('2d');cx.imageSmoothingQuality='high';cx.drawImage(mask,0,0,C.width,C.height);P.magic={mask:C}}
+  catch(e){console.warn(e);P.magic={err:/çok büyük/.test(e.message)?e.message:aiErrText(e)}}
+  renderPanel();renderPreview()}
+function maskBBox(M){const W=M.width,H=M.height,d=M.getContext('2d',{willReadFrequently:true}).getImageData(0,0,W,H).data;let x0=W,y0=H,x1=-1,y1=-1;
+  for(let y=0;y<H;y+=2)for(let x=0;x<W;x+=2)if(d[(y*W+x)*4+3]>60){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}return x1<0?null:{x0,y0,x1,y1}}
+function dilateMask(M,px){const c=mk(M.width,M.height),x=c.getContext('2d');for(let a=0;a<12;a++){const r=px;x.drawImage(M,Math.cos(a/12*6.283)*r,Math.sin(a/12*6.283)*r)}x.drawImage(M,0,0);return c}
+function magicErase(){const M=P.magic&&P.magic.mask;if(!M)return;const D=dilateMask(M,Math.max(3,P.orig.width/250)),bb=maskBBox(D);if(!bb)return;const n=clone(P.orig);inpaint(n,D,bb);P.orig=n;P.magic=null;setPrev();commit('Nesne silme');renderPanel();renderPreview()}
+function magicCutout(){const M=P.magic&&P.magic.mask;if(!M)return;const c=renderEdited(P.orig,1,false),x=c.getContext('2d');x.globalCompositeOperation='destination-in';x.drawImage(M,0,0);
+  const bb=maskBBox(M),o=bb?mk(bb.x1-bb.x0+1,bb.y1-bb.y0+1):c;if(bb)o.getContext('2d').drawImage(c,bb.x0,bb.y0,o.width,o.height,0,0,o.width,o.height);o.toBlob(b=>{download(b,'pixtudio-dekupe.png');toast('Dekupe PNG indirildi')},'image/png')}
+
+/* ---- Üretken AI (Hugging Face) ---- */
+const HF={token:(()=>{try{return localStorage.getItem('pixtudio_hf')||''}catch(e){return ''}})(),busy:false};
+function hfSetToken(t){HF.token=t.trim();try{HF.token?localStorage.setItem('pixtudio_hf',HF.token):localStorage.removeItem('pixtudio_hf')}catch(e){}}
+async function hfClient(){if(!HF.token)throw new Error('NO_TOKEN');if(!window.HFI)await loadScript(AIBASE+'hf-inference.js');return new HFI.InferenceClient(HF.token)}
+function hfErr(e){const m=String(e&&e.message||e);if(m==='NO_TOKEN')return 'Önce Hugging Face anahtarını gir.';if(/401|unauthor|invalid.*token|Invalid credentials/i.test(m))return 'Anahtar geçersiz görünüyor; "Inference Providers" izniyle yeni bir anahtar oluştur.';
+  if(/402|payment|credit|quota|exceeded/i.test(m))return 'Hugging Face ücretsiz kredin bitmiş olabilir. Hesabından kredi durumunu kontrol et.';if(/fetch|network|CSP|Content Security/i.test(m))return inClaude?'Üretken AI bu önizlemede çalışmaz; pixtudio.vercel.app adresinde kullan.':'Bağlantı kurulamadı; internetini kontrol et.';
+  if(/No provider|not supported|not available|404/i.test(m))return 'Bu model şu an hiçbir sağlayıcıda çalışmıyor; başka bir model dene.';return 'Üretim başarısız: '+m.slice(0,140)}
+async function blobToCanvas(b){const bm=await createImageBitmap(b),c=mk(bm.width,bm.height);c.getContext('2d').drawImage(bm,0,0);return c}
+function canvasBlob(c,max){return new Promise(r=>{const s=Math.min(1,(max||1024)/Math.max(c.width,c.height)),t=mk(Math.round(c.width*s),Math.round(c.height*s));t.getContext('2d').drawImage(c,0,0,t.width,t.height);t.toBlob(r,'image/jpeg',.92)})}
+function aspectWH(ar){const t={'1:1':[1024,1024],'3:4':[896,1152],'4:3':[1152,896],'16:9':[1344,768],'9:16':[768,1344]};return t[ar]||t['1:1']}
+async function hfTextToImage(prompt,ar,model){const c=await hfClient(),[w,h]=aspectWH(ar);return blobToCanvas(await c.textToImage({provider:'auto',model:model||'black-forest-labs/FLUX.1-schnell',inputs:prompt,parameters:{width:w,height:h}}))}
+async function hfEdit(src,prompt,model){const c=await hfClient(),b=await canvasBlob(src,1024);return blobToCanvas(await c.imageToImage({provider:'auto',model:model||'black-forest-labs/FLUX.1-Kontext-dev',inputs:b,parameters:{prompt}}))}
+async function genRun(btn,fn){if(HF.busy)return;HF.busy=true;const o=btn&&btn.innerHTML;if(btn){btn.disabled=true;btn.innerHTML='<span class="spin"></span> Üretiliyor…'}const t0=Date.now();
+  try{await fn();toast('Hazır ('+Math.round((Date.now()-t0)/1000)+' sn)')}catch(e){console.warn(e);P.genErr=hfErr(e);toast(P.genErr)}finally{HF.busy=false;if(btn){btn.disabled=false;btn.innerHTML=o}renderPanel()}}
+function fitTo(c,W,H){const n=mk(W,H),x=n.getContext('2d');x.imageSmoothingQuality='high';x.drawImage(c,0,0,W,H);return n}
+async function genEditPhoto(prompt){const r=await hfEdit(P.orig,prompt);P.orig=fitTo(r,P.orig.width,P.orig.height);P.lm=null;setPrev();commit('AI düzenleme');autoFace(true);renderPreview()}
+async function genNewImage(prompt,ar,model){const c=await hfTextToImage(prompt,ar,model);loadEdit(c,null,'ai-gorsel');P.tool='adjust';renderRail();renderPanel()}
+async function genBackground(prompt){if(!(await ensurePerson()))throw new Error(AIS.personErr||'Kişi bulunamadı');const W=P.orig.width,H=P.orig.height,ar=W/H>1.5?'16:9':W/H>1.15?'4:3':W/H<.65?'9:16':W/H<.87?'3:4':'1:1';
+  const c=await hfTextToImage(prompt+', background scenery, no people, photorealistic, high detail',ar);P.bg={...P.bg,mode:'ai',img:c,aiPrompt:prompt};commit('AI arka plan');renderPreview()}
+async function genErase(){const M=P.magic&&P.magic.mask;if(!M)return;const o=P.orig,W=o.width,H=o.height,mark=clone(o),x=mark.getContext('2d'),D=dilateMask(M,Math.max(4,W/200));
+  const tint=mk(W,H),t=tint.getContext('2d');t.drawImage(D,0,0);t.globalCompositeOperation='source-in';t.fillStyle='#ff00ff';t.fillRect(0,0,W,H);x.globalAlpha=.85;x.drawImage(tint,0,0);
+  const r=fitTo(await hfEdit(mark,'Remove the object highlighted in magenta completely and fill the area naturally so it matches the surroundings. Keep everything else exactly the same.'),W,H);
+  const F=dilateMask(D,Math.max(4,W/150)),soft=blurCopy(F,3),rc=r.getContext('2d');rc.globalCompositeOperation='destination-in';rc.drawImage(soft,0,0);const n=clone(o);n.getContext('2d').drawImage(r,0,0);
+  P.orig=n;P.magic=null;setPrev();commit('AI ile nesne silme');renderPreview()}
+
+/* ---- 2× büyütme ---- */
+function upscale2(){if(!needImg())return;const o=P.orig,s=Math.min(2,4096/Math.max(o.width,o.height));if(s<1.1)return toast('Fotoğraf zaten çok büyük');
+  let c=o;for(let k=0;k<2;k++){const f=Math.pow(s,(k+1)/2),n=mk(Math.round(o.width*f),Math.round(o.height*f)),x=n.getContext('2d');x.imageSmoothingQuality='high';x.drawImage(c,0,0,n.width,n.height);c=n}
+  const x=c.getContext('2d',{willReadFrequently:true}),id=x.getImageData(0,0,c.width,c.height),Dd=id.data,B=blurCopy(c,2).getContext('2d').getImageData(0,0,c.width,c.height).data;for(let i=0;i<Dd.length;i+=4)for(let k=0;k<3;k++)Dd[i+k]=Dd[i+k]+(Dd[i+k]-B[i+k])*.7;x.putImageData(id,0,0);
+  P.e={cx:P.e.cx*s,cy:P.e.cy*s,rx:P.e.rx*s,ry:P.e.ry*s};for(const k in P.pts)P.pts[k]={x:P.pts[k].x*s,y:P.pts[k].y*s};P.lm=null;P.orig=c;setPrev();$('#pxName').textContent=P.name+' · '+c.width+'×'+c.height;commit('2× büyüt');autoFace(true);if(P.tool==='crop')enterCrop();renderPanel();renderPreview();toast('Fotoğraf '+c.width+'×'+c.height+' boyutuna büyütüldü')}
+
+function updAIStatus(){const el=$('#aiStat');if(el)el.innerHTML=aiStatusHTML()}
+function aiStatusHTML(){const dot=s=>s==='hazır'?'ok':s==='yükleniyor'?'wait':s==='kullanılamıyor'?'bad':'idle';
+  const rows=[['Claude — fotoğrafı görerek düzenleme',AI?'hazır':(inClaude?'bekliyor':'kullanılamıyor'),AI?'bağlı':inClaude?'izin bekliyor':'yalnızca Claude içinde'],
+    ['Yüz noktaları (cihazda)',AIS.face==='yüz yok'?'hazır':AIS.face,AIS.face==='yüz yok'?'yüz bulunamadı':AIS.face],['Kişi / arka plan ayırma (cihazda)',AIS.person,AIS.person],
+    ['Saç, kıyafet, sihirli seçim',AIS.adv,AIS.adv],['Üretken AI (Hugging Face)',HF.token?'hazır':'idle',HF.token?'anahtar girildi':'anahtar gerekli']];
+  return rows.map(([n,s,t])=>`<div class="st"><i class="sd ${dot(s)}"></i><span>${n}</span><em>${esc(t)}</em></div>`).join('')}
+
+/* ---- Yeni paneller ---- */
+function hfTokenBox(b){if(HF.token){b.insertAdjacentHTML('beforeend',`<div class="tok ok"><span>🔑 Hugging Face anahtarı kayıtlı</span><button class="lnk" id="tokDel">Kaldır</button></div>`);$('#tokDel').onclick=()=>{hfSetToken('');renderPanel()};return}
+  b.insertAdjacentHTML('beforeend',`<div class="tipcard"><b>Üretken AI için ücretsiz anahtar</b><p>1. <a href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener">huggingface.co/settings/tokens</a> adresinde <b>Create new token</b> → <b>Fine-grained</b> seç.<br>2. "Make calls to Inference Providers" iznini işaretle, oluştur ve kopyala.<br>3. Aşağıya yapıştır. Anahtar yalnızca bu cihazda saklanır.</p>
+  <div class="row nowrap" style="margin-top:10px"><input type="password" id="tokIn" placeholder="hf_..." style="flex:1;min-width:0;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px 11px;font:inherit"><button class="btn sm pri" id="tokSave">Kaydet</button></div></div>`);
+  $('#tokSave').onclick=()=>{const v=$('#tokIn').value;if(!/^hf_\w{10,}/.test(v.trim()))return toast('Anahtar "hf_" ile başlamalı');hfSetToken(v);toast('Anahtar kaydedildi');renderPanel()}}
+const EDIT_PRESETS=[['❄️ Kışa çevir','Turn this scene into a snowy winter scene, keep the composition and people the same'],['🌅 Gün batımı','Change the lighting to a warm golden sunset, keep everything else the same'],['🎨 Yağlı boya','Turn this photo into an oil painting while keeping the composition'],['✏️ Karakalem','Turn this photo into a detailed pencil sketch'],
+  ['🌸 Anime tarzı','Redraw this image in a soft anime illustration style, keep the composition'],['🏖️ Plaj arka planı','Replace the background with a sunny tropical beach, keep the person exactly the same'],['🏙️ Gece şehri','Replace the background with a city at night with bokeh lights, keep the person exactly the same'],['📸 Stüdyo portresi','Make this a professional studio portrait with soft lighting and a clean grey backdrop, keep the face identical'],
+  ['🕶️ Güneş gözlüğü ekle','Add stylish sunglasses to the person, keep everything else the same'],['🧥 Takım elbise giydir','Dress the person in an elegant dark suit, keep the face and pose the same'],['🌧️ Yağmurlu hava','Make it a rainy moody day with wet reflections, keep the subject the same'],['🎞️ 90lar film fotoğrafı','Make it look like a 1990s film photograph with natural grain and colors']];
+function panelGen(b){if(inClaude)b.insertAdjacentHTML('beforeend',`<div class="tipcard warnc"><b>Bu önizlemede üretken AI kapalı</b><p>Güvenlik nedeniyle Claude içindeki önizleme dış servislere bağlanamaz. Üretken özellikleri <a href="https://pixtudio.vercel.app" target="_blank" rel="noopener">pixtudio.vercel.app</a> adresinde kullanabilirsin.</p></div>`);
+  hfTokenBox(b);if(P.genErr)b.insertAdjacentHTML('beforeend',`<div class="ai-res err">${esc(P.genErr)}</div>`);P.genErr='';
+  const s1=secBox(b,'✨ Fotoğrafı yazıyla düzenle');s1.insertAdjacentHTML('beforeend',`<p class="muted small" style="margin:0 0 8px">Ne değişsin? İngilizce yazarsan sonuç daha isabetli olur.</p><textarea id="gEditIn" class="ta" rows="2" placeholder="örn: make it a snowy winter day"></textarea><div class="chips2" id="gEditCh"></div><button class="btn grad big" id="gEditGo" style="margin-top:10px">Düzenle</button>`);
+  EDIT_PRESETS.forEach(([l,p])=>{const c=document.createElement('button');c.className='chip';c.textContent=l;c.onclick=()=>{$('#gEditIn').value=p};$('#gEditCh').appendChild(c)});
+  $('#gEditGo').onclick=e=>{if(!needImg())return;const q=$('#gEditIn').value.trim();if(!q)return toast('Ne değişsin yaz ya da bir hazır seçenek seç');genRun(e.currentTarget,()=>genEditPhoto(q))};
+  const s2=secBox(b,'🖼️ Yazıdan yeni görsel oluştur');P.genAR=P.genAR||'1:1';P.genModel=P.genModel||'black-forest-labs/FLUX.1-schnell';
+  s2.insertAdjacentHTML('beforeend',`<textarea id="gNewIn" class="ta" rows="2" placeholder="örn: a cozy coffee shop interior, morning light, photorealistic"></textarea><div class="lbl" style="margin-top:10px">Oran</div><div class="seg" id="gAR"></div><div class="lbl">Model</div><div class="seg" id="gModel"><button data-v="black-forest-labs/FLUX.1-schnell">Hızlı</button><button data-v="black-forest-labs/FLUX.1-dev">Kaliteli</button></div><button class="btn grad big" id="gNewGo" style="margin-top:12px">Oluştur</button><p class="muted small">Oluşan görsel yeni fotoğraf olarak açılır; tüm araçlarla düzenleyebilirsin.</p>`);
+  ['1:1','3:4','4:3','16:9','9:16'].forEach(a=>{const x=document.createElement('button');x.textContent=a;x.className=P.genAR===a?'on':'';x.onclick=()=>{P.genAR=a;renderPanel()};$('#gAR').appendChild(x)});
+  $$('#gModel button').forEach(x=>{x.classList.toggle('on',x.dataset.v===P.genModel);x.onclick=()=>{P.genModel=x.dataset.v;renderPanel()}});
+  $('#gNewGo').onclick=e=>{const q=$('#gNewIn').value.trim();if(!q)return toast('Ne oluşturulsun yaz');genRun(e.currentTarget,()=>genNewImage(q,P.genAR,P.genModel))};
+  b.insertAdjacentHTML('beforeend','<p class="muted small">Üretken AI, Hugging Face hesabındaki kredileri kullanır; ücretsiz hesaplarda aylık sınırlı kredi vardır. Gerçek kişileri yanıltıcı biçimde gösteren içerikler üretme.</p>')}
+function panelBg(b){const B=P.bg,st=P.pm&&P.pm.of===P.orig?'ok':AIS.person==='kullanılamıyor'?'bad':'wait';
+  b.insertAdjacentHTML('beforeend',`<div class="st big"><i class="sd ${st}"></i><span>${st==='ok'?'Kişi algılandı':st==='bad'?esc(AIS.personErr||'Kişi algılanamadı'):'Kişi algılanıyor…'}</span></div>`);
+  const row=document.createElement('div');row.className='tiles2';b.appendChild(row);
+  [['none','🖼️','Orijinal'],['remove','✂️','Kaldır'],['blur','🌫️','Bulanık'],['gray','⚫','Renk vurgusu'],['color','🎨','Düz renk'],['grad','🌈','Degrade'],['image','🏞️','Görsel'],['ai','✨','AI ile oluştur']].forEach(([m,i,n])=>{
+    const t=document.createElement('button');t.className='tile'+(B.mode===m?' sel on':'');t.innerHTML=`<span class="ic">${i}</span><span class="lb">${n}</span>`;
+    t.onclick=async()=>{if(m==='image'){const c=await uploadImage();if(!c)return;P.bg={...B,mode:'image',img:c}}else if(m==='ai'){P.bg={...B,mode:B.img&&B.mode==='ai'?'ai':B.mode};P.bgShowAI=true}else P.bg={...B,mode:m};if(m!=='ai')P.bgShowAI=false;ensurePerson();commit('Arka plan');renderPanel();renderPreview()};row.appendChild(t)});
+  if(B.mode==='blur'){const s=secBox(b,'Bulanıklık');s.appendChild(sld('Miktar',5,100,()=>B.blur,v=>B.blur=v,{label:'Arka plan bulanıklığı'}))}
+  if(B.mode==='color'){const d=document.createElement('div');d.className='dots';BG_COLORS.forEach(c=>{const x=document.createElement('button');x.className='dot'+(B.color===c?' on':'');x.style.background=c;x.onclick=()=>{B.color=c;commit('Arka plan rengi');renderPanel();renderPreview()};d.appendChild(x)});
+    const pk=document.createElement('input');pk.type='color';pk.value=B.color;pk.oninput=()=>{B.color=pk.value;renderPreview()};pk.onchange=()=>commit('Arka plan rengi');d.appendChild(pk);b.appendChild(d)}
+  if(B.mode==='grad'){const d=document.createElement('div');d.className='dots';BG_GRADS.forEach((g,i)=>{const x=document.createElement('button');x.className='dot'+(B.grad===i?' on':'');x.style.background=`linear-gradient(135deg,${g[0]},${g[1]})`;x.onclick=()=>{B.grad=i;commit('Degrade');renderPanel();renderPreview()};d.appendChild(x)});b.appendChild(d)}
+  if(B.mode==='ai'||P.bgShowAI){const s=secBox(b,'✨ AI ile arka plan oluştur');if(!HF.token||inClaude)hfTokenBox(s);if(inClaude)s.insertAdjacentHTML('beforeend','<p class="muted small">Bu özellik pixtudio.vercel.app adresinde çalışır.</p>');
+    s.insertAdjacentHTML('beforeend',`<textarea id="bgAiIn" class="ta" rows="2" placeholder="örn: sunny beach with palm trees">${esc(B.aiPrompt||'')}</textarea><div class="chips2" id="bgAiCh"></div><button class="btn grad big" id="bgAiGo" style="margin-top:10px">Arka planı oluştur</button>`);
+    [['🏖️ Plaj','tropical beach with turquoise sea'],['🗼 Paris','Paris street with the Eiffel tower, soft daylight'],['🌲 Orman','misty pine forest'],['🏙️ Gece şehri','city skyline at night with bokeh lights'],['🏔️ Dağ','snowy mountains under clear sky'],['📚 Kütüphane','cozy library with wooden shelves'],['🌸 Çiçek bahçesi','blooming flower garden in spring'],['🪐 Uzay','colorful nebula in deep space']].forEach(([l,p])=>{const c=document.createElement('button');c.className='chip';c.textContent=l;c.onclick=()=>{$('#bgAiIn').value=p};$('#bgAiCh').appendChild(c)});
+    $('#bgAiGo').onclick=e=>{const q=$('#bgAiIn').value.trim();if(!q)return toast('Nasıl bir arka plan istediğini yaz');genRun(e.currentTarget,()=>genBackground(q))};if(P.genErr){s.insertAdjacentHTML('beforeend',`<div class="ai-res err">${esc(P.genErr)}</div>`);P.genErr=''}}
+  if(B.mode!=='none'){const s=secBox(b,'Kenar');s.appendChild(sld('Yumuşaklık',0,100,()=>B.feather,v=>{B.feather=v;P.maskCache=null},{label:'Kenar yumuşaklığı',def:30}))}
+  b.insertAdjacentHTML('beforeend',`<div class="row" style="margin-top:12px"><button class="btn sm" id="bgCut">✂️ Kişiyi dekupe et (PNG)</button></div><p class="muted small">Kişi algılama tamamen cihazında çalışır; fotoğrafın hiçbir yere gönderilmez.</p>`);
+  $('#bgCut').onclick=async()=>{const pm=await ensurePerson();if(!pm)return toast(AIS.personErr||'Kişi algılanamadı');const c=renderEdited(P.orig,1,false),x=c.getContext('2d');x.globalCompositeOperation='destination-in';x.drawImage(pmaskScaled(c.width,c.height,P.bg.feather),0,0);c.toBlob(bl=>{download(bl,'pixtudio-dekupe.png');toast('Dekupe PNG indirildi')},'image/png')}}
+
+
 /* ---- Paneller ---- */
 function sld(label,min,max,get,set,o={}){const wrap=document.createElement('div');wrap.className='sld';const f=o.fmt||(v=>(min<0&&v>0?'+':'')+v),v0=get();
   wrap.innerHTML=`<div class="sld-h"><span>${label}</span><output>${f(v0)}</output></div><input type="range" min="${min}" max="${max}" step="${o.step||1}" value="${v0}">`;
@@ -1014,12 +1208,13 @@ function secBox(b,title,onReset){const s=document.createElement('div');s.classNa
 function renderRail(){const r=$('#pxRail');r.innerHTML='';TOOLS.forEach(([t,n])=>{const b=document.createElement('button');b.className='rb'+(P.tool===t?' on':'');b.innerHTML=ic(t)+`<span>${n}</span>`;b.onclick=()=>setTool(t);r.appendChild(b)})}
 function setTool(t){if(P.tool==='crop'&&t!=='crop')P.crop=null;if(t!=='face')P.editFace=false;if(t!=='text')P.selText=-1;P.tool=t;if(t==='crop'&&P.orig)enterCrop();view.classList.toggle('brush',t==='heal');renderRail();renderPanel();renderPreview()}
 function renderPanel(){$('#pxTitle').textContent=TOOL_TITLES[P.tool];const b=$('#pxPanel');b.innerHTML='';
-  if(!P.orig&&P.tool!=='ai'){b.innerHTML='<p class="muted">Başlamak için bir fotoğraf aç.</p>';return}
-  ({ai:panelAI,adjust:panelAdjust,looks:panelLooks,face:panelFace,crop:panelCrop,heal:panelHeal,text:panelText,history:panelHistory})[P.tool](b)}
+  if(!P.orig&&!['ai','gen'].includes(P.tool)){b.innerHTML='<p class="muted">Başlamak için bir fotoğraf aç.</p>';return}
+  ({gen:panelGen,bg:panelBg,ai:panelAI,adjust:panelAdjust,looks:panelLooks,face:panelFace,crop:panelCrop,heal:panelHeal,text:panelText,history:panelHistory})[P.tool](b)}
 function panelAI(b){b.insertAdjacentHTML('beforeend',`<div class="ai-hero"><button class="btn grad big" id="aiAuto">${ic('ai')} Tek dokunuşla iyileştir</button><button class="btn big" id="aiVision">${ic('eye')} AI fotoğrafı incelesin ve düzenlesin</button></div>
   <div class="ai-ask"><textarea id="pxAiIn" rows="2" placeholder="Ne istediğini yaz… örn: daha sinematik yap, gökyüzünü maviye çek"></textarea><button class="btn pri" id="pxAiGo">Gönder</button></div>
   <div class="chips2" id="pxChips"></div><div id="pxAiOut">${P.aiOut||''}</div><p class="muted small" style="margin-top:12px">${AI?'<span class="dotlive"></span> Claude AI bağlı — fotoğrafını görerek düzenler.':'Yerel mod: komutlar anahtar kelimelerle anlaşılır. Pixtudio Claude içinde açıldığında AI fotoğrafını görerek düzenler.'}</p>`);
   ['Daha sinematik yap','Gün batımı tonları','Portreyi parlat, cildi pürüzsüzleştir','Canlı ve net yap','Siyah beyaz, dramatik','Pastel ve yumuşak','Gökyüzünü maviye çek','Yaz havası ver'].forEach(t=>{const c=document.createElement('button');c.className='chip';c.textContent=t;c.onclick=()=>{$('#pxAiIn').value=t;runPxAI()};$('#pxChips').appendChild(c)});
+  b.insertAdjacentHTML('beforeend',`<div class="sec" style="margin-top:10px"><div class="sec-h"><span>AI motorları</span></div><div id="aiStat">${aiStatusHTML()}</div></div>`);
   $('#aiAuto').onclick=()=>{if(!P.orig)loadEdit(demoLandscape(),null,'manzara',true);const ch=autoEnhance();aiShow('⚡ Otomatik iyileştirme uygulandı.',ch)};
   $('#aiVision').onclick=()=>runPxAI(true);$('#pxAiGo').onclick=()=>runPxAI();$('#pxAiIn').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();runPxAI()}}}
 function panelAdjust(b){
@@ -1040,7 +1235,7 @@ function panelLooks(b){const th=lookThumbs(),g=document.createElement('div');g.c
   for(const n in LOOKS){const d=document.createElement('button');d.className='look'+(P.look===n?' on':'');d.innerHTML=`<img src="${th[n]}" alt=""><span>${n}</span>`;d.onclick=()=>{P.look=n;P.lookAmt=100;commit('Görünüm: '+n);renderPanel();renderPreview()};g.appendChild(d)}
   b.appendChild(g);if(P.look!=='Orijinal'){const s=secBox(b,P.look);s.appendChild(sld('Yoğunluk',0,100,()=>P.lookAmt,v=>P.lookAmt=v,{label:'Görünüm yoğunluğu',def:100}))}
   b.insertAdjacentHTML('beforeend','<p class="muted small">Görünümler, Ayarla panelindeki değerlerin üzerine eklenir; istediğin gibi ince ayar yapabilirsin.</p>')}
-function panelFace(b){const cats=CATS.filter(c=>c.opts||c.hair);if(!cats.find(c=>c.id===P.faceCat))P.faceCat='beauty';
+function panelFace(b){const cats=CATS.filter(c=>c.opts||c.hair||c.cloth);if(!cats.find(c=>c.id===P.faceCat))P.faceCat='beauty';
   const top=document.createElement('div');top.className='seg-scroll';cats.forEach(c=>{const x=document.createElement('button');x.className='chip'+(P.faceCat===c.id?' on':'');x.textContent=c.icon+' '+c.name;x.onclick=()=>{P.faceCat=c.id;P.faceActive=null;renderPanel()};top.appendChild(x)});b.appendChild(top);
   const c=cats.find(c=>c.id===P.faceCat),row=document.createElement('div');row.className='tiles2';b.appendChild(row);
   const T=(icn,label,on,sel,fn,bg)=>{const t=document.createElement('button');t.className='tile'+(on?' on':'')+(sel?' sel':'');t.innerHTML=`<span class="ic"${bg?` style="background:${bg}"`:''}>${icn}</span><span class="lb">${label}</span>`;t.onclick=fn;row.appendChild(t)};
@@ -1048,6 +1243,9 @@ function panelFace(b){const cats=CATS.filter(c=>c.opts||c.hair);if(!cats.find(c=
   if(c.opts){c.opts.forEach(([k,i])=>T(i,FXN[k],P.fx[k]>0,P.faceActive===k,()=>tog(k)));
     if(c.colors){const set=c.colors==='beard'?BEARD_COLORS:LIP_COLORS,dots=document.createElement('div');dots.className='dots';dots.innerHTML='<span class="muted small">Renk</span>';
       Object.entries(set).forEach(([n,h])=>{const d=document.createElement('button');d.className='dot'+(P.col[c.colors]===h?' on':'');d.style.background=h;d.title=n;d.onclick=()=>{P.col[c.colors]=h;re('Renk: '+n)};dots.appendChild(d)});b.appendChild(dots)}}
+  else if(c.cloth){const ok=P.mc&&P.mc.of===P.orig;b.insertAdjacentHTML('beforeend',`<p class="muted small" style="margin-top:10px">${ok?'Kıyafet algılandı — bir renk seç.':AIS.adv==='kullanılamıyor'?esc(AIS.advErr||'Bu özellik pixtudio.vercel.app adresinde çalışır.'):'Kıyafet algılaması için AI modeli renk seçince yüklenir (internet gerekir).'}</p>`);
+    T('🚫','Orijinal',false,P.fx.clothes===0,()=>{P.fx.clothes=0;P.faceActive=null;re('Kıyafet rengi kapat')});
+    Object.entries(CLOTH_COLORS).forEach(([n,h])=>{const on=P.fx.clothes>0&&P.col.clothes===h;T('',n,on,on,()=>{if(on){P.fx.clothes=0;P.faceActive=null}else{P.col.clothes=h;P.fx.clothes=P.fx.clothes||85;P.faceActive='clothes';ensureAdvanced()}re('Kıyafet: '+n)},h)})}
   else{T('🚫','Orijinal',false,P.fx.hair===0,()=>{P.fx.hair=0;P.faceActive=null;re('Saç rengi kapat')});
     Object.entries(HAIR_COLORS).forEach(([n,h])=>{const on=P.fx.hair>0&&P.col.hair===h;T('',n,on,on,()=>{if(on){P.fx.hair=0;P.faceActive=null}else{P.col.hair=h;P.fx.hair=P.fx.hair||75;P.faceActive='hair'}re('Saç: '+n)},h)})}
   if(P.faceActive){const s=secBox(b,FXN[P.faceActive]);s.appendChild(sld('Yoğunluk',0,100,()=>P.fx[P.faceActive],v=>P.fx[P.faceActive]=v,{label:FXN[P.faceActive]}))}
@@ -1059,13 +1257,22 @@ function panelCrop(b){const C=P.crop;if(!C)return;const g=document.createElement
   [['Serbest',null],['Orijinal','o'],['1:1',1],['4:5',.8],['3:4',.75],['16:9',16/9],['9:16',9/16]].forEach(([n,v])=>{const x=document.createElement('button');x.className='chip'+(C.arName===n?' on':'');x.textContent=n;x.onclick=()=>{setAspect(v==='o'?ecv.width/ecv.height:v,n);renderPanel()};g.appendChild(x)});b.appendChild(g);
   const s=secBox(b,'Düzelt');s.appendChild(sld('Açı',-45,45,()=>C.ang,v=>{C.ang=v},{step:.5,fmt:v=>(v>0?'+':'')+v+'°',nocommit:true}));
   b.insertAdjacentHTML('beforeend',`<div class="row" style="margin:12px 0"><button class="btn sm" id="cRot">${ic('rot')}90°</button><button class="btn sm" id="cFlipH">${ic('flip')}Yatay</button><button class="btn sm" id="cFlipV">Dikey çevir</button></div>
-  <div class="row"><button class="btn grad" id="cApply">✓ Kırpmayı uygula</button><button class="btn" id="cReset">Sıfırla</button></div><p class="muted small">Köşelerden sürükleyerek kırp, kutunun içinden tutup taşı.</p>`);
+  <div class="row"><button class="btn grad" id="cApply">✓ Kırpmayı uygula</button><button class="btn" id="cReset">Sıfırla</button></div><div class="row" style="margin-top:10px"><button class="btn sm" id="cUp">🔍 2× büyüt (netleştirerek)</button></div><p class="muted small">Köşelerden sürükleyerek kırp, kutunun içinden tutup taşı.</p>`);
   $('#cRot').onclick=()=>geoOp(o=>{const c=mk(o.height,o.width),x=c.getContext('2d');x.translate(o.height,0);x.rotate(Math.PI/2);x.drawImage(o,0,0);return c},(p,W,H)=>({x:H-p.y,y:p.x}),true,false,'90° döndür');
   $('#cFlipH').onclick=()=>geoOp(o=>{const c=mk(o.width,o.height),x=c.getContext('2d');x.translate(o.width,0);x.scale(-1,1);x.drawImage(o,0,0);return c},(p,W)=>({x:W-p.x,y:p.y}),false,true,'Yatay çevir');
   $('#cFlipV').onclick=()=>geoOp(o=>{const c=mk(o.width,o.height),x=c.getContext('2d');x.translate(0,o.height);x.scale(1,-1);x.drawImage(o,0,0);return c},(p,W,H)=>({x:p.x,y:H-p.y}),false,false,'Dikey çevir');
-  $('#cApply').onclick=applyCrop;$('#cReset').onclick=()=>{enterCrop();renderPanel();renderPreview()}}
-function panelHeal(b){const s=secBox(b,'Fırça');s.appendChild(sld('Boyut',1,15,()=>P.heal.size,v=>P.heal.size=v,{nocommit:true}));
-  b.insertAdjacentHTML('beforeend',`<div class="tipcard"><b>Nasıl kullanılır?</b><p>Silmek istediğin sivilceyi, lekeyi ya da küçük nesneyi fırçayla boya. Parmağını kaldırınca Pixtudio çevresinden uygun dokuyu bulup alanı otomatik doldurur.</p><p>Daha temiz sonuç için yakınlaştır (iki parmak ya da +) ve küçük fırça kullan.</p></div><button class="btn sm" id="hUndo">↶ Son rötuşu geri al</button>`);$('#hUndo').onclick=pxUndo}
+  $('#cApply').onclick=applyCrop;$('#cUp').onclick=upscale2;$('#cReset').onclick=()=>{enterCrop();renderPanel();renderPreview()}}
+function panelHeal(b){b.insertAdjacentHTML('beforeend',`<div class="seg" id="hMode"><button data-v="brush">🩹 Fırça</button><button data-v="magic">🪄 Sihirli seçim</button></div>`);
+  $$('#hMode button').forEach(x=>{x.classList.toggle('on',x.dataset.v===P.healMode);x.onclick=()=>{P.healMode=x.dataset.v;P.magic=null;view.classList.toggle('brush',P.healMode==='brush');renderPanel();renderPreview()}});
+  if(P.healMode==='brush'){const s=secBox(b,'Fırça');s.appendChild(sld('Boyut',1,15,()=>P.heal.size,v=>P.heal.size=v,{nocommit:true}));
+    b.insertAdjacentHTML('beforeend',`<div class="tipcard"><b>Nasıl kullanılır?</b><p>Silmek istediğin sivilceyi, lekeyi ya da küçük nesneyi fırçayla boya. Parmağını kaldırınca Pixtudio çevresinden uygun dokuyu bulup alanı otomatik doldurur.</p><p>Daha temiz sonuç için yakınlaştır ve küçük fırça kullan.</p></div><button class="btn sm" id="hUndo">↶ Son rötuşu geri al</button>`);$('#hUndo').onclick=pxUndo;return}
+  const M=P.magic||{};
+  if(M.busy)b.insertAdjacentHTML('beforeend','<div class="ai-res thinking"><span class="spin"></span> Nesne seçiliyor… (ilk kullanımda AI modeli indirilir)</div>');
+  else if(M.err)b.insertAdjacentHTML('beforeend',`<div class="ai-res err">${esc(M.err)}</div>`);
+  else if(M.mask){b.insertAdjacentHTML('beforeend',`<div class="tipcard"><b>Nesne seçildi</b><p>Mavi alan seçili. Ne yapalım?</p></div><div class="ai-hero"><button class="btn grad big" id="mErase">🧽 Nesneyi sil</button><button class="btn big" id="mGen">✨ AI ile sil (daha gerçekçi)</button><button class="btn big" id="mCut">✂️ Dekupe et (PNG indir)</button><button class="btn sm" id="mCancel" style="margin-top:4px">Seçimi kaldır</button></div>`);
+    $('#mErase').onclick=magicErase;$('#mCut').onclick=magicCutout;$('#mCancel').onclick=()=>{P.magic=null;renderPanel();renderPreview()};
+    $('#mGen').onclick=e=>{if(!HF.token){toast('Önce Oluştur panelinden Hugging Face anahtarını gir');return setTool('gen')}genRun(e.currentTarget,genErase)}}
+  if(!M.mask&&!M.busy)b.insertAdjacentHTML('beforeend',`<div class="tipcard"><b>Sihirli seçim</b><p>Fotoğrafta silmek ya da kesip çıkarmak istediğin nesneye dokun. Yapay zekâ nesnenin sınırlarını kendisi bulur.</p><p>${canHttp?'İlk kullanımda model indirilir (internet gerekir).':'Bu özellik pixtudio.vercel.app adresinde çalışır.'}</p></div>`)}
 function panelText(b){const sel=P.texts[P.selText];
   b.insertAdjacentHTML('beforeend',`<textarea id="tIn" rows="2" placeholder="Yazını gir…">${sel?esc(sel.text):''}</textarea><div class="sec"><div class="sec-h"><span>Yazı tipi</span></div><div class="chips2" id="tFonts" style="margin-top:0"></div></div><div class="sec"><div class="sec-h"><span>Renk</span></div><div class="dots" id="tCols" style="margin-top:0"></div></div><div id="tSz"></div><div class="row" id="tBtns" style="margin-top:12px"></div><p class="muted small">Yazıya dokunarak seç, sürükleyerek taşı.</p>`);
   const ti=$('#tIn');ti.oninput=()=>{if(sel){sel.text=ti.value||' ';renderPreview()}};ti.onchange=()=>{if(sel)commit('Metni düzenle')};
@@ -1085,7 +1292,7 @@ function renderExport(){$$('#exFmt button').forEach(b=>b.classList.toggle('on',b
 function openExport(){if(!needImg())return;$('#pxModal').hidden=false;renderExport()}
 async function doExport(){const btn=$('#exGo');btn.disabled=true;btn.textContent='Hazırlanıyor…';await new Promise(r=>setTimeout(r,40));
   try{let c=renderEdited(P.orig,1,false);const L=EX.size==='orig'?0:+EX.size;if(L&&Math.max(c.width,c.height)>L){const s=L/Math.max(c.width,c.height),n=mk(Math.round(c.width*s),Math.round(c.height*s)),x=n.getContext('2d');x.imageSmoothingQuality='high';x.drawImage(c,0,0,n.width,n.height);c=n}
-    const ext=EX.fmt==='jpeg'?'jpg':EX.fmt;c.toBlob(b=>{download(b,'pixtudio-'+(P.name||'foto')+'.'+ext);btn.disabled=false;btn.textContent='İndir';$('#pxModal').hidden=true;toast('Fotoğraf dışa aktarıldı')},'image/'+EX.fmt,EX.q/100)}
+    const fmt=P.bg.mode==='remove'&&EX.fmt==='jpeg'?'png':EX.fmt,ext=fmt==='jpeg'?'jpg':fmt;if(fmt!==EX.fmt)toast('Şeffaf arka plan için PNG olarak kaydediliyor');c.toBlob(b=>{download(b,'pixtudio-'+(P.name||'foto')+'.'+ext);btn.disabled=false;btn.textContent='İndir';$('#pxModal').hidden=true;toast('Fotoğraf dışa aktarıldı')},'image/'+fmt,EX.q/100)}
   catch(e){btn.disabled=false;btn.textContent='İndir';toast('Dışa aktarılamadı')}}
 $$('#exFmt button').forEach(b=>b.onclick=()=>{EX.fmt=b.dataset.v;renderExport()});$$('#exSize button').forEach(b=>b.onclick=()=>{EX.size=b.dataset.v;renderExport()});
 $('#exQ').oninput=()=>{EX.q=+$('#exQ').value;$('#exQV').textContent=EX.q};$('#exGo').onclick=doExport;$('#exX').onclick=()=>$('#pxModal').hidden=true;
