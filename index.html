@@ -3,16 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <title>Pixtudio – Fotoğraf & Video Düzenleyici</title>
 <style>
-:root{--bg:#0d0e12;--panel:#16181f;--panel2:#1d2029;--line:#272b36;--text:#eceef3;--mut:#8d92a3;--acc:#7c5cff;--acc2:#1fd1a5;--warn:#ffb547}
+:root{--bg:#09090d;--panel:#121319;--panel2:#1b1d26;--line:#252836;--text:#eef0f6;--mut:#8a8fa3;--acc:#7c5cff;--acc2:#1fd1a5;--acc3:#ff5ca8;--warn:#ffb547}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(13,14,18,.94);backdrop-filter:blur(8px);z-index:10;flex-wrap:wrap}
 .logo{font-weight:800;font-size:18px;letter-spacing:-.02em}.logo b{color:var(--acc)}
 .tabs{display:flex;gap:4px;background:var(--panel);padding:4px;border-radius:12px;border:1px solid var(--line)}
 .tab{border:0;background:none;color:var(--mut);padding:8px 14px;border-radius:9px;font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
-.tab.on{background:var(--acc);color:#fff}
+.tab.on{background:linear-gradient(135deg,var(--acc),var(--acc3));color:#fff}
 main{padding:16px;max-width:1320px;margin:0 auto}
 .view{display:none}
 .view.on{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:16px;align-items:start}
@@ -87,31 +89,98 @@ input[type=color]{width:42px;height:38px;border:1px solid var(--line);border-rad
 #aiLog .u{align-self:flex-end;background:#2a2450;max-width:85%}
 #aiLog .a{max-width:95%}
 #v-edit.view.on{display:block}
-.fa{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
-.fa .ai{margin-bottom:0;padding:10px}
-.fa-stage{padding-top:58px;min-height:380px}
-.fa-stage canvas.main{max-height:58vh}
-.fa-top{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;gap:6px;z-index:2;flex-wrap:wrap}
-.fa-top .btn{background:rgba(22,24,31,.85);backdrop-filter:blur(6px)}
-.fa-top .btn.pri{background:var(--acc)}.fa-top .btn.ok{background:var(--acc2);color:#062b22}
-#eCmp{user-select:none;-webkit-user-select:none;touch-action:none}
-.fa-hint{position:absolute;bottom:10px;left:10px;right:10px;text-align:center;font-size:12.5px;background:rgba(0,0,0,.65);padding:7px 10px;border-radius:10px}
-.fa-int{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--acc);border-radius:14px;padding:10px 14px}
-.fa-int b{white-space:nowrap;font-size:13px}.fa-int output{color:var(--mut);min-width:28px;text-align:right}
-.fa-opts{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px;min-height:118px}
-.tiles{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 4px;scrollbar-width:none}
-.tile{flex:none;width:76px;display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;color:var(--mut);font:inherit;font-size:11.5px;cursor:pointer;text-align:center;padding:0}
-.tile .ic{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-size:27px;background:var(--panel2);border:2px solid var(--line);transition:.15s;position:relative}
-.tile .lb{line-height:1.2}
-.tile.on .ic{border-color:var(--acc2)}
+main:has(#v-edit.on){max-width:1680px}
+.px{display:grid;grid-template-columns:80px minmax(0,1fr) 344px;gap:12px;height:calc(100vh - 92px);min-height:580px}
+.px-rail{display:flex;flex-direction:column;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:8px 6px;overflow:auto;scrollbar-width:none}
+.rb{display:flex;flex-direction:column;align-items:center;gap:5px;padding:11px 4px;border-radius:14px;border:0;background:none;color:var(--mut);font:inherit;font-size:11px;font-weight:600;cursor:pointer;transition:.15s}
+.rb svg{width:22px;height:22px}.rb:hover{color:var(--text);background:var(--panel2)}
+.rb.on{color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc3));box-shadow:0 6px 18px rgba(124,92,255,.35)}
+.px-center{display:flex;flex-direction:column;min-width:0;min-height:0;background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.px-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line);gap:8px}
+.nowrap{flex-wrap:nowrap}
+.px-name{font-size:13px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw}
+.sep{width:1px;height:22px;background:var(--line);margin:0 4px;flex:none}
+.ib{width:36px;height:36px;display:grid;place-items:center;border-radius:11px;border:1px solid transparent;background:none;color:var(--text);cursor:pointer;flex:none;font:inherit;transition:.15s}
+.ib svg{width:19px;height:19px}.ib:hover{background:var(--panel2)}.ib.on{background:var(--panel2);border-color:var(--acc);color:#fff}.ib:disabled{opacity:.3;cursor:default;background:none}
+.ib.sm{width:30px;height:30px}.ib.sm svg{width:16px;height:16px}
+.px-exp{display:flex;align-items:center;gap:6px;margin-left:4px}.px-exp svg{width:16px;height:16px;margin:0}
+#pxHold{touch-action:none;user-select:none;-webkit-user-select:none}
+.px-view{position:relative;flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:18px;touch-action:none;background:radial-gradient(circle at 50% 40%,#171923,#0b0c11)}
+.px-view.brush{cursor:crosshair}
+#editCv{max-width:100%;max-height:100%;display:block;border-radius:3px;box-shadow:0 24px 70px rgba(0,0,0,.6);transform-origin:center;will-change:transform}
+.px-empty{position:absolute;inset:0;display:grid;place-items:center;padding:20px;overflow:auto}.px-empty[hidden]{display:none}
+.px-drop{max-width:540px;width:100%;text-align:center;border:1.5px dashed #343849;border-radius:26px;padding:38px 22px;background:rgba(255,255,255,.015);transition:.2s}
+.px-drop.over{border-color:var(--acc);background:rgba(124,92,255,.08)}
+.px-drop-ic{width:66px;height:66px;margin:0 auto 16px;border-radius:22px;display:grid;place-items:center;background:linear-gradient(135deg,var(--acc),var(--acc3));color:#fff;box-shadow:0 12px 30px rgba(124,92,255,.35)}.px-drop-ic svg{width:30px;height:30px}
+.px-drop h2{margin:0 0 6px;font-size:23px;letter-spacing:-.02em}.px-drop p{color:var(--mut);margin:0 0 20px}
+.feat{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:20px}.feat span{font-size:12px;color:var(--mut);background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
+.px-zoom{position:absolute;left:12px;bottom:12px;display:flex;align-items:center;gap:2px;background:rgba(18,19,25,.85);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:13px;padding:3px}
+.px-zoom[hidden]{display:none}.px-zoom span{font-size:12px;min-width:44px;text-align:center;color:var(--mut);font-variant-numeric:tabular-nums}
+.px-insp{display:flex;flex-direction:column;min-height:0;background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.px-insp-h{padding:14px 16px 12px;border-bottom:1px solid var(--line)}.px-insp-h b{font-size:15.5px;letter-spacing:-.01em}
+#pxHist{width:100%;height:54px;margin-top:10px;display:block;border-radius:10px;background:#0c0d12}
+.px-insp-b{flex:1;overflow:auto;padding:12px 16px 20px}
+.btn.grad{background:linear-gradient(135deg,var(--acc),var(--acc3));border:0;color:#fff}.btn.grad:hover{filter:brightness(1.08)}
+.btn svg{width:17px;height:17px;vertical-align:-3px;margin-right:5px}
+.btn.big{width:100%;padding:13px;font-size:14.5px;display:flex;align-items:center;justify-content:center}
+.ai-hero{display:flex;flex-direction:column;gap:8px}
+.ai-ask{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.ai-ask textarea,#tIn{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:13px;padding:11px 12px;font:inherit;resize:vertical;outline:none}
+.ai-ask textarea:focus,#tIn:focus{border-color:var(--acc)}
+.chips2{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.ai-res{margin-top:14px;background:linear-gradient(135deg,rgba(124,92,255,.14),rgba(255,92,168,.07));border:1px solid rgba(124,92,255,.38);border-radius:15px;padding:12px;font-size:13.5px;display:flex;flex-direction:column;gap:9px;align-items:flex-start}
+.ai-res.thinking{flex-direction:row;align-items:center;gap:8px}
+.ai-tags{display:flex;flex-wrap:wrap;gap:5px}.ai-tags span{font-size:11.5px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:3px 9px;color:#cfd2dd}
+.spin{width:14px;height:14px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;display:inline-block;animation:sp 1s linear infinite;flex:none}@keyframes sp{to{transform:rotate(360deg)}}
+.dotlive{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--acc2);margin-right:4px;box-shadow:0 0 0 3px rgba(31,209,165,.2)}
+.muted{color:var(--mut)}.small{font-size:12px;line-height:1.55}
+.sec{border-bottom:1px solid var(--line);padding:12px 0}.sec:last-of-type{border-bottom:0}
+.sec-h{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:13px;margin-bottom:6px}
+.lnk{background:none;border:0;color:var(--mut);font:inherit;font-size:12px;cursor:pointer}.lnk:hover{color:var(--text)}
+.sld{padding:5px 0;user-select:none;-webkit-user-select:none}
+.sld-h{display:flex;justify-content:space-between;font-size:12.5px;color:#c9ccd8;margin-bottom:6px;cursor:default}.sld-h output{color:var(--mut);font-variant-numeric:tabular-nums}
+.sld input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:4px;background:#2a2d3b;outline:none;margin:5px 0;accent-color:auto}
+.sld input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:50%;background:#fff;border:0;box-shadow:0 1px 6px rgba(0,0,0,.6);cursor:pointer}
+.sld input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;background:#fff;border:0;box-shadow:0 1px 6px rgba(0,0,0,.6)}
+.hsl-dots{display:flex;gap:9px;margin:6px 0 8px;flex-wrap:wrap}.hdot{width:25px;height:25px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0}.hdot.on{border-color:#fff;box-shadow:0 0 0 2px var(--acc)}
+.looks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.look{background:none;border:0;padding:0;color:var(--mut);font:inherit;font-size:11.5px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;gap:6px;text-align:center}
+.look img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:13px;border:2px solid transparent;display:block;transition:.15s}
+.look:hover img{transform:translateY(-2px)}.look.on{color:var(--text)}.look.on img{border-color:var(--acc);box-shadow:0 6px 18px rgba(124,92,255,.35)}
+.seg-scroll{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.seg-scroll .chip{flex:none}
+.tiles2{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:10px;margin-top:14px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;color:var(--mut);font:inherit;font-size:11.5px;cursor:pointer;text-align:center;padding:0}
+.tile .ic{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:25px;background:var(--panel2);border:2px solid var(--line);transition:.15s;position:relative}
+.tile .lb{line-height:1.2}.tile.on .ic{border-color:var(--acc2)}
 .tile.on .ic::after{content:'';position:absolute;right:0;bottom:2px;width:13px;height:13px;border-radius:50%;background:var(--acc2);border:2px solid var(--panel)}
 .tile.sel{color:var(--text)}.tile.sel .ic{border-color:var(--acc);box-shadow:0 0 0 3px rgba(124,92,255,.35)}
-.fa-cats{display:flex;gap:4px;overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:6px;scrollbar-width:none;position:sticky;bottom:8px;z-index:3}
-.cat{flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;border:0;background:none;color:var(--mut);font:inherit;font-size:11.5px;font-weight:600;padding:7px 10px;border-radius:11px;cursor:pointer}
-.cat span{font-size:19px}.cat.on{background:var(--acc);color:#fff}
-.dots{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
-.dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}
-.dot.on{border-color:#fff;box-shadow:0 0 0 2px var(--acc)}
+.dots{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}.dot.on{border-color:#fff;box-shadow:0 0 0 2px var(--acc)}
+.dots input[type=color]{width:30px;height:30px;padding:0;border-radius:50%;border:2px solid var(--line);overflow:hidden}
+.tipcard{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px;font-size:13px;margin:12px 0}.tipcard p{margin:6px 0 0;color:var(--mut);line-height:1.5}
+.hist-list{display:flex;flex-direction:column;gap:3px}
+.hist-list button{display:flex;gap:10px;align-items:center;text-align:left;background:none;border:1px solid transparent;border-radius:11px;padding:8px 10px;color:var(--mut);font:inherit;font-size:13px;cursor:pointer}
+.hist-list button:hover{background:var(--panel2)}.hist-list button.on{background:var(--panel2);border-color:var(--acc);color:var(--text)}.hist-list button.fut{opacity:.4}
+.hist-list i{font-style:normal;font-size:11px;color:var(--mut);min-width:18px}
+.px-modal{position:fixed;inset:0;background:rgba(5,5,8,.66);backdrop-filter:blur(8px);display:grid;place-items:center;z-index:80;padding:16px}.px-modal[hidden]{display:none}
+.px-mcard{width:min(420px,100%);background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:0 30px 80px rgba(0,0,0,.6)}.px-mcard h3{margin:0;font-size:18px}
+.lbl{display:flex;justify-content:space-between;font-size:12.5px;color:var(--mut);margin:16px 0 8px}
+.seg{display:flex;background:var(--panel2);border:1px solid var(--line);border-radius:13px;padding:3px;gap:3px}
+.seg button{flex:1;border:0;background:none;color:var(--mut);font:inherit;font-weight:600;font-size:13px;padding:8px;border-radius:10px;cursor:pointer}.seg button.on{background:var(--acc);color:#fff}
+#exGo{margin-top:18px}
+@media(max-width:900px){
+ .px{grid-template-columns:1fr;height:auto;min-height:0;gap:8px}
+ .px-center{height:58vh;min-height:360px;order:1}
+ .px-rail{order:2;flex-direction:row;overflow-x:auto;padding:5px;border-radius:18px}
+ .rb{min-width:64px;padding:8px 4px;flex:none}
+ .px-insp{order:3}
+ .px-insp-b{overflow:visible}
+ #pxHist{height:40px}
+ .px-name{display:none}
+ .px-exp span{display:none}
+ .px-view{padding:10px}
+}
 .steps{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
 .steps span{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:12.5px;color:var(--mut);display:flex;gap:6px;align-items:center}
 </style>
@@ -129,28 +198,40 @@ input[type=color]{width:42px;height:38px;border:1px solid var(--line);border-rad
 <main>
 <!-- ============ FOTOĞRAF DÜZENLEYİCİ ============ -->
 <section class="view on" id="v-edit">
- <div class="fa">
-  <div class="ai fa-ai">
-    <div class="ai-row" style="margin:0"><input type="text" id="paiIn" placeholder="✨ Komutla düzenle — örn: gülümset, sarı saç ve güneş gözlüğü ekle"><button class="btn pri" id="paiGo">Uygula</button></div>
-    <div class="hint" id="paiMsg" style="margin-top:6px">Ya da aşağıdaki araçlara dokun.</div>
+ <div class="px">
+  <nav class="px-rail" id="pxRail"></nav>
+  <div class="px-center">
+   <div class="px-bar">
+     <div class="row nowrap"><button class="ib" id="pxOpen" title="Fotoğraf aç"></button><span class="px-name" id="pxName">Fotoğraf yok</span></div>
+     <div class="row nowrap"><button class="ib" id="pxUndo" title="Geri al (Ctrl+Z)"></button><button class="ib" id="pxRedo" title="Yinele (Ctrl+Shift+Z)"></button><span class="sep"></span><button class="ib" id="pxSplit" title="Önce / sonra bölmesi"></button><button class="ib" id="pxHold" title="Basılı tut: orijinal"></button><button class="btn grad sm px-exp" id="pxExport"></button></div>
+   </div>
+   <div class="px-view" id="pxView">
+     <canvas id="editCv" hidden></canvas>
+     <div class="px-empty" id="pxEmpty">
+       <div class="px-drop">
+         <div class="px-drop-ic"></div>
+         <h2>Fotoğrafını buraya bırak</h2>
+         <p>ya da cihazından seç. Her şey tarayıcında işlenir, hiçbir yere yüklenmez.</p>
+         <div class="row c"><button class="btn grad" id="pxPick">Fotoğraf seç</button><button class="btn" id="pxDemoL">Örnek: Manzara</button><button class="btn" id="pxDemoP">Örnek: Portre</button></div>
+         <div class="feat"><span>✨ AI ile tek dokunuş</span><span>🎛️ Profesyonel ışık ve renk</span><span>🙂 Yüz rötuşu</span><span>🩹 Leke silme</span><span>✂️ Kırp ve düzelt</span></div>
+       </div>
+     </div>
+     <div class="px-zoom" id="pxZoomBar" hidden><button class="ib sm" id="pxZm" title="Uzaklaştır"></button><span id="pxZoomV">100%</span><button class="ib sm" id="pxZp" title="Yakınlaştır"></button><button class="ib sm" id="pxFit" title="Sığdır"></button></div>
+   </div>
   </div>
-  <div class="stage fa-stage">
-    <div class="fa-top" id="faTop" hidden>
-      <div class="row"><button class="btn sm" id="eNew" title="Yeni fotoğraf">📂</button><button class="btn sm" id="eUndo" title="Geri al">↶</button><button class="btn sm" id="eReset" title="Tümünü sıfırla">⟲</button></div>
-      <div class="row"><button class="btn sm" id="eFace">🙂 Yüzü ayarla</button><button class="btn sm" id="eCmp" title="Basılı tut: orijinal">👁 Önce</button><button class="btn sm pri" id="eSave">⬇ Kaydet</button></div>
-    </div>
-    <div class="empty" id="editEmpty">
-      <div class="big">🤳</div>
-      <p>Yüzünün net göründüğü bir fotoğraf yükle</p>
-      <div class="row c"><button class="btn pri" id="editUpload">Fotoğraf yükle</button><button class="btn" id="editDemo">Demo 1</button><button class="btn" id="editDemo2">Demo 2</button></div>
-    </div>
-    <canvas class="main" id="editCv" hidden></canvas>
-    <div class="fa-hint" id="faceHint" hidden>Elipsi yüze oturt; renkli noktaları gözlere, ağza ve saça sürükle. Bitince “✓ Tamam”.</div>
-  </div>
-  <div class="fa-int" id="faInt" hidden><b id="faIntName"></b><input type="range" id="faIntR" min="0" max="100"><output id="faIntV"></output></div>
-  <div class="fa-opts" id="faOpts"></div>
-  <div class="fa-cats" id="faCats"></div>
+  <aside class="px-insp">
+   <div class="px-insp-h"><b id="pxTitle">AI Asistan</b><canvas id="pxHist" width="300" height="64"></canvas></div>
+   <div class="px-insp-b" id="pxPanel"></div>
+  </aside>
  </div>
+ <div class="px-modal" id="pxModal" hidden><div class="px-mcard">
+   <div class="row" style="justify-content:space-between"><h3>Dışa aktar</h3><button class="ib" id="exX" title="Kapat">✕</button></div>
+   <div class="lbl">Biçim</div><div class="seg" id="exFmt"><button data-v="jpeg">JPG</button><button data-v="png">PNG</button><button data-v="webp">WEBP</button></div>
+   <div id="exQW"><div class="lbl">Kalite <output id="exQV">92</output></div><div class="sld"><input type="range" id="exQ" min="50" max="100" value="92"></div></div>
+   <div class="lbl">Boyut</div><div class="seg" id="exSize"><button data-v="orig">Orijinal</button><button data-v="2048">2048 px</button><button data-v="1080">1080 px</button></div>
+   <p class="muted small" id="exInfo"></p>
+   <button class="btn grad big" id="exGo">İndir</button>
+ </div></div>
 </section>
 
 <!-- ============ YÜZ DEĞİŞTİR (FOTO) ============ -->
@@ -467,13 +548,10 @@ const CATS=[
  {id:'filters',icon:'🎨',name:'Filtreler',filters:true},
  {id:'adjust',icon:'🎚️',name:'Ayarlar',adjust:true},
  {id:'tools',icon:'✂️',name:'Araçlar',tools:true}];
-const FE={orig:null,e:null,pts:null,fx:defFx(),col:{hair:HAIR_COLORS['Sarı'],beard:BEARD_COLORS['Siyah'],lips:LIP_COLORS['Kırmızı']},adj:defAdj(),preset:'Orijinal',texts:[],hist:[],prev:null,cat:'beauty',active:null,editFace:false,showOrig:false,thumbs:null};
-const ecv=$('#editCv'),ectx=ecv.getContext('2d',{willReadFrequently:true});
 const cl=(v,a,b)=>Math.min(b,Math.max(a,v));
 const hex=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
 const lum=(r,g,b)=>.299*r+.587*g+.114*b;
 function defPts(e){return{eyeL:{x:e.cx-.42*e.rx,y:e.cy-.14*e.ry},eyeR:{x:e.cx+.42*e.rx,y:e.cy-.14*e.ry},mouth:{x:e.cx,y:e.cy+.5*e.ry},hair:{x:e.cx,y:Math.max(2,e.cy-1.1*e.ry)}}}
-function geom(){const e=FE.e,p=FE.pts;const d=Math.hypot(p.eyeR.x-p.eyeL.x,p.eyeR.y-p.eyeL.y)||e.rx*.84;return{e,eL:p.eyeL,eR:p.eyeR,m:p.mouth,hp:p.hair,d,mw:d*.45,ang:Math.atan2(p.eyeR.y-p.eyeL.y,p.eyeR.x-p.eyeL.x),R:e.rx}}
 function blurCopy(src,f){let cur=src,cw=src.width,ch=src.height;const tw=Math.max(1,Math.round(src.width/f)),th=Math.max(1,Math.round(src.height/f));
   while(cw/2>tw){cw=Math.round(cw/2);ch=Math.round(ch/2);const t=mk(cw,ch);t.getContext('2d').drawImage(cur,0,0,cw,ch);cur=t}
   const t=mk(tw,th);t.getContext('2d').drawImage(cur,0,0,tw,th);const o=mk(src.width,src.height);const ox=o.getContext('2d',{willReadFrequently:true});ox.imageSmoothingQuality='high';ox.drawImage(t,0,0,o.width,o.height);return o}
@@ -546,7 +624,7 @@ function facialHair(x,g,type,C,a){const e=g.e,m=g.m,d=g.d,mw=g.mw,W=x.canvas.wid
     lx.strokeStyle=`rgb(${cl(C[0]*sh+12*sh,0,255)|0},${cl(C[1]*sh+10*sh,0,255)|0},${cl(C[2]*sh+8*sh,0,255)|0})`;lx.beginPath();lx.moveTo(px,py);lx.lineTo(px+Math.cos(ang)*len,py+Math.sin(ang)*len);lx.stroke()}
   lx.restore();x.save();x.globalAlpha=a*.6;x.drawImage(blurCopy(L,3),0,0);x.globalAlpha=a*.85;x.drawImage(L,0,0);x.restore()}
 
-function glasses(x,g,kind,a){const d=g.d,lw=d*.035;x.save();x.globalAlpha=a;
+function glasses(x,g,kind,a){const d=g.d,lw=d*.035;x.save();x.globalAlpha=Math.min(1,.35+a);
   [g.eL,g.eR].forEach(p=>{x.save();x.translate(p.x,p.y+d*.02);x.rotate(g.ang);x.beginPath();x.ellipse(0,0,d*.29,d*.22,0,0,7);
     if(kind==='sun'){const gr=x.createLinearGradient(0,-d*.22,0,d*.22);gr.addColorStop(0,'rgba(10,12,20,.93)');gr.addColorStop(1,'rgba(45,40,70,.86)');x.fillStyle=gr;x.fill();
       x.fillStyle='rgba(255,255,255,.18)';x.beginPath();x.ellipse(-d*.1,-d*.08,d*.1,d*.04,-.4,0,7);x.fill();x.beginPath();x.ellipse(0,0,d*.29,d*.22,0,0,7)}
@@ -562,8 +640,80 @@ function bgPass(x,c,g,blurA,grayA){const w=c.width,h=c.height,e=g.e;const M=mk(w
   if(grayA){const id=bx.getImageData(0,0,w,h),D=id.data;for(let i=0;i<D.length;i+=4){const L=lum(D[i],D[i+1],D[i+2]);D[i]+=(L-D[i])*grayA;D[i+1]+=(L-D[i+1])*grayA;D[i+2]+=(L-D[i+2])*grayA}bx.putImageData(id,0,0)}
   bx.globalCompositeOperation='destination-out';bx.drawImage(Ms,0,0);x.drawImage(B,0,0)}
 
-function processFace(src){const w=src.width,h=src.height,c=clone(src),x=c.getContext('2d',{willReadFrequently:true});if(!FE.e)return c;
-  const g=geom(),fx=FE.fx,s=k=>fx[k]/100,R=g.R,e=g.e,d=g.d,fl=[];
+/* ================= PIXTUDIO PRO FOTOĞRAF EDİTÖRÜ ================= */
+const ICONS={
+ ai:'<path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M19 15l.7 1.8 1.8.7-1.8.7L19 20l-.7-1.8-1.8-.7 1.8-.7z"/>',
+ adjust:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
+ looks:'<circle cx="9" cy="9" r="5"/><circle cx="15" cy="9" r="5"/><circle cx="12" cy="15" r="5"/>',
+ face:'<circle cx="12" cy="12" r="9"/><path d="M8.5 14.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8M9 10h.01M15 10h.01"/>',
+ crop:'<path d="M6 2v14a2 2 0 0 0 2 2h14M18 22V8a2 2 0 0 0-2-2H2"/>',
+ heal:'<path d="M10.5 3.5l10 10a3 3 0 0 1 0 4.2l-2.8 2.8a3 3 0 0 1-4.2 0l-10-10a3 3 0 0 1 0-4.2l2.8-2.8a3 3 0 0 1 4.2 0z"/><path d="M10 12h.01M12 10h.01M12 14h.01M14 12h.01"/>',
+ text:'<path d="M5 6V4h14v2M12 4v16M9 20h6"/>',
+ history:'<path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>',
+ undo:'<path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/>',
+ redo:'<path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/>',
+ split:'<path d="M12 3v18"/><path d="M8 6H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3M16 6h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/>',
+ eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+ download:'<path d="M12 3v12M7 10l5 5 5-5M5 21h14"/>',
+ open:'<path d="M4 20h16M12 16V4M7 9l5-5 5 5"/>',
+ fit:'<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',minus:'<path d="M5 12h14"/>',
+ rot:'<path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/>',
+ flip:'<path d="M12 3v18M8 7l-5 5 5 5zM16 7l5 5-5 5z"/>',
+ image:'<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/>'
+};
+const ic=n=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICONS[n]}</svg>`;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const DEV=[['exposure','Pozlama',-100,100],['contrast','Kontrast',-100,100],['highlights','Parlak alanlar',-100,100],['shadows','Gölgeler',-100,100],['whites','Beyazlar',-100,100],['blacks','Siyahlar',-100,100],
+ ['temp','Sıcaklık',-100,100],['tint','Renk tonu',-100,100],['vibrance','Canlılık',-100,100],['saturation','Doygunluk',-100,100],
+ ['clarity','Netlik',-100,100],['dehaze','Pus giderme',-100,100],['sharpen','Keskinlik',0,100],['vignette','Vinyet',-100,100],['grain','Gren',0,100],['fade','Soluklaştır',0,100]];
+const HSLC=[['red','Kırmızı','#ff4d4d',0],['orange','Turuncu','#ff9a3c',30],['yellow','Sarı','#ffd93c',60],['green','Yeşil','#4cd964',120],['aqua','Turkuaz','#3cd6d6',180],['blue','Mavi','#3c7dff',225],['purple','Mor','#9b5cff',270],['magenta','Macenta','#ff4dd2',315]];
+const defDev=()=>({...Object.fromEntries(DEV.map(d=>[d[0],0])),hsl:Object.fromEntries(HSLC.map(c=>[c[0],{h:0,s:0,l:0}])),grade:{sh:210,ss:0,hh:40,hs:0}});
+const LOOKS={
+ 'Orijinal':{},
+ 'Doğal':{d:{contrast:8,vibrance:15,clarity:8,shadows:10}},
+ 'Canlı':{d:{contrast:15,vibrance:35,saturation:10,clarity:12}},
+ 'Altın Saat':{d:{temp:30,tint:6,vibrance:15,highlights:-15,shadows:12},g:{sh:30,ss:15,hh:42,hs:25}},
+ 'Sinematik':{d:{contrast:20,highlights:-25,shadows:15,saturation:-10,fade:10},g:{sh:195,ss:35,hh:32,hs:30}},
+ 'Film 400':{d:{contrast:-5,fade:22,grain:30,saturation:-8,temp:8},g:{sh:170,ss:12,hh:45,hs:12}},
+ 'Mat':{d:{contrast:-15,fade:35,saturation:-12,blacks:20}},
+ 'Noir':{d:{saturation:-100,contrast:35,clarity:25,vignette:-35,grain:15}},
+ 'Pastel':{d:{exposure:10,contrast:-25,saturation:-20,fade:20,highlights:-10},g:{sh:300,ss:12,hh:190,hs:10}},
+ 'Soğuk Sabah':{d:{temp:-30,tint:-4,contrast:5,vibrance:10,exposure:5}},
+ 'Moody':{d:{exposure:-10,contrast:18,highlights:-30,saturation:-25,vignette:-30,clarity:15},g:{sh:210,ss:20,hh:35,hs:10}},
+ 'Retro 70':{d:{temp:25,saturation:-15,fade:28,grain:25,contrast:-8},g:{sh:25,ss:25,hh:50,hs:20}},
+ 'Yaz':{d:{exposure:6,temp:15,vibrance:30,shadows:15,clarity:6},g:{sh:200,ss:0,hh:50,hs:15}}};
+const HUEGRAD='linear-gradient(90deg,#ff3b3b,#ffd93b,#4cd964,#3cd6d6,#3c7dff,#c84dff,#ff3b3b)';
+const GRADS={exposure:'linear-gradient(90deg,#15161c,#e9eaf0)',temp:'linear-gradient(90deg,#3d7dff,#d9dbe3,#ffb13d)',tint:'linear-gradient(90deg,#3dcf5a,#d9dbe3,#e04de0)',
+ vibrance:'linear-gradient(90deg,#8a8a8a,#ff7a3d)',saturation:'linear-gradient(90deg,#8a8a8a,#ff3d6e)'};
+const TOOLS=[['ai','AI'],['adjust','Ayarla'],['looks','Görünüm'],['face','Yüz'],['crop','Kırp'],['heal','Rötuş'],['text','Metin'],['history','Geçmiş']];
+const TOOL_TITLES={ai:'AI Asistan',adjust:'Ayarlar',looks:'Görünümler',face:'Yüz rötuşu',crop:'Kırp ve döndür',heal:'Leke ve nesne silme',text:'Metin',history:'Geçmiş'};
+const FONTS={'Modern':'800 {s}px Inter,system-ui,sans-serif','Klasik':'700 {s}px Georgia,"Times New Roman",serif','Daktilo':'700 {s}px "Courier New",monospace','Poster':'900 {s}px Impact,"Arial Black",sans-serif','El yazısı':'italic 600 {s}px "Brush Script MT","Segoe Script",cursive'};
+const TEXT_COLORS=['#ffffff','#111111','#ffd23f','#ff5c8a','#7c5cff','#1fd1a5','#3d8bff'];
+
+const P={orig:null,prev:null,ps:1,e:null,pts:null,faceOk:false,fx:defFx(),col:{hair:HAIR_COLORS['Sarı'],beard:BEARD_COLORS['Siyah'],lips:LIP_COLORS['Kırmızı']},dev:defDev(),look:'Orijinal',lookAmt:100,texts:[],
+ hist:[],idx:-1,tool:'ai',faceCat:'beauty',faceActive:null,editFace:false,split:false,splitX:.5,hold:false,zoom:1,panX:0,panY:0,crop:null,heal:{size:4},hslSel:'orange',name:'',fcache:null,selText:-1,
+ tFont:'Modern',tColor:'#ffffff',tSize:8,aiOut:'',lookThumbs:null,healMask:null};
+const ecv=$('#editCv'),ectx=ecv.getContext('2d',{willReadFrequently:true}),view=$('#pxView');
+const prevMap=new WeakMap();
+function setPrev(){const o=P.orig;let pv=prevMap.get(o);
+  if(!pv){const s=Math.min(1,1100/Math.max(o.width,o.height));if(s<1){pv=mk(Math.round(o.width*s),Math.round(o.height*s));const x=pv.getContext('2d');x.imageSmoothingQuality='high';x.drawImage(o,0,0,pv.width,pv.height)}else pv=o;prevMap.set(o,pv)}
+  P.prev=pv;P.ps=pv.width/o.width;ecv.width=pv.width;ecv.height=pv.height;P.healMask=mk(pv.width,pv.height);P.fcache=null;P.lookThumbs=null}
+function needImg(){if(!P.orig){toast('Önce bir fotoğraf aç');return false}return true}
+
+/* ---- Yüz efektleri (ölçekli) ---- */
+function geomS(s){const e=P.e,p=P.pts,E={cx:e.cx*s,cy:e.cy*s,rx:e.rx*s,ry:e.ry*s},S=q=>({x:q.x*s,y:q.y*s}),eL=S(p.eyeL),eR=S(p.eyeR),d=Math.hypot(eR.x-eL.x,eR.y-eL.y)||E.rx*.84;
+  return{e:E,eL,eR,m:S(p.mouth),hp:S(p.hair),d,mw:d*.45,ang:Math.atan2(eR.y-eL.y,eR.x-eL.x),R:E.rx}}
+const faceActive=()=>P.e&&FXKEYS.some(k=>P.fx[k]>0);
+async function detectFaceFull(cv){if(!('FaceDetector' in window))return null;
+  try{const f=(await new FaceDetector({fastMode:false,maxDetectedFaces:1}).detect(cv))[0];if(!f)return null;const b=f.boundingBox;
+    const e={cx:b.x+b.width/2,cy:b.y+b.height*.55,rx:b.width*.48,ry:b.height*.6},pts=defPts(e);
+    const lm=f.landmarks||[],eyes=lm.filter(l=>l.type==='eye').map(l=>l.locations[0]).filter(Boolean).sort((a,b)=>a.x-b.x),mo=lm.find(l=>l.type==='mouth');
+    if(eyes.length===2){pts.eyeL={x:eyes[0].x,y:eyes[0].y};pts.eyeR={x:eyes[1].x,y:eyes[1].y}}if(mo&&mo.locations[0])pts.mouth={x:mo.locations[0].x,y:mo.locations[0].y};
+    return{e,pts}}catch(err){return null}}
+function processFace(src,sc){const w=src.width,h=src.height,c=clone(src),x=c.getContext('2d',{willReadFrequently:true});
+  const g=geomS(sc),fx=P.fx,s=k=>fx[k]/100,R=g.R,e=g.e,d=g.d,fl=[];
   if(s('smile')){const v=s('smile');[-1,1].forEach(sd=>fl.push({t:'m',x:g.m.x+sd*g.mw,y:g.m.y,r:d*.42,vx:sd*d*.05*v,vy:-d*.11*v}))}
   if(s('brow'))[g.eL,g.eR].forEach(p=>fl.push({t:'m',x:p.x,y:p.y-d*.25,r:d*.4,vx:0,vy:-d*.09*s('brow')}));
   const big=s('bigeyes')+s('young')*.35;if(big)[g.eL,g.eR].forEach(p=>fl.push({t:'b',x:p.x,y:p.y,r:d*.4,k:.3*big}));
@@ -573,12 +723,12 @@ function processFace(src){const w=src.width,h=src.height,c=clone(src),x=c.getCon
   if(fl.length)warp(x,w,h,fl);
   const sm=Math.min(1,s('smooth')+s('young')*.7);
   if(sm||s('old')||s('undereye')||s('teeth')||s('young'))skinPass(x,c,g,{sm,old:s('old'),ue:s('undereye'),teeth:s('teeth'),young:s('young')});
-  const hA=s('hair'),gA=s('old')*.85;if(hA||gA)hairPass(x,w,h,g,hex(hA?FE.col.hair:'#bdbdbd'),Math.max(hA,gA));
+  const hA=s('hair'),gA=s('old')*.85;if(hA||gA)hairPass(x,w,h,g,hex(hA?P.col.hair:'#bdbdbd'),Math.max(hA,gA));
   if(s('old'))wrinkles(x,g,s('old'));
-  if(s('lips'))lipPass(x,g,hex(FE.col.lips),s('lips'));
+  if(s('lips'))lipPass(x,g,hex(P.col.lips),s('lips'));
   if(s('blush')){x.save();[g.eL,g.eR].forEach((p,i)=>{const sd=i?1:-1,bx=p.x+sd*d*.08,by=p.y+d*.5,r=d*.36,gr=x.createRadialGradient(bx,by,0,bx,by,r);gr.addColorStop(0,`rgba(240,80,110,${.32*s('blush')})`);gr.addColorStop(1,'rgba(240,80,110,0)');x.fillStyle=gr;x.beginPath();x.arc(bx,by,r,0,7);x.fill()});x.restore()}
   if(s('liner')){x.save();x.strokeStyle=`rgba(15,10,10,${.9*s('liner')})`;x.lineWidth=d*.025;x.lineCap='round';[[g.eL,-1],[g.eR,1]].forEach(([p,so])=>{const ew=d*.2;x.beginPath();x.moveTo(p.x-so*ew,p.y-d*.02);x.quadraticCurveTo(p.x,p.y-d*.13,p.x+so*ew,p.y-d*.03);x.lineTo(p.x+so*(ew+d*.08),p.y-d*.08);x.stroke()});x.restore()}
-  const bc=hex(FE.col.beard);
+  const bc=hex(P.col.beard);
   if(s('beard'))facialHair(x,g,'beard',bc,s('beard'));
   if(s('goatee')&&!s('beard'))facialHair(x,g,'goatee',bc,s('goatee'));
   if(s('mustache')||s('beard'))facialHair(x,g,'mustache',bc,Math.max(s('mustache'),s('beard')));
@@ -587,123 +737,376 @@ function processFace(src){const w=src.width,h=src.height,c=clone(src),x=c.getCon
   if(s('glow')){const b=blurCopy(c,10);x.save();x.globalCompositeOperation='screen';x.globalAlpha=.4*s('glow');x.drawImage(b,0,0);x.restore()}
   return c}
 
-function drawFaceUI(){const sc=scaleOf(ecv);drawEllipseUI(ectx,FE.e,sc);const L={eyeL:['#1fd1a5','Göz'],eyeR:['#1fd1a5','Göz'],mouth:['#ff6b8a','Ağız'],hair:['#ffb547','Saç']};
-  for(const k in L){const p=FE.pts[k];ectx.save();ectx.fillStyle=L[k][0];ectx.strokeStyle='#fff';ectx.lineWidth=2*sc;ectx.beginPath();ectx.arc(p.x,p.y,9*sc,0,7);ectx.fill();ectx.stroke();
-    ectx.font=`700 ${12*sc}px system-ui`;ectx.textAlign='center';ectx.lineWidth=3*sc;ectx.strokeStyle='rgba(0,0,0,.7)';ectx.strokeText(L[k][1],p.x,p.y-15*sc);ectx.fillStyle='#fff';ectx.fillText(L[k][1],p.x,p.y-15*sc);ectx.restore()}}
-let rq=0;function renderEdit(){if(rq)return;rq=requestAnimationFrame(()=>{rq=0;if(!FE.orig)return;
-  if(FE.showOrig){ectx.drawImage(FE.orig,0,0);return}
-  renderTo(ectx,processFace(FE.orig),FE.adj,FE.texts);if(FE.editFace)drawFaceUI()})}
-const snap=()=>({orig:FE.orig,e:FE.e&&{...FE.e},pts:FE.pts&&JSON.parse(JSON.stringify(FE.pts)),fx:{...FE.fx},col:{...FE.col},adj:{...FE.adj},preset:FE.preset,texts:JSON.parse(JSON.stringify(FE.texts))});
-function restore(s){Object.assign(FE,{orig:s.orig,e:s.e&&{...s.e},pts:s.pts&&JSON.parse(JSON.stringify(s.pts)),fx:{...s.fx},col:{...s.col},adj:{...s.adj},preset:s.preset,texts:JSON.parse(JSON.stringify(s.texts)),active:null,thumbs:null});
-  if(ecv.width!==FE.orig.width||ecv.height!==FE.orig.height){ecv.width=FE.orig.width;ecv.height=FE.orig.height}renderOpts();renderEdit()}
-function commit(){if(FE.prev)FE.hist.push(FE.prev);if(FE.hist.length>40)FE.hist.shift();FE.prev=snap()}
-function need(){if(!FE.orig){toast('Önce bir fotoğraf yükle');return false}return true}
-async function detectFaceFull(cv){if(!('FaceDetector' in window))return null;
-  try{const f=(await new FaceDetector({fastMode:false,maxDetectedFaces:1}).detect(cv))[0];if(!f)return null;const b=f.boundingBox;
-    const e={cx:b.x+b.width/2,cy:b.y+b.height*.55,rx:b.width*.48,ry:b.height*.6},pts=defPts(e);
-    const lm=f.landmarks||[],eyes=lm.filter(l=>l.type==='eye').map(l=>l.locations[0]).filter(Boolean).sort((a,b)=>a.x-b.x),mo=lm.find(l=>l.type==='mouth');
-    if(eyes.length===2){pts.eyeL={x:eyes[0].x,y:eyes[0].y};pts.eyeR={x:eyes[1].x,y:eyes[1].y}}if(mo&&mo.locations[0])pts.mouth={x:mo.locations[0].x,y:mo.locations[0].y};
-    return{e,pts}}catch(err){return null}}
-async function loadEdit(img,e){Object.assign(FE,{orig:img,fx:defFx(),adj:defAdj(),preset:'Orijinal',texts:[],hist:[],active:null,thumbs:null,editFace:false,showOrig:false});
-  FE.e=e?{...e}:{cx:img.width/2,cy:img.height*.42,rx:img.width*.17,ry:img.width*.21};FE.pts=defPts(FE.e);
-  ecv.width=img.width;ecv.height=img.height;ecv.hidden=false;$('#editEmpty').hidden=true;$('#faTop').hidden=false;$('#faceHint').hidden=true;$('#eFace').textContent='🙂 Yüzü ayarla';
-  FE.prev=snap();renderOpts();renderEdit();
-  if(!e){const det=await detectFaceFull(img);if(det){FE.e=det.e;FE.pts=det.pts;FE.prev=snap();renderEdit();toast('Yüz otomatik bulundu')}else{toast('Efektlerin doğru oturması için yüzü işaretle');setFaceEdit(true)}}}
+/* ---- Geliştirme (ışık / renk / detay) motoru ---- */
+function effDev(){const d=JSON.parse(JSON.stringify(P.dev)),L=LOOKS[P.look];if(!L)return d;const k=P.lookAmt/100;
+  for(const key in (L.d||{}))d[key]=cl(d[key]+L.d[key]*k,-100,100);
+  if(L.g){if(!d.grade.ss&&L.g.ss){d.grade.sh=L.g.sh;d.grade.ss=L.g.ss*k}if(!d.grade.hs&&L.g.hs){d.grade.hh=L.g.hh;d.grade.hs=L.g.hs*k}}
+  return d}
+function devNeutral(d){return DEV.every(k=>!d[k[0]])&&HSLC.every(c=>{const v=d.hsl[c[0]];return !v.h&&!v.s&&!v.l})&&!d.grade.ss&&!d.grade.hs}
+function hueRGB(h){h=((h%360)+360)%360/60;const x=1-Math.abs(h%2-1);return h<1?[1,x,0]:h<2?[x,1,0]:h<3?[0,1,x]:h<4?[0,x,1]:h<5?[x,0,1]:[1,0,x]}
+function hsl2rgb(h,s,l){const c=(1-Math.abs(2*l-1))*s,x=c*(1-Math.abs((h/60)%2-1)),m=l-c/2;const a=h<60?[c,x,0]:h<120?[x,c,0]:h<180?[0,c,x]:h<240?[0,x,c]:h<300?[x,0,c]:[c,0,x];return[(a[0]+m)*255,(a[1]+m)*255,(a[2]+m)*255]}
+function develop(x,d){const w=x.canvas.width,h=x.canvas.height,id=x.getImageData(0,0,w,h),D=id.data;
+  const ef=Math.pow(2,d.exposure/100*1.6),t=d.temp/100,ti=d.tint/100,wr=ef*(1+t*.18),wg=ef*(1-ti*.12),wb=ef*(1-t*.18);
+  const hl=d.highlights/100,sh=d.shadows/100,wh=d.whites/100,bl=d.blacks/100,ct=d.contrast/100,dh=d.dehaze/100,fd=d.fade/100;
+  const ss=(a,b,v)=>{const q=cl((v-a)/(b-a),0,1);return q*q*(3-2*q)},LUT=new Float32Array(256);
+  for(let i=0;i<256;i++){const L=i/255;let o=L;
+    o+=hl*.28*ss(.45,1,L)*(hl>0?(1-L)*1.6:L*.9);
+    o+=sh*.32*(1-ss(0,.55,L))*(sh>0?(1-L):L*1.2);
+    o+=wh*.18*ss(.6,1,L);o+=bl*.15*(1-ss(0,.35,L));
+    if(dh>0)o=(o-dh*.1)/(1-dh*.1);else if(dh<0)o=o*(1+dh*.15)-dh*.15;
+    if(ct>0){const sc=o-.5;o=.5+sc*(1+ct*.55)-ct*.35*sc*sc*sc*4}else o=.5+(o-.5)*(1+ct*.6);
+    if(fd>0)o=fd*.15+o*(1-fd*.2);
+    LUT[i]=cl(o,0,1.15)}
+  const vib=d.vibrance/100,sat=d.saturation/100+(dh>0?dh*.2:0),hslOn=HSLC.some(c=>{const v=d.hsl[c[0]];return v.h||v.s||v.l});
+  const G=d.grade,gS=G.ss/100*.35,gH=G.hs/100*.35,cS=hueRGB(G.sh),cH=hueRGB(G.hh),hasG=gS>0||gH>0;
+  for(let i=0;i<D.length;i+=4){let r=D[i]*wr,g=D[i+1]*wg,b=D[i+2]*wb,L=.299*r+.587*g+.114*b;const Lo=LUT[L>255?255:L|0]*255;
+    if(L>2){const k=Lo/L;r*=k;g*=k;b*=k}else{const a=Lo-L;r+=a;g+=a;b+=a}L=Lo;
+    if(vib||sat){const mx=Math.max(r,g,b),mn=Math.min(r,g,b),sN=(mx-mn)/(mx+1);let k=1+sat+vib*(1-sN)*1.1;if(k<0)k=0;r=L+(r-L)*k;g=L+(g-L)*k;b=L+(b-L)*k}
+    if(hslOn){const R=cl(r/255,0,1),Gg=cl(g/255,0,1),B=cl(b/255,0,1),mx=Math.max(R,Gg,B),mn=Math.min(R,Gg,B),dd=mx-mn;
+      if(dd>.02){let l2=(mx+mn)/2,s2=l2>.5?dd/(2-mx-mn):dd/(mx+mn),hh=mx===R?((Gg-B)/dd+(Gg<B?6:0)):mx===Gg?(B-R)/dd+2:(R-Gg)/dd+4;hh*=60;let dH=0,dS=0,dL=0;
+        for(const c of HSLC){const v=d.hsl[c[0]];if(!v.h&&!v.s&&!v.l)continue;let df=Math.abs(hh-c[3]);if(df>180)df=360-df;const wt=Math.max(0,1-df/40);if(!wt)continue;dH+=v.h*.3*wt;dS+=v.s/100*wt;dL+=v.l/100*wt*.3}
+        if(dH||dS||dL){hh=(hh+dH+360)%360;s2=cl(s2*(1+dS),0,1);l2=cl(l2+dL*Math.min(1,s2*2),0,1);[r,g,b]=hsl2rgb(hh,s2,l2)}}}
+    if(hasG){const ln=cl(L/255,0,1),ms=(1-ln)*(1-ln)*gS*255,mh=ln*ln*gH*255;r+=(cS[0]-.5)*ms+(cH[0]-.5)*mh;g+=(cS[1]-.5)*ms+(cH[1]-.5)*mh;b+=(cS[2]-.5)*ms+(cH[2]-.5)*mh}
+    D[i]=r;D[i+1]=g;D[i+2]=b}
+  x.putImageData(id,0,0);
+  if(d.clarity||d.sharpen){const cur=x.getImageData(0,0,w,h),C=cur.data,Bc=d.clarity?blurCopy(x.canvas,Math.max(4,w/45)).getContext('2d').getImageData(0,0,w,h).data:null,Bs=d.sharpen?blurCopy(x.canvas,1.8).getContext('2d').getImageData(0,0,w,h).data:null,cv=d.clarity/100*.8,sv=d.sharpen/100*1.4;
+    for(let i=0;i<C.length;i+=4){const L=(.299*C[i]+.587*C[i+1]+.114*C[i+2])/255,m=1-Math.pow(2*L-1,2);for(let k=0;k<3;k++){let v=C[i+k];if(Bc)v+=(C[i+k]-Bc[i+k])*cv*m;if(Bs)v+=(C[i+k]-Bs[i+k])*sv;C[i+k]=v}}
+    x.putImageData(cur,0,0)}
+  if(d.vignette){const v=d.vignette/100,gr=x.createRadialGradient(w/2,h/2,Math.min(w,h)*.25,w/2,h/2,Math.hypot(w,h)/2);
+    if(v<0){gr.addColorStop(0,'rgba(0,0,0,0)');gr.addColorStop(1,`rgba(0,0,0,${-v*.85})`)}else{gr.addColorStop(0,'rgba(255,255,255,0)');gr.addColorStop(1,`rgba(255,255,255,${v*.7})`)}x.fillStyle=gr;x.fillRect(0,0,w,h)}
+  if(d.grain){const g2=x.getImageData(0,0,w,h),E=g2.data,amt=d.grain/100*42;let sd=12345;for(let i=0;i<E.length;i+=4){sd=(sd*1103515245+12345)&0x7fffffff;const n=(sd/0x7fffffff-.5)*amt;E[i]+=n;E[i+1]+=n;E[i+2]+=n}x.putImageData(g2,0,0)}}
 
-function thumbFor(n){if(!FE.orig)return null;if(!FE.thumbs){FE.thumbs={};const o=FE.orig,s=72/Math.min(o.width,o.height);FE.thumbBase=mk(72,72);FE.thumbBase.getContext('2d').drawImage(o,(72-o.width*s)/2,(72-o.height*s)/2,o.width*s,o.height*s)}
-  if(!FE.thumbs[n]){const c=mk(72,72);renderTo(c.getContext('2d',{willReadFrequently:true}),FE.thumbBase,{...defAdj(),...PRESETS[n]},[]);FE.thumbs[n]=c.toDataURL()}return FE.thumbs[n]}
-function renderCats(){const el=$('#faCats');el.innerHTML='';CATS.forEach(c=>{const b=document.createElement('button');b.className='cat'+(FE.cat===c.id?' on':'');b.innerHTML=`<span>${c.icon}</span>${c.name}`;
-  b.onclick=()=>{FE.cat=c.id;FE.active=null;renderCats();renderOpts()};el.appendChild(b)})}
-function tile(ic,label,on,sel,click,bg){const b=document.createElement('button');b.className='tile'+(on?' on':'')+(sel?' sel':'');b.innerHTML=`<span class="ic"${bg?` style="background:${bg}"`:''}>${ic}</span><span class="lb">${label}</span>`;b.onclick=click;return b}
-function upd(){renderOpts();renderEdit();commit()}
-function toggleFx(k){if(!need())return;if(FE.fx[k]===0){FE.fx[k]=70;FE.active=k}else if(FE.active===k){FE.fx[k]=0;FE.active=null}else FE.active=k;upd()}
-function renderOpts(){const box=$('#faOpts');box.innerHTML='';const c=CATS.find(c=>c.id===FE.cat);const row=document.createElement('div');row.className='tiles';box.appendChild(row);
-  if(c.opts){c.opts.forEach(([k,ic])=>row.appendChild(tile(ic,FXN[k],FE.fx[k]>0,FE.active===k,()=>toggleFx(k))));
-    if(c.colors){const set=c.colors==='beard'?BEARD_COLORS:LIP_COLORS,dots=document.createElement('div');dots.className='dots';dots.innerHTML='<span class="hint" style="margin:0">Renk</span>';
-      Object.entries(set).forEach(([n,h])=>{const d=document.createElement('button');d.className='dot'+(FE.col[c.colors]===h?' on':'');d.style.background=h;d.title=n;d.onclick=()=>{FE.col[c.colors]=h;upd()};dots.appendChild(d)});box.appendChild(dots)}}
-  else if(c.hair){row.appendChild(tile('🚫','Orijinal',false,FE.fx.hair===0,()=>{FE.fx.hair=0;FE.active=null;upd()}));
-    Object.entries(HAIR_COLORS).forEach(([n,h])=>{const on=FE.fx.hair>0&&FE.col.hair===h;row.appendChild(tile('',n,on,on,()=>{if(!need())return;if(on){FE.fx.hair=0;FE.active=null}else{FE.col.hair=h;FE.fx.hair=FE.fx.hair||80;FE.active='hair'}upd()},h))})}
-  else if(c.filters){Object.keys(PRESETS).forEach(n=>{const b=tile('',n,false,FE.preset===n,()=>{if(!need())return;FE.adj={...defAdj(),...PRESETS[n]};FE.preset=n;FE.active=null;upd()});const u=thumbFor(n);if(u){const ic=b.querySelector('.ic');ic.style.backgroundImage=`url(${u})`;ic.style.backgroundSize='cover'}row.appendChild(b)})}
-  else if(c.adjust){row.remove();ADJ.forEach(([k,n,mi,ma])=>{const l=document.createElement('label');l.className='sl';l.innerHTML=`${n}<input type="range" min="${mi}" max="${ma}" value="${FE.adj[k]}"><output>${FE.adj[k]}</output>`;
-      const i=l.querySelector('input');i.oninput=()=>{FE.adj[k]=+i.value;l.querySelector('output').textContent=i.value;FE.preset='';renderEdit()};i.onchange=()=>FE.orig&&commit();i.ondblclick=()=>{i.value=0;i.oninput();commit()};box.appendChild(l)})}
-  else if(c.tools){row.remove();box.insertAdjacentHTML('beforeend',`<div class="row"><button class="btn sm" data-t="rot">⤾ Döndür</button><button class="btn sm" data-t="flip">⇋ Aynala</button><button class="btn sm" data-crop="1">1:1</button><button class="btn sm" data-crop="0.8">4:5</button><button class="btn sm" data-crop="0.5625">9:16</button><button class="btn sm" data-crop="1.7778">16:9</button></div>
-      <div class="row" style="margin-top:10px"><input type="text" id="txt" placeholder="Fotoğrafa yazı ekle…"><input type="color" id="txtColor" value="#ffffff"><button class="btn sm pri" id="addTxt">+ Ekle</button><button class="btn sm" id="delTxt">Sil</button></div>
-      <p class="hint">Yazıyı fotoğraf üzerinde sürükleyerek taşı.</p>`);
-    box.querySelector('[data-t=rot]').onclick=()=>geo(b=>{const c=mk(b.height,b.width),x=c.getContext('2d');x.translate(b.height,0);x.rotate(Math.PI/2);x.drawImage(b,0,0);return c},(p,w,h)=>({x:h-p.y,y:p.x}),true);
-    box.querySelector('[data-t=flip]').onclick=()=>geo(b=>{const c=mk(b.width,b.height),x=c.getContext('2d');x.translate(b.width,0);x.scale(-1,1);x.drawImage(b,0,0);return c},(p,w)=>({x:w-p.x,y:p.y}),false,true);
-    box.querySelectorAll('[data-crop]').forEach(btn=>btn.onclick=()=>{if(!need())return;const b=FE.orig,ar=+btn.dataset.crop;let w=b.width,h=b.height;if(w/h>ar)w=Math.round(h*ar);else h=Math.round(w/ar);const ox=(b.width-w)/2,oy=(b.height-h)/2;
-      geo(b=>{const c=mk(w,h);c.getContext('2d').drawImage(b,ox,oy,w,h,0,0,w,h);return c},p=>({x:p.x-ox,y:p.y-oy}))});
-    $('#addTxt').onclick=()=>{if(!need())return;const t=$('#txt').value.trim()||'Merhaba!';FE.texts.push({text:t,x:.5,y:.88,size:7,color:$('#txtColor').value});$('#txt').value='';renderEdit();commit()};
-    $('#delTxt').onclick=()=>{if(FE.texts.length){FE.texts.pop();renderEdit();commit()}}}
-  renderInt()}
-function renderInt(){const r=$('#faInt');if(!FE.active){r.hidden=true;return}r.hidden=false;$('#faIntName').textContent=FXN[FE.active];$('#faIntR').value=FE.fx[FE.active];$('#faIntV').textContent=FE.fx[FE.active]}
-$('#faIntR').addEventListener('input',()=>{if(!FE.active)return;FE.fx[FE.active]=+$('#faIntR').value;$('#faIntV').textContent=$('#faIntR').value;renderEdit()});
-$('#faIntR').addEventListener('change',()=>{if(!FE.active)return;if(FE.fx[FE.active]===0)FE.active=null;upd()});
-function geo(fn,mapP,swap,flip){if(!need())return;const W=FE.orig.width,H=FE.orig.height,n=fn(FE.orig),mp=p=>mapP(p,W,H);
-  const c=mp({x:FE.e.cx,y:FE.e.cy});FE.e={cx:c.x,cy:c.y,rx:swap?FE.e.ry:FE.e.rx,ry:swap?FE.e.rx:FE.e.ry};for(const k in FE.pts)FE.pts[k]=mp(FE.pts[k]);
-  if(flip){const t=FE.pts.eyeL;FE.pts.eyeL=FE.pts.eyeR;FE.pts.eyeR=t}
-  FE.orig=n;FE.thumbs=null;ecv.width=n.width;ecv.height=n.height;upd()}
-function setFaceEdit(on){FE.editFace=on;$('#eFace').textContent=on?'✓ Tamam':'🙂 Yüzü ayarla';$('#eFace').classList.toggle('ok',on);$('#faceHint').hidden=!on;renderEdit()}
-$('#eFace').onclick=()=>{if(!need())return;if(FE.editFace)commit();setFaceEdit(!FE.editFace)};
-const cmpOn=e=>{if(!FE.orig)return;e.preventDefault();FE.showOrig=true;renderEdit()},cmpOff=()=>{if(FE.showOrig){FE.showOrig=false;renderEdit()}};
-['pointerdown'].forEach(ev=>$('#eCmp').addEventListener(ev,cmpOn));['pointerup','pointerleave','pointercancel'].forEach(ev=>$('#eCmp').addEventListener(ev,cmpOff));
-$('#eUndo').onclick=()=>{if(!FE.hist.length)return toast('Geri alınacak adım yok');FE.prev=FE.hist.pop();restore(FE.prev)};
-$('#eReset').onclick=()=>{if(!need())return;FE.fx=defFx();FE.adj=defAdj();FE.preset='Orijinal';FE.texts=[];FE.active=null;upd();toast('Tüm efektler sıfırlandı')};
-$('#eSave').onclick=()=>{if(!need())return;const c=mk(FE.orig.width,FE.orig.height);renderTo(c.getContext('2d',{willReadFrequently:true}),processFace(FE.orig),FE.adj,FE.texts);saveCanvas(c,'pixtudio-foto.jpg')};
-const upEdit=async()=>{const c=await uploadImage();if(c)loadEdit(c)};$('#editUpload').onclick=upEdit;$('#eNew').onclick=upEdit;
-$('#editDemo').onclick=()=>{const d=demoPhoto('B');loadEdit(d.img,d.e)};
-$('#editDemo2').onclick=()=>{const d=demoPhoto('C');loadEdit(d.img,d.e)};
-(()=>{let drag=null;const P=ev=>{const r=ecv.getBoundingClientRect();return{x:(ev.clientX-r.left)*ecv.width/r.width,y:(ev.clientY-r.top)*ecv.height/r.height,s:ecv.width/r.width}};
-  ecv.addEventListener('pointerdown',ev=>{if(!FE.orig)return;const p=P(ev);
-    if(FE.editFace){const e=FE.e;for(const k of ['eyeL','eyeR','mouth','hair']){const q=FE.pts[k];if(Math.hypot(p.x-q.x,p.y-q.y)<22*p.s){drag={k:'pt',key:k};break}}
-      if(!drag){if(Math.hypot(p.x-(e.cx+e.rx*.7071),p.y-(e.cy+e.ry*.7071))<26*p.s)drag={k:'rs',e0:{...e},p0:JSON.parse(JSON.stringify(FE.pts))};else drag={k:'mv',lx:p.x,ly:p.y}}}
-    else{const rx=p.x/ecv.width,ry=p.y/ecv.height;for(let i=FE.texts.length-1;i>=0;i--){const t=FE.texts[i];ectx.font=`800 ${Math.round(ecv.width*t.size/100)}px system-ui`;const hw=ectx.measureText(t.text).width/ecv.width/2+.02,hh=t.size/100*ecv.width/ecv.height*.7;
-      if(Math.abs(rx-t.x)<hw&&Math.abs(ry-t.y)<hh){drag={k:'tx',t,dx:rx-t.x,dy:ry-t.y};break}}}
-    if(drag){ecv.setPointerCapture(ev.pointerId);ev.preventDefault()}});
-  ecv.addEventListener('pointermove',ev=>{if(!drag)return;const p=P(ev),e=FE.e;
-    if(drag.k==='pt')FE.pts[drag.key]={x:p.x,y:p.y};
-    else if(drag.k==='mv'){const dx=p.x-drag.lx,dy=p.y-drag.ly;e.cx+=dx;e.cy+=dy;for(const k in FE.pts){FE.pts[k].x+=dx;FE.pts[k].y+=dy}drag.lx=p.x;drag.ly=p.y}
-    else if(drag.k==='rs'){const e0=drag.e0;e.rx=Math.max(10,Math.abs(p.x-e0.cx)/.7071);e.ry=Math.max(10,Math.abs(p.y-e0.cy)/.7071);for(const k in FE.pts){const q=drag.p0[k];FE.pts[k]={x:e0.cx+(q.x-e0.cx)*e.rx/e0.rx,y:e0.cy+(q.y-e0.cy)*e.ry/e0.ry}}}
-    else{drag.t.x=cl(p.x/ecv.width-drag.dx,0,1);drag.t.y=cl(p.y/ecv.height-drag.dy,0,1)}
-    renderEdit()});
-  const up=()=>{if(drag){drag=null;commit()}};ecv.addEventListener('pointerup',up);ecv.addEventListener('pointercancel',up)})();
-renderCats();renderOpts();
+function textFont(t,w){return FONTS[t.font||'Modern'].replace('{s}',Math.max(4,Math.round(w*t.size/100)))}
+function drawTexts(x,w,h){P.texts.forEach(t=>{x.save();x.font=textFont(t,w);x.textAlign='center';x.textBaseline='middle';const f=w*t.size/100;
+  x.shadowColor='rgba(0,0,0,.45)';x.shadowBlur=f*.15;x.shadowOffsetY=f*.04;x.fillStyle=t.color;const ls=String(t.text).split('\n');ls.forEach((ln,i)=>x.fillText(ln,t.x*w,t.y*h+(i-(ls.length-1)/2)*f*1.15));x.restore()})}
+function faceStage(src,s,cache){if(!faceActive())return src;if(!cache)return processFace(src,s);const k=JSON.stringify([P.fx,P.col,P.e,P.pts]);
+  if(P.fcache&&P.fcache.k===k&&P.fcache.src===src)return P.fcache.c;const c=processFace(src,s);P.fcache={k,src,c};return c}
+function renderEdited(src,s,cache){const out=clone(faceStage(src,s,cache)),x=out.getContext('2d',{willReadFrequently:true}),d=effDev();if(!devNeutral(d))develop(x,d);drawTexts(x,out.width,out.height);return out}
 
-/* --- Fotoğraf için komutla düzenleme --- */
-function photoPrompt(q){return `Sen "Pixtudio" fotoğraf editörünün asistanısın. Kullanıcının komutunu efekt planına çevir. YALNIZCA JSON döndür.
-Efektler (0-100 yoğunluk): ${FXKEYS.map(k=>k+'('+FXN[k]+')').join(', ')}.
-Saç renkleri: ${Object.keys(HAIR_COLORS).join(', ')}. Sakal renkleri: ${Object.keys(BEARD_COLORS).join(', ')}. Ruj renkleri: ${Object.keys(LIP_COLORS).join(', ')}. Filtreler: ${Object.keys(PRESETS).join(', ')}.
-Şu anki efektler: ${JSON.stringify(Object.fromEntries(Object.entries(FE.fx).filter(([k,v])=>v)))}
-Şema: {"reset":bool,"effects":{"anahtar":0-100},"hairColor":"","beardColor":"","lipColor":"","preset":"","reply":"1 kısa Türkçe cümle","refuse":bool,"reason":""}
-Yalnızca değişecek efektleri yaz; kapatmak için 0 ver. Saç rengi istenirse effects.hair'i de ver. "reset" true ise önce her şey sıfırlanır. Sahte kimlik ya da resmî belge fotoğrafı üretmek gibi yanıltıcı amaçlı istekler için refuse:true.
-Komut: """${q.slice(0,800)}"""`}
-function localPhotoPlan(q){const s=q.toLocaleLowerCase('tr'),has=(...w)=>w.some(x=>s.includes(x)),ef={},p={effects:ef};
-  const off=has('kaldır','çıkar','kapat','sil ','olmasın','istemiyorum'),v=off?0:has('biraz','hafif')?40:has('çok','iyice','tam ')?95:75;
-  [[['gülümse','gülüm','gülsün','güldür'],'smile'],[['yaşlı','yaşlandır','ihtiyar'],'old'],[['genç'],'young'],[['pürüzsüz','cilt'],'smooth'],[['ışıltı','parlat','ışıl'],'glow'],[['göz alt'],'undereye'],[['diş'],'teeth'],[['kaş'],'brow'],[['güneş gözlü'],'sunglasses'],[['ruj','dudak'],'lips'],[['allık'],'blush'],[['göz kalem','eyeliner'],'liner'],[['iri göz','büyük göz'],'bigeyes'],[['ince yüz','incelt','zayıf'],'slim'],[['burun'],'nose'],[['bulanık','bulanıklaş','blur'],'bgblur'],[['arka planı siyah','arka plan siyah','s/b arka'],'bggray'],[['bıyık'],'mustache'],[['keçi'],'goatee']].forEach(([ws,k])=>{if(has(...ws))ef[k]=v});
-  if(has('sakal')&&!has('keçi'))ef.beard=v;if(has('gözlük')&&!has('güneş gözlü'))ef.glasses=v;
-  if(has('saç','sarışın')){for(const n of Object.keys(HAIR_COLORS))if(has(n.toLocaleLowerCase('tr'))){p.hairColor=n;ef.hair=off?0:80;break}if(has('sarışın')){p.hairColor='Sarı';ef.hair=80}if(off&&!p.hairColor)ef.hair=0}
+/* ---- Önizleme ---- */
+function drawHist(src){const hc=$('#pxHist');if(!hc||!src)return;const t=mk(160,Math.max(1,Math.round(160*src.height/src.width)));t.getContext('2d').drawImage(src,0,0,t.width,t.height);
+  const d=t.getContext('2d').getImageData(0,0,t.width,t.height).data,R=new Array(64).fill(0),G=R.slice(),B=R.slice();for(let i=0;i<d.length;i+=4){R[d[i]>>2]++;G[d[i+1]>>2]++;B[d[i+2]>>2]++}
+  const mx=Math.max(...R,...G,...B)||1,x=hc.getContext('2d'),W=hc.width,H=hc.height;x.clearRect(0,0,W,H);x.globalCompositeOperation='lighter';
+  [[R,'rgba(255,80,90,.75)'],[G,'rgba(80,220,130,.7)'],[B,'rgba(80,140,255,.75)']].forEach(([a,c])=>{x.fillStyle=c;x.beginPath();x.moveTo(0,H);a.forEach((v,i)=>x.lineTo(i/63*W,H-Math.pow(v/mx,.55)*H*.95));x.lineTo(W,H);x.fill()});x.globalCompositeOperation='source-over'}
+function cropK(w,h,a){const c=Math.abs(Math.cos(a)),s=Math.abs(Math.sin(a));return Math.max((w*c+h*s)/w,(w*s+h*c)/h)}
+function drawRotated(x,src,a){const w=src.width,h=src.height,k=cropK(w,h,a);x.save();x.translate(w/2,h/2);x.rotate(a);x.scale(k,k);x.drawImage(src,-w/2,-h/2);x.restore()}
+function drawCropView(){const C=P.crop,w=ecv.width,h=ecv.height,sc=scaleOf(ecv);ectx.fillStyle='#000';ectx.fillRect(0,0,w,h);drawRotated(ectx,C.base,C.ang*Math.PI/180);
+  const R={x:C.r.x*w,y:C.r.y*h,w:C.r.w*w,h:C.r.h*h};ectx.save();ectx.fillStyle='rgba(0,0,0,.58)';ectx.beginPath();ectx.rect(0,0,w,h);ectx.rect(R.x,R.y,R.w,R.h);ectx.fill('evenodd');
+  ectx.strokeStyle='rgba(255,255,255,.45)';ectx.lineWidth=1*sc;ectx.beginPath();for(let i=1;i<3;i++){ectx.moveTo(R.x+R.w*i/3,R.y);ectx.lineTo(R.x+R.w*i/3,R.y+R.h);ectx.moveTo(R.x,R.y+R.h*i/3);ectx.lineTo(R.x+R.w,R.y+R.h*i/3)}ectx.stroke();
+  ectx.strokeStyle='#fff';ectx.lineWidth=1.5*sc;ectx.strokeRect(R.x,R.y,R.w,R.h);ectx.lineWidth=4*sc;const L=18*sc;
+  [[R.x,R.y,1,1],[R.x+R.w,R.y,-1,1],[R.x,R.y+R.h,1,-1],[R.x+R.w,R.y+R.h,-1,-1]].forEach(([x,y,a,b])=>{ectx.beginPath();ectx.moveTo(x+a*L,y);ectx.lineTo(x,y);ectx.lineTo(x,y+b*L);ectx.stroke()});ectx.restore();drawHist(C.base)}
+function drawFaceUI(){const s=P.ps,sc=scaleOf(ecv),e=P.e;drawEllipseUI(ectx,{cx:e.cx*s,cy:e.cy*s,rx:e.rx*s,ry:e.ry*s},sc);
+  const L={eyeL:['#1fd1a5','Göz'],eyeR:['#1fd1a5','Göz'],mouth:['#ff6b8a','Ağız'],hair:['#ffb547','Saç']};
+  for(const k in L){const p={x:P.pts[k].x*s,y:P.pts[k].y*s};ectx.save();ectx.fillStyle=L[k][0];ectx.strokeStyle='#fff';ectx.lineWidth=2*sc;ectx.beginPath();ectx.arc(p.x,p.y,9*sc,0,7);ectx.fill();ectx.stroke();
+    ectx.font=`700 ${12*sc}px Inter,system-ui`;ectx.textAlign='center';ectx.lineWidth=3*sc;ectx.strokeStyle='rgba(0,0,0,.7)';ectx.strokeText(L[k][1],p.x,p.y-15*sc);ectx.fillStyle='#fff';ectx.fillText(L[k][1],p.x,p.y-15*sc);ectx.restore()}}
+function textBox(t,w,h){ectx.save();ectx.font=textFont(t,w);const ls=String(t.text).split('\n'),tw=Math.max(...ls.map(l=>ectx.measureText(l).width)),f=w*t.size/100;ectx.restore();return{w:tw,h:ls.length*f*1.15}}
+let rq=0;function renderPreview(){if(rq)return;rq=requestAnimationFrame(()=>{rq=0;if(!P.prev)return;const w=ecv.width,h=ecv.height,sc=scaleOf(ecv);
+  if(P.tool==='crop'&&P.crop){drawCropView();return}
+  const ed=P.hold?P.prev:renderEdited(P.prev,P.ps,true);ectx.clearRect(0,0,w,h);ectx.drawImage(ed,0,0);
+  if(P.split&&!P.hold){const sx=P.splitX*w;ectx.save();ectx.beginPath();ectx.rect(0,0,sx,h);ectx.clip();ectx.drawImage(P.prev,0,0);ectx.restore();
+    ectx.save();ectx.strokeStyle='#fff';ectx.lineWidth=2*sc;ectx.shadowColor='rgba(0,0,0,.5)';ectx.shadowBlur=6*sc;ectx.beginPath();ectx.moveTo(sx,0);ectx.lineTo(sx,h);ectx.stroke();
+    ectx.fillStyle='#fff';ectx.beginPath();ectx.arc(sx,h/2,15*sc,0,7);ectx.fill();ectx.shadowBlur=0;ectx.fillStyle='#111';ectx.font=`800 ${13*sc}px Inter,system-ui`;ectx.textAlign='center';ectx.textBaseline='middle';ectx.fillText('⇆',sx,h/2);
+    const pill=(t,x,al)=>{ectx.font=`700 ${11*sc}px Inter,system-ui`;const tw=ectx.measureText(t).width+16*sc;const px=al<0?x-tw-10*sc:x+10*sc;ectx.fillStyle='rgba(0,0,0,.55)';ectx.fillRect(px,10*sc,tw,22*sc);ectx.fillStyle='#fff';ectx.fillText(t,px+tw/2,21*sc)};
+    pill('Önce',sx,-1);pill('Sonra',sx,1);ectx.restore()}
+  if(P.hold){ectx.save();ectx.font=`700 ${12*sc}px Inter,system-ui`;ectx.fillStyle='rgba(0,0,0,.55)';ectx.fillRect(10*sc,10*sc,70*sc,24*sc);ectx.fillStyle='#fff';ectx.textBaseline='middle';ectx.fillText('Orijinal',18*sc,22*sc);ectx.restore()}
+  if(P.tool==='face'&&P.editFace)drawFaceUI();
+  if(P.tool==='heal'){ectx.save();ectx.globalAlpha=.5;ectx.drawImage(P.healMask,0,0);ectx.restore()}
+  if(P.tool==='text'&&P.texts[P.selText]){const t=P.texts[P.selText],b=textBox(t,w,h);ectx.save();ectx.setLineDash([6*sc,4*sc]);ectx.strokeStyle='#fff';ectx.lineWidth=1.5*sc;ectx.strokeRect(t.x*w-b.w/2-8*sc,t.y*h-b.h/2-6*sc,b.w+16*sc,b.h+12*sc);ectx.restore()}
+  drawHist(ed)})}
+
+/* ---- Geçmiş ---- */
+function snap(){return{orig:P.orig,e:{...P.e},pts:JSON.parse(JSON.stringify(P.pts)),fx:{...P.fx},col:{...P.col},dev:JSON.parse(JSON.stringify(P.dev)),look:P.look,lookAmt:P.lookAmt,texts:JSON.parse(JSON.stringify(P.texts))}}
+function commit(label){if(!P.orig)return;P.hist=P.hist.slice(0,P.idx+1);P.hist.push({label,s:snap()});if(P.hist.length>60)P.hist.shift();P.idx=P.hist.length-1;updBar();if(P.tool==='history')renderPanel()}
+function restore(s){const oc=P.orig!==s.orig;Object.assign(P,{orig:s.orig,e:{...s.e},pts:JSON.parse(JSON.stringify(s.pts)),fx:{...s.fx},col:{...s.col},dev:JSON.parse(JSON.stringify(s.dev)),look:s.look,lookAmt:s.lookAmt,texts:JSON.parse(JSON.stringify(s.texts)),selText:-1});
+  if(oc)setPrev();if(P.tool==='crop')enterCrop();renderPanel();renderPreview();updBar()}
+function pxUndo(){if(P.idx>0){P.idx--;restore(P.hist[P.idx].s)}}
+function pxRedo(){if(P.idx<P.hist.length-1){P.idx++;restore(P.hist[P.idx].s)}}
+window.pxUndo=pxUndo;
+function updBar(){$('#pxUndo').disabled=P.idx<=0;$('#pxRedo').disabled=P.idx>=P.hist.length-1;$('#pxSplit').classList.toggle('on',P.split);$('#pxExport').disabled=!P.orig;$('#pxZoomBar').hidden=!P.orig}
+
+/* ---- Yükleme ---- */
+async function loadEdit(img,e,name,noFace){Object.assign(P,{orig:img,fx:defFx(),dev:defDev(),look:'Orijinal',lookAmt:100,texts:[],hist:[],idx:-1,faceActive:null,editFace:false,split:false,hold:false,zoom:1,panX:0,panY:0,crop:null,selText:-1,aiOut:'',name:name||'foto',faceOk:!!e});
+  P.e=e?{...e}:{cx:img.width/2,cy:img.height*.42,rx:img.width*.17,ry:img.width*.21};P.pts=defPts(P.e);
+  setPrev();$('#pxEmpty').hidden=true;ecv.hidden=false;applyZoom();$('#pxName').textContent=P.name+' · '+img.width+'×'+img.height;commit('Fotoğraf açıldı');
+  if(P.tool==='crop')enterCrop();renderPanel();renderPreview();updBar();
+  if(!e&&!noFace){const det=await detectFaceFull(img);if(det&&P.orig===img){P.e=det.e;P.pts=det.pts;P.faceOk=true;P.hist[P.idx].s=snap();if(P.tool==='face')renderPanel();renderPreview()}}}
+async function loadFile(f){if(!f||!/^image\//.test(f.type))return toast('Lütfen bir görsel dosyası seç');try{const c=await fileToCanvas(f,2400);loadEdit(c,null,f.name.replace(/\.[^.]+$/,'').slice(0,40))}catch(err){toast('Bu dosya açılamadı')}}
+async function openFile(){const f=await pickFile('image/*');if(f)loadFile(f)}
+function demoLandscape(){const W=1600,H=1067,c=mk(W,H),x=c.getContext('2d'),hz=H*.62;
+  let g=x.createLinearGradient(0,0,0,hz);g.addColorStop(0,'#33507e');g.addColorStop(.55,'#c9907a');g.addColorStop(1,'#ecc58e');x.fillStyle=g;x.fillRect(0,0,W,hz);
+  const sx=W*.68,sy=hz*.82;g=x.createRadialGradient(sx,sy,0,sx,sy,H*.45);g.addColorStop(0,'rgba(255,240,200,1)');g.addColorStop(.07,'rgba(255,220,160,.8)');g.addColorStop(1,'rgba(255,190,120,0)');x.fillStyle=g;x.fillRect(0,0,W,hz);
+  for(let i=0;i<16;i++){x.fillStyle=`rgba(255,${200+rnd(i)*40|0},${170+rnd(i+1)*50|0},${.15+rnd(i+2)*.2})`;x.beginPath();x.ellipse(rnd(i+3)*W,rnd(i+4)*hz*.55,90+rnd(i+5)*200,14+rnd(i+6)*22,0,0,7);x.fill()}
+  [[.4,'#7b7596',95,.0],[.48,'#55607a',80,1],[.55,'#2e4a44',55,2]].forEach(([b,col,amp,s])=>{x.fillStyle=col;x.beginPath();x.moveTo(0,hz);for(let X=0;X<=W;X+=8){const y=H*b-amp*(.6*Math.sin(X/170+s*2)+.3*Math.sin(X/63+s*5)+.15*Math.sin(X/23+s))-amp*.4;x.lineTo(X,y)}x.lineTo(W,hz);x.fill();
+    const hg=x.createLinearGradient(0,H*b-amp*1.4,0,hz);hg.addColorStop(0,'rgba(236,197,142,.0)');hg.addColorStop(1,`rgba(236,197,142,${.35-s*.1})`);x.fillStyle=hg;x.fillRect(0,H*b-amp*1.4,W,hz-(H*b-amp*1.4))});
+  const t=mk(W,Math.ceil(hz));t.getContext('2d').drawImage(c,0,0);x.save();x.translate(0,hz*2);x.scale(1,-1);x.globalAlpha=.6;x.drawImage(t,0,0);x.restore();
+  x.fillStyle='rgba(25,45,62,.45)';x.fillRect(0,hz,W,H-hz);x.strokeStyle='rgba(255,225,180,.25)';x.lineWidth=1.5;for(let i=0;i<70;i++){const y=hz+rnd(i+40)*(H-hz)*.8,xx=rnd(i+80)*W,l=30+rnd(i+90)*140;x.beginPath();x.moveTo(xx,y);x.lineTo(xx+l,y);x.stroke()}
+  x.fillStyle='#1d2b22';x.beginPath();x.moveTo(0,H);for(let X=0;X<=W;X+=10)x.lineTo(X,H*.93-28*Math.sin(X/120)-14*Math.sin(X/37));x.lineTo(W,H);x.fill();
+  for(let i=0;i<9;i++){const tx=40+i*55+rnd(i+120)*30,th=110+rnd(i+130)*90,by=H*.95;x.fillStyle='#16241b';x.beginPath();x.moveTo(tx,by-th);x.lineTo(tx-th*.22,by);x.lineTo(tx+th*.22,by);x.fill()}
+  const id=x.getImageData(0,0,W,H),D=id.data;let sd=99;for(let i=0;i<D.length;i+=4){sd=(sd*1103515245+12345)&0x7fffffff;const n=(sd/0x7fffffff-.5)*14;for(let k=0;k<3;k++)D[i+k]=128+(D[i+k]-128)*.8+4+n}x.putImageData(id,0,0);return c}
+
+/* ---- Yakınlaştırma & işaretçi ---- */
+function applyZoom(){ecv.style.transform=`translate(${P.panX}px,${P.panY}px) scale(${P.zoom})`;$('#pxZoomV').textContent=Math.round(P.zoom*100)+'%'}
+function setZoom(z,cx,cy){z=cl(z,1,8);if(cx!=null){const r=view.getBoundingClientRect(),ox=cx-(r.left+r.width/2)-P.panX,oy=cy-(r.top+r.height/2)-P.panY,f=z/P.zoom;P.panX-=ox*(f-1);P.panY-=oy*(f-1)}
+  P.zoom=z;if(z===1){P.panX=0;P.panY=0}applyZoom();renderPreview()}
+function evP(ev){const r=ecv.getBoundingClientRect();return{x:(ev.clientX-r.left)*ecv.width/r.width,y:(ev.clientY-r.top)*ecv.height/r.height,s:ecv.width/r.width}}
+function faceAct(p){const s=P.ps,e=P.e,q={x:p.x/s,y:p.y/s},hs=p.s/s;
+  for(const k of ['eyeL','eyeR','mouth','hair']){const t=P.pts[k];if(Math.hypot(q.x-t.x,q.y-t.y)<22*hs)return{move:ev=>{const r=evP(ev);P.pts[k]={x:r.x/s,y:r.y/s};renderPreview()},end:()=>{P.faceOk=true;commit('Yüz noktaları')}}}
+  if(Math.hypot(q.x-(e.cx+e.rx*.7071),q.y-(e.cy+e.ry*.7071))<26*hs){const e0={...e},p0=JSON.parse(JSON.stringify(P.pts));return{move:ev=>{const r=evP(ev),x=r.x/s,y=r.y/s;e.rx=Math.max(10,Math.abs(x-e0.cx)/.7071);e.ry=Math.max(10,Math.abs(y-e0.cy)/.7071);
+    for(const k in P.pts){const t=p0[k];P.pts[k]={x:e0.cx+(t.x-e0.cx)*e.rx/e0.rx,y:e0.cy+(t.y-e0.cy)*e.ry/e0.ry}}renderPreview()},end:()=>commit('Yüz alanı')}}
+  let lx=q.x,ly=q.y;return{move:ev=>{const r=evP(ev),x=r.x/s,y=r.y/s,dx=x-lx,dy=y-ly;e.cx+=dx;e.cy+=dy;for(const k in P.pts){P.pts[k].x+=dx;P.pts[k].y+=dy}lx=x;ly=y;renderPreview()},end:()=>commit('Yüz alanı')}}
+function textHit(p){const w=ecv.width,h=ecv.height;for(let i=P.texts.length-1;i>=0;i--){const t=P.texts[i],b=textBox(t,w,h);if(Math.abs(p.x-t.x*w)<b.w/2+10*p.s&&Math.abs(p.y-t.y*h)<b.h/2+8*p.s)return i}return -1}
+function textAct(p){const i=textHit(p);if(i<0){if(P.selText>=0){P.selText=-1;renderPanel();renderPreview()}return null}P.selText=i;renderPanel();const t=P.texts[i],w=ecv.width,h=ecv.height,dx=p.x/w-t.x,dy=p.y/h-t.y;
+  return{move:ev=>{const r=evP(ev);t.x=cl(r.x/w-dx,0,1);t.y=cl(r.y/h-dy,0,1);renderPreview()},end:()=>commit('Metni taşı')}}
+function healAct(p){const r=P.heal.size/100*ecv.width,pts=[{x:p.x,y:p.y}],mx=P.healMask.getContext('2d');mx.fillStyle=mx.strokeStyle='rgb(255,70,110)';mx.lineCap=mx.lineJoin='round';mx.lineWidth=r*2;
+  mx.beginPath();mx.arc(p.x,p.y,r,0,7);mx.fill();renderPreview();
+  return{move:ev=>{const q=evP(ev),l=pts[pts.length-1];pts.push({x:q.x,y:q.y});mx.beginPath();mx.moveTo(l.x,l.y);mx.lineTo(q.x,q.y);mx.stroke();renderPreview()},end:()=>applyHeal(pts,r),cancel:()=>{mx.clearRect(0,0,P.healMask.width,P.healMask.height);renderPreview()}}}
+function cropAct(p){const C=P.crop,w=ecv.width,h=ecv.height,R={x:C.r.x*w,y:C.r.y*h,w:C.r.w*w,h:C.r.h*h},hr=30*p.s;
+  for(const [cx,cy,ax,ay] of [[R.x,R.y,R.x+R.w,R.y+R.h],[R.x+R.w,R.y,R.x,R.y+R.h],[R.x,R.y+R.h,R.x+R.w,R.y],[R.x+R.w,R.y+R.h,R.x,R.y]])
+    if(Math.hypot(p.x-cx,p.y-cy)<hr)return{move:ev=>{const q=evP(ev),x=cl(q.x,0,w),y=cl(q.y,0,h);let rw=Math.abs(x-ax),rh=Math.abs(y-ay);if(C.ar){if(rw/rh>C.ar)rw=rh*C.ar;else rh=rw/C.ar}
+      rw=Math.max(30,rw);rh=Math.max(30,rh);const nx=x<ax?ax-rw:ax,ny=y<ay?ay-rh:ay;if(nx<-.5||ny<-.5||nx+rw>w+.5||ny+rh>h+.5)return;C.r={x:nx/w,y:ny/h,w:rw/w,h:rh/h};renderPreview()}};
+  if(p.x>R.x&&p.x<R.x+R.w&&p.y>R.y&&p.y<R.y+R.h){const sx=p.x,sy=p.y,r0={...C.r};return{move:ev=>{const q=evP(ev);C.r.x=cl(r0.x+(q.x-sx)/w,0,1-r0.w);C.r.y=cl(r0.y+(q.y-sy)/h,0,1-r0.h);renderPreview()}}}
+  return null}
+function startAct(ev){const p=evP(ev),w=ecv.width;
+  if(P.split&&P.tool!=='crop'&&Math.abs(p.x-P.splitX*w)<24*p.s)return{move:e=>{P.splitX=cl(evP(e).x/w,0,1);renderPreview()}};
+  if(P.tool==='crop'&&P.crop){const a=cropAct(p);if(a)return a}
+  else if(P.tool==='heal')return healAct(p);
+  else if(P.tool==='face'&&P.editFace)return faceAct(p);
+  else if(P.tool==='text'){const a=textAct(p);if(a)return a}
+  if(P.zoom>1){const sx=ev.clientX,sy=ev.clientY,px=P.panX,py=P.panY;return{move:e=>{P.panX=px+e.clientX-sx;P.panY=py+e.clientY-sy;applyZoom()}}}
+  return null}
+const ptrs=new Map();let pinch=null,act=null;
+view.addEventListener('pointerdown',ev=>{if(!P.orig||ev.target.closest('.px-zoom,.px-empty'))return;ptrs.set(ev.pointerId,{x:ev.clientX,y:ev.clientY});try{view.setPointerCapture(ev.pointerId)}catch(e){}
+  if(ptrs.size===2){if(act&&act.cancel)act.cancel();act=null;const [a,b]=[...ptrs.values()];pinch={d:Math.hypot(a.x-b.x,a.y-b.y)||1,z:P.zoom,px:P.panX,py:P.panY,mx:(a.x+b.x)/2,my:(a.y+b.y)/2};return}
+  if(ptrs.size>2)return;act=startAct(ev);ev.preventDefault()});
+view.addEventListener('pointermove',ev=>{if(!ptrs.has(ev.pointerId))return;ptrs.set(ev.pointerId,{x:ev.clientX,y:ev.clientY});
+  if(pinch&&ptrs.size===2){const [a,b]=[...ptrs.values()];P.zoom=cl(pinch.z*Math.hypot(a.x-b.x,a.y-b.y)/pinch.d,1,8);P.panX=pinch.px+((a.x+b.x)/2-pinch.mx);P.panY=pinch.py+((a.y+b.y)/2-pinch.my);if(P.zoom===1){P.panX=P.panY=0}applyZoom();return}
+  if(act&&act.move)act.move(ev)});
+const endP=ev=>{ptrs.delete(ev.pointerId);if(ptrs.size<2&&pinch){pinch=null;renderPreview()}if(!ptrs.size&&act){const a=act;act=null;a.end&&a.end()}};
+view.addEventListener('pointerup',endP);view.addEventListener('pointercancel',endP);
+view.addEventListener('wheel',ev=>{if(!P.orig)return;ev.preventDefault();setZoom(P.zoom*(ev.deltaY<0?1.12:1/1.12),ev.clientX,ev.clientY)},{passive:false});
+view.addEventListener('dblclick',ev=>{if(!P.orig||!['ai','adjust','looks','history'].includes(P.tool))return;setZoom(P.zoom>1?1:2.5,ev.clientX,ev.clientY)});
+['dragenter','dragover'].forEach(t=>view.addEventListener(t,ev=>{ev.preventDefault();$('.px-drop')&&$('.px-drop').classList.add('over')}));
+view.addEventListener('dragleave',()=>{$('.px-drop')&&$('.px-drop').classList.remove('over')});
+view.addEventListener('drop',ev=>{ev.preventDefault();$('.px-drop')&&$('.px-drop').classList.remove('over');const f=ev.dataTransfer&&ev.dataTransfer.files[0];if(f)loadFile(f)});
+
+/* ---- Kırpma, döndürme, rötuş ---- */
+function enterCrop(){if(!P.orig)return;P.crop={ang:0,r:{x:0,y:0,w:1,h:1},ar:null,arName:'Serbest',base:renderEdited(P.prev,P.ps,true)}}
+function setAspect(ar,name){const C=P.crop;if(!C)return;const w=ecv.width,h=ecv.height;C.ar=ar;C.arName=name;if(!ar)C.r={x:0,y:0,w:1,h:1};else{let rw=w,rh=w/ar;if(rh>h){rh=h;rw=h*ar}C.r={x:(w-rw)/2/w,y:(h-rh)/2/h,w:rw/w,h:rh/h}}renderPreview()}
+function applyCrop(){const C=P.crop;if(!C)return;const o=P.orig,W=o.width,H=o.height,a=C.ang*Math.PI/180,k=cropK(W,H,a),R=mk(W,H);drawRotated(R.getContext('2d'),o,a);
+  const cx=Math.round(C.r.x*W),cy=Math.round(C.r.y*H),cw=Math.max(8,Math.round(C.r.w*W)),ch=Math.max(8,Math.round(C.r.h*H)),n=mk(cw,ch);n.getContext('2d').drawImage(R,cx,cy,cw,ch,0,0,cw,ch);
+  const ca=Math.cos(a),sa=Math.sin(a),mp=p=>{const dx=(p.x-W/2)*k,dy=(p.y-H/2)*k;return{x:W/2+dx*ca-dy*sa-cx,y:H/2+dx*sa+dy*ca-cy}};
+  const c0=mp({x:P.e.cx,y:P.e.cy});P.e={cx:c0.x,cy:c0.y,rx:P.e.rx*k,ry:P.e.ry*k};for(const kk in P.pts)P.pts[kk]=mp(P.pts[kk]);
+  P.orig=n;setPrev();$('#pxName').textContent=P.name+' · '+cw+'×'+ch;commit('Kırp');enterCrop();renderPanel();renderPreview();toast('Kırpıldı')}
+function geoOp(fn,mapP,swap,flipLR,label){const W=P.orig.width,H=P.orig.height,n=fn(P.orig),mp=p=>mapP(p,W,H),c0=mp({x:P.e.cx,y:P.e.cy});
+  P.e={cx:c0.x,cy:c0.y,rx:swap?P.e.ry:P.e.rx,ry:swap?P.e.rx:P.e.ry};for(const k in P.pts)P.pts[k]=mp(P.pts[k]);if(flipLR){const t=P.pts.eyeL;P.pts.eyeL=P.pts.eyeR;P.pts.eyeR=t}
+  P.orig=n;setPrev();commit(label);if(P.tool==='crop')enterCrop();renderPanel();renderPreview()}
+function inpaint(c,M,bb){const W=c.width,H=c.height,r=Math.max(bb.x1-bb.x0,bb.y1-bb.y0)/2+2,pad=Math.ceil(r*2.4+14);
+  const X0=Math.max(0,Math.floor(bb.x0-pad)),Y0=Math.max(0,Math.floor(bb.y0-pad)),X1=Math.min(W,Math.ceil(bb.x1+pad)),Y1=Math.min(H,Math.ceil(bb.y1+pad)),rw=X1-X0,rh=Y1-Y0;if(rw<3||rh<3)return;
+  const x=c.getContext('2d',{willReadFrequently:true}),id=x.getImageData(X0,Y0,rw,rh),D=id.data,md=M.getContext('2d').getImageData(X0,Y0,rw,rh).data,N=rw*rh;
+  let m=new Uint8Array(N);for(let i=0;i<N;i++)m[i]=md[i*4+3]>40?1:0;
+  for(let it=0;it<2;it++){const m2=m.slice();for(let y=1;y<rh-1;y++)for(let xx=1;xx<rw-1;xx++){const i=y*rw+xx;if(!m[i]&&(m[i-1]||m[i+1]||m[i-rw]||m[i+rw]))m2[i]=1}m=m2}
+  const masked=[],ring=[],ring2=[];
+  for(let y=0;y<rh;y++)for(let xx=0;xx<rw;xx++){const i=y*rw+xx;if(m[i]){masked.push(i);continue}
+    if((xx>0&&m[i-1])||(xx<rw-1&&m[i+1])||(y>0&&m[i-rw])||(y<rh-1&&m[i+rw]))ring.push(i);
+    else{let near=false;for(let dy=-3;dy<=3&&!near;dy+=3)for(let dx=-3;dx<=3;dx+=3){const X=xx+dx,Y=y+dy;if(X>=0&&Y>=0&&X<rw&&Y<rh&&m[Y*rw+X]){near=true;break}}if(near)ring2.push(i)}}
+  if(!masked.length)return;const cmp=ring.concat(ring2);let best=null,bestE=Infinity;
+  for(const dist of [r*1.5+4,r*2.2+6])for(let k=0;k<16;k++){const a=k/16*Math.PI*2,ox=Math.round(Math.cos(a)*dist),oy=Math.round(Math.sin(a)*dist);let ok=true;
+    for(let j=0;j<masked.length;j+=5){const i=masked[j],X=i%rw+ox,Y=(i/rw|0)+oy;if(X<0||Y<0||X>=rw||Y>=rh||m[Y*rw+X]){ok=false;break}}if(!ok)continue;
+    let E=0,n=0;for(let j=0;j<cmp.length;j+=2){const i=cmp[j],X=i%rw+ox,Y=(i/rw|0)+oy;if(X<0||Y<0||X>=rw||Y>=rh)continue;const o=Y*rw+X;if(m[o])continue;const a4=i*4,b4=o*4;E+=(D[a4]-D[b4])**2+(D[a4+1]-D[b4+1])**2+(D[a4+2]-D[b4+2])**2;n++}
+    if(n<5)continue;E/=n;if(E<bestE){bestE=E;best=[ox,oy]}}
+  const V=new Float32Array(N*3),K=new Uint8Array(N),pv=(i,ch)=>{if(!best)return 0;const X=i%rw+best[0],Y=(i/rw|0)+best[1];if(X<0||Y<0||X>=rw||Y>=rh)return 0;return D[(Y*rw+X)*4+ch]};
+  ring.forEach(i=>{for(let ch=0;ch<3;ch++)V[i*3+ch]=D[i*4+ch]-pv(i,ch);K[i]=1});
+  let rem=masked.slice(),guard=0;
+  while(rem.length&&guard++<5000){const nx=[],up=[];for(const i of rem){const xx=i%rw,y=i/rw|0;let s0=0,s1=0,s2=0,n=0;
+      for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if(!dx&&!dy)continue;const X=xx+dx,Y=y+dy;if(X<0||Y<0||X>=rw||Y>=rh)continue;const o=Y*rw+X;if(K[o]){s0+=V[o*3];s1+=V[o*3+1];s2+=V[o*3+2];n++}}
+      if(n)up.push([i,s0/n,s1/n,s2/n]);else nx.push(i)}
+    if(!up.length)break;up.forEach(([i,a,b,cc])=>{V[i*3]=a;V[i*3+1]=b;V[i*3+2]=cc;K[i]=1});rem=nx}
+  for(let it=0;it<30;it++)for(const i of masked){const xx=i%rw,y=i/rw|0;let s0=0,s1=0,s2=0,n=0;for(const o of [xx>0?i-1:-1,xx<rw-1?i+1:-1,y>0?i-rw:-1,y<rh-1?i+rw:-1]){if(o<0||!K[o])continue;s0+=V[o*3];s1+=V[o*3+1];s2+=V[o*3+2];n++}if(n){V[i*3]=s0/n;V[i*3+1]=s1/n;V[i*3+2]=s2/n}}
+  for(const i of masked)for(let ch=0;ch<3;ch++)D[i*4+ch]=pv(i,ch)+V[i*3+ch];
+  x.putImageData(id,X0,Y0)}
+function applyHeal(pts,r){const s=P.ps,W=P.orig.width,H=P.orig.height,M=mk(W,H),mx=M.getContext('2d'),R=r/s;mx.strokeStyle=mx.fillStyle='#fff';mx.lineCap=mx.lineJoin='round';mx.lineWidth=2*R;
+  mx.beginPath();mx.moveTo(pts[0].x/s,pts[0].y/s);pts.forEach(q=>mx.lineTo(q.x/s,q.y/s));mx.stroke();mx.beginPath();mx.arc(pts[0].x/s,pts[0].y/s,R,0,7);mx.fill();
+  const xs=pts.map(q=>q.x/s),ys=pts.map(q=>q.y/s),bb={x0:Math.min(...xs)-R,y0:Math.min(...ys)-R,x1:Math.max(...xs)+R,y1:Math.max(...ys)+R};
+  const n=clone(P.orig);inpaint(n,M,bb);P.orig=n;setPrev();commit('Leke silme');renderPreview()}
+
+/* ---- Otomatik iyileştirme ---- */
+function autoEnhance(){const src=P.prev,t=mk(200,Math.max(1,Math.round(200*src.height/src.width)));t.getContext('2d').drawImage(src,0,0,t.width,t.height);const d=t.getContext('2d').getImageData(0,0,t.width,t.height).data;
+  const Hh=new Array(256).fill(0);let sr=0,sg=0,sb=0,n=0;for(let i=0;i<d.length;i+=4){Hh[Math.round(lum(d[i],d[i+1],d[i+2]))]++;sr+=d[i];sg+=d[i+1];sb+=d[i+2];n++}
+  const pct=p=>{let a=0;for(let i=0;i<256;i++){a+=Hh[i];if(a>=p*n)return i}return 255},p1=pct(.01),p50=pct(.5),p99=pct(.99),clip=Hh.slice(250).reduce((a,b)=>a+b,0)/n,mr=sr/n,mg=sg/n,mb=sb/n,avg=(mr+mg+mb)/3||1;
+  const v={exposure:Math.round(cl((120-p50)/120*55,-40,55)),contrast:Math.round(cl((.78-(p99-p1)/255)*70,-5,35)),whites:Math.round(p99<235?cl((235-p99)/2.2,0,35):0),blacks:Math.round(p1>10?-cl((p1-10)/1.4,0,35):0),
+    highlights:clip>.02?-35:-12,shadows:p50<100?25:12,temp:Math.round(cl((mb-mr)/avg*90,-30,30)),tint:Math.round(cl((mg-(mr+mb)/2)/avg*120,-20,20)),vibrance:22,clarity:12,sharpen:18,dehaze:p1>28?15:0};
+  Object.assign(P.dev,v);if(P.faceOk){P.fx.smooth=Math.max(P.fx.smooth,25);P.fx.undereye=Math.max(P.fx.undereye,15)}
+  commit('Otomatik iyileştir');renderPanel();renderPreview();
+  return Object.entries(v).filter(([k,x])=>x).map(([k,x])=>`${DEV.find(q=>q[0]===k)[1]} ${x>0?'+':''}${x}`).concat(P.faceOk?['Cilt rötuşu']:[])}
+
+/* ---- AI asistan ---- */
+function summarize(p){const out=[];for(const [k,v] of Object.entries(p.dev||{})){const d=DEV.find(x=>x[0]===k);if(d&&v)out.push(`${d[1]} ${v>0?'+':''}${Math.round(v)}`)}
+  if(p.look&&LOOKS[p.look]&&p.look!=='Orijinal')out.push('Görünüm: '+p.look);for(const k in (p.hsl||{})){const c=HSLC.find(c=>c[0]===k);if(c)out.push(c[1]+' tonları')}
+  if(p.grade&&(p.grade.ss||p.grade.hs))out.push('Renk derecelendirme');for(const [k,v] of Object.entries(p.face||{}))if(FXN[k]&&v)out.push(FXN[k]);return out.slice(0,10)}
+function pxPrompt(q,hasImg){const nz=o=>Object.fromEntries(Object.entries(o).filter(([k,v])=>typeof v==='number'&&v));
+  return `Sen "Pixtudio" adlı profesyonel fotoğraf düzenleme uygulamasının yapay zekâ rötuş uzmanısın. ${hasImg?'Ekteki fotoğrafı dikkatle incele (ışık, renk, beyaz dengesi, konu, kompozisyon, yüz olup olmadığı).':'Fotoğrafı göremiyorsun; yalnızca komuta göre karar ver.'} Kullanıcının isteğine göre düzenleme ayarlarını belirle ve YALNIZCA JSON döndür.
+Kullanıcının isteği: "${(q||'Bu fotoğrafı profesyonel bir editör gibi en iyi hâline getir.').slice(0,600)}"
+Ayarlar (mutlak değerler): ${DEV.map(d=>`${d[0]}(${d[1]}, ${d[2]}..${d[3]})`).join(', ')}. vignette negatifse kenarları karartır.
+hsl renkleri: ${HSLC.map(c=>c[0]+'='+c[1]).join(', ')}; her biri {"h":-100..100,"s":-100..100,"l":-100..100}.
+grade (renk derecelendirme): {"sh": gölge tonu 0-360, "ss": 0-100, "hh": parlak alan tonu 0-360, "hs": 0-100}.
+look (hazır görünüm): ${Object.keys(LOOKS).join(', ')}; lookStrength 0-100.
+face (yüz efektleri 0-100, yalnızca fotoğrafta belirgin bir yüz varsa): ${FXKEYS.map(k=>k+'='+FXN[k]).join(', ')}. hairColor: ${Object.keys(HAIR_COLORS).join('/')}; beardColor: ${Object.keys(BEARD_COLORS).join('/')}; lipColor: ${Object.keys(LIP_COLORS).join('/')}.
+crop: "1:1" | "4:5" | "16:9" | "9:16" | null (yalnızca istenirse ya da kompozisyon belirgin şekilde iyileşecekse).
+Şu anki ayarlar: ${JSON.stringify({dev:nz(P.dev),look:P.look,face:nz(P.fx)})}
+JSON şeması: {"reply":"1-2 kısa Türkçe cümle: ne gördün ve ne yaptın","changes":["kısa Türkçe madde, en fazla 6"],"dev":{},"hsl":{},"grade":{},"look":"","lookStrength":100,"face":{},"hairColor":"","beardColor":"","lipColor":"","crop":null,"refuse":false,"reason":""}
+Kurallar: Yalnızca değiştirmek istediğin alanları yaz; dev değerleri mutlaktır. Doğal ve profesyonel sonuç hedefle, genelde ±40 içinde kal; kullanıcı belirgin bir stil isterse daha cesur olabilirsin. Kullanıcı istemedikçe yüz efektlerini hafif tut (en fazla 30). Yanıltıcı amaçlı istekleri (ör. sahte kimlik belgesi fotoğrafı) refuse:true ile reddet.`}
+function pxLocalPlan(q){const s=q.toLocaleLowerCase('tr'),has=(...w)=>w.some(x=>s.includes(x)),p={dev:{},face:{},hsl:{}},D=p.dev;
+  const k=has('çok','iyice','aşırı','bayağı')?1.5:has('biraz','hafif','azıcık')?.5:1,v=n=>Math.round(cl(n*k,-100,100)),off=has('kaldır','çıkar','kapat','olmasın','istemiyorum');
+  if(has('sıfırla','orijinal','baştan'))p.reset=true;
+  if(has('aydınlat','daha parlak','parlak yap','açık yap','parlat'))Object.assign(D,{exposure:v(28),shadows:v(20)});
+  if(has('karart','koyulaştır','daha karanlık'))D.exposure=v(-25);
+  if(has('kontrast'))D.contrast=v(30);if(has('sıcak'))D.temp=v(30);if(has('soğuk')&&!has('soğuk sabah'))D.temp=v(-30);
+  if(has('canlı','renkli','doygun'))Object.assign(D,{vibrance:v(35),saturation:v(10)});
+  if(has('net','keskin','detay'))Object.assign(D,{clarity:v(28),sharpen:v(35)});
+  if(has('pus','sis'))D.dehaze=v(30);if(has('vinyet','kenarları karart'))D.vignette=v(-35);if(has('gren'))D.grain=v(25);
+  if(!has('saç')){if(has('gökyüzü','gök ','mavi'))Object.assign(p.hsl,{blue:{h:0,s:v(30),l:v(-15)},aqua:{h:0,s:v(20),l:0}});if(has('yeşil','doğa','yaprak','orman'))p.hsl.green={h:0,s:v(25),l:v(-5)}}
+  for(const [w,n] of [['sinematik','Sinematik'],['gün batımı','Altın Saat'],['altın saat','Altın Saat'],['film','Film 400'],['mat ','Mat'],['siyah beyaz','Noir'],['siyah-beyaz','Noir'],['noir','Noir'],['pastel','Pastel'],['moody','Moody'],['karamsar','Moody'],['retro','Retro 70'],['vintage','Retro 70'],['nostalji','Retro 70'],['soğuk sabah','Soğuk Sabah'],['yaz ','Yaz'],['yaz havası','Yaz'],['doğal','Doğal']])
+    if(has(w)&&!has('arka plan')){p.look=n;break}
+  const fv=off?0:has('biraz','hafif')?35:has('çok','iyice')?85:60;
+  [[['gülümse','gülümset','gülsün'],'smile'],[['yaşlandır','yaşlı','ihtiyar'],'old'],[['gençleştir','genç'],'young'],[['pürüzsüz','cildi'],'smooth'],[['ışıltı','ışıl'],'glow'],[['göz alt'],'undereye'],[['diş'],'teeth'],[['kaş'],'brow'],[['güneş gözlü'],'sunglasses'],[['ruj','dudak'],'lips'],[['allık'],'blush'],[['göz kalem','eyeliner'],'liner'],[['iri göz','büyük göz'],'bigeyes'],[['ince yüz','yüzü incelt'],'slim'],[['burun'],'nose'],[['arka planı bulanık','arka plan bulanık','portre modu','bokeh'],'bgblur'],[['arka planı siyah','s/b arka'],'bggray'],[['bıyık'],'mustache'],[['keçi'],'goatee']]
+    .forEach(([ws,key])=>{if(has(...ws))p.face[key]=fv});
+  if(has('sakal')&&!has('keçi'))p.face.beard=fv;if(has('gözlük')&&!has('güneş gözlü'))p.face.glasses=fv;
+  if(has('saç','sarışın')){for(const n of Object.keys(HAIR_COLORS))if(has(n.toLocaleLowerCase('tr'))){p.hairColor=n;p.face.hair=off?0:80;break}if(has('sarışın')){p.hairColor='Sarı';p.face.hair=80}}
   for(const n of Object.keys(LIP_COLORS))if(has(n.toLocaleLowerCase('tr')+' ruj'))p.lipColor=n;
-  for(const n of Object.keys(BEARD_COLORS))if(has(n.toLocaleLowerCase('tr')+' sakal'))p.beardColor=n;
-  const pr={'vintage':'Vintage','siyah beyaz':'S/B','dramatik':'Dramatik','canlı':'Canlı','soluk':'Soluk','sıcak':'Sıcak','soğuk':'Soğuk'};for(const k in pr)if(has(k)&&!has('arka plan'))p.preset=pr[k];
-  if(has('sıfırla','temizle','orijinal'))p.reset=true;
-  const ks=Object.keys(ef).filter(k=>ef[k]>0);p.reply=ks.length?'Uygulandı: '+ks.map(k=>FXN[k]).join(', ')+'.':p.reset?'Fotoğraf orijinal hâline döndü.':Object.keys(ef).length?'İstenen efektler kapatıldı.':p.preset?p.preset+' filtresi uygulandı.':'Bu komuttan efekt çıkaramadım. Örn: "gülümset, sarı saç ve güneş gözlüğü".';
-  return p}
-function applyPhotoPlan(p){if(!p||typeof p!=='object')throw new Error('plan');if(p.refuse){$('#paiMsg').textContent='🚫 '+(p.reason||'Bu isteği uygulayamam.');return}
-  if(p.reset){FE.fx=defFx();FE.adj=defAdj();FE.preset='Orijinal'}let lastK=null;
-  for(const [k,v] of Object.entries(p.effects||{}))if(FXKEYS.includes(k)){FE.fx[k]=Math.round(cl(Number(v)||0,0,100));if(FE.fx[k]>0)lastK=k}
-  if(HAIR_COLORS[p.hairColor])FE.col.hair=HAIR_COLORS[p.hairColor];if(BEARD_COLORS[p.beardColor])FE.col.beard=BEARD_COLORS[p.beardColor];if(LIP_COLORS[p.lipColor])FE.col.lips=LIP_COLORS[p.lipColor];
-  if(PRESETS[p.preset]){FE.adj={...defAdj(),...PRESETS[p.preset]};FE.preset=p.preset}
-  if(lastK){FE.active=lastK;const c=CATS.find(c=>(c.opts&&c.opts.some(o=>o[0]===lastK))||(c.hair&&lastK==='hair'));if(c)FE.cat=c.id}else FE.active=null;
-  renderCats();upd();$('#paiMsg').textContent='✨ '+(p.reply||'Uygulandı.')}
-async function runPhotoAI(){const q=$('#paiIn').value.trim();if(!q)return toast('Ne yapmak istediğini yaz');
-  if(!FE.orig){const d=demoPhoto('B');await loadEdit(d.img,d.e);toast('Demo fotoğrafla denendi — kendi fotoğrafını 📂 ile yükleyebilirsin')}
-  const go=$('#paiGo');go.disabled=true;$('#paiMsg').textContent=(typeof AI!=='undefined'&&AI)?'Claude düşünüyor…':'Komut çözülüyor…';let plan=null;
-  if(typeof AI!=='undefined'&&AI){try{plan=await AI.json(photoPrompt(q),{modelTier:'quick',cache:false})}catch(e){const c=e&&e.code;
-    if(c==='refused'){$('#paiMsg').textContent='🚫 Bu isteği uygulayamam.';go.disabled=false;return}
-    if(['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(c)){AI=null;setBadge()}plan=localPhotoPlan(q)}}
-  else plan=localPhotoPlan(q);
-  try{applyPhotoPlan(plan)}catch(e){applyPhotoPlan(localPhotoPlan(q))}go.disabled=false;$('#paiIn').value=''}
-$('#paiGo').onclick=runPhotoAI;$('#paiIn').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();runPhotoAI()}});
+  const any=Object.keys(D).length||p.look||Object.keys(p.face).length||Object.keys(p.hsl).length;
+  if(!any&&!p.reset){if(has('otomatik','iyileştir','düzelt','güzelleştir','profesyonel','en iyi'))p.auto=true;else p.none=true}
+  p.changes=summarize(p);p.reply=p.reset&&!p.changes.length?'Fotoğraf orijinal hâline döndü.':'Komutuna göre düzenledim.';return p}
+function aiShow(msg,changes){P.aiOut=`<div class="ai-res"><div>${esc(msg)}</div>${changes&&changes.length?'<div class="ai-tags">'+changes.map(c=>`<span>${esc(c)}</span>`).join('')+'</div>':''}${P.orig?'<button class="btn sm" onclick="pxUndo()">↶ Geri al</button>':''}</div>`;const o=$('#pxAiOut');if(o)o.innerHTML=P.aiOut}
+function applyPxPlan(p,label){if(!p||typeof p!=='object')throw new Error('plan');if(p.refuse){aiShow('🚫 '+(p.reason||'Bu isteği uygulayamam.'));return}
+  if(p.reset){P.dev=defDev();P.fx=defFx();P.look='Orijinal';P.lookAmt=100}
+  for(const [k,v] of Object.entries(p.dev||{})){const d=DEV.find(x=>x[0]===k);if(d)P.dev[k]=Math.round(cl(+v||0,d[2],d[3]))}
+  for(const [k,v] of Object.entries(p.hsl||{})){if(!P.dev.hsl[k]||!v||typeof v!=='object')continue;['h','s','l'].forEach(a=>{if(v[a]!=null)P.dev.hsl[k][a]=Math.round(cl(+v[a]||0,-100,100))})}
+  const g=p.grade||{};['sh','hh'].forEach(a=>{if(g[a]!=null)P.dev.grade[a]=Math.round((((+g[a]||0)%360)+360)%360)});['ss','hs'].forEach(a=>{if(g[a]!=null)P.dev.grade[a]=Math.round(cl(+g[a]||0,0,100))});
+  if(p.look&&LOOKS[p.look]){P.look=p.look;P.lookAmt=Math.round(cl(p.lookStrength!=null?+p.lookStrength:100,0,100))}
+  for(const [k,v] of Object.entries(p.face||{}))if(FXKEYS.includes(k))P.fx[k]=Math.round(cl(+v||0,0,100));
+  if(HAIR_COLORS[p.hairColor])P.col.hair=HAIR_COLORS[p.hairColor];if(BEARD_COLORS[p.beardColor])P.col.beard=BEARD_COLORS[p.beardColor];if(LIP_COLORS[p.lipColor])P.col.lips=LIP_COLORS[p.lipColor];
+  commit('AI: '+String(label).slice(0,30));renderPanel();renderPreview();
+  aiShow('✨ '+(p.reply||'Düzenleme uygulandı.'),Array.isArray(p.changes)&&p.changes.length?p.changes.slice(0,8).map(String):summarize(p));
+  const ars={'1:1':1,'4:5':.8,'16:9':16/9,'9:16':9/16};if(p.crop&&ars[p.crop]){setTool('crop');setAspect(ars[p.crop],p.crop);renderPanel();toast('AI '+p.crop+' kırpma önerdi — beğenirsen “Uygula”ya bas')}}
+function jpegBlob(src,max){return new Promise(r=>{const s=Math.min(1,max/Math.max(src.width,src.height)),c=mk(Math.round(src.width*s),Math.round(src.height*s));c.getContext('2d').drawImage(src,0,0,c.width,c.height);c.toBlob(r,'image/jpeg',.85)})}
+let pxBusy=false;
+async function runPxAI(vision){if(pxBusy)return;const inp=$('#pxAiIn'),q=(inp&&inp.value.trim())||'';if(!vision&&!q)return toast('Ne istediğini yaz');
+  if(!P.orig)loadEdit(demoLandscape(),null,'manzara',true);
+  pxBusy=true;const out=$('#pxAiOut');if(out)out.innerHTML=`<div class="ai-res thinking"><span class="spin"></span> ${AI?'Claude fotoğrafını inceliyor…':'Komut çözülüyor…'}</div>`;
+  let plan=null;
+  if(AI){try{let imgs=null;try{const lim=await AI.limits();if(lim&&lim.images)imgs=[await jpegBlob(P.prev,1024)]}catch(e){}
+      plan=await AI.json(pxPrompt(q,!!imgs),imgs?{images:imgs,cache:false}:{cache:false})}
+    catch(e){const c=e&&e.code;if(c==='refused'){aiShow('🚫 Bu isteği uygulayamam.');pxBusy=false;return}
+      if(['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(c)){AI=null;setBadge()}if(c==='rate_limited')toast('Çok sık istek — yerel mod kullanıldı')}}
+  if(!plan){if(vision&&!q){const ch=autoEnhance();aiShow('⚡ Otomatik iyileştirme uygulandı (yerel mod).',ch);pxBusy=false;return}plan=pxLocalPlan(q)}
+  if(plan.auto){const ch=autoEnhance();aiShow('⚡ Otomatik iyileştirme uygulandı.',ch)}
+  else if(plan.none)aiShow('Bu komuttan bir düzenleme çıkaramadım. Örn: “daha sinematik yap”, “gökyüzünü maviye çek”, “gülümset”.');
+  else{try{applyPxPlan(plan,q||'Analiz')}catch(e){applyPxPlan(pxLocalPlan(q),q)}}
+  if(inp&&!vision)inp.value='';pxBusy=false}
+
+/* ---- Paneller ---- */
+function sld(label,min,max,get,set,o={}){const wrap=document.createElement('div');wrap.className='sld';const f=o.fmt||(v=>(min<0&&v>0?'+':'')+v),v0=get();
+  wrap.innerHTML=`<div class="sld-h"><span>${label}</span><output>${f(v0)}</output></div><input type="range" min="${min}" max="${max}" step="${o.step||1}" value="${v0}">`;
+  const i=wrap.querySelector('input'),out=wrap.querySelector('output');if(o.grad)i.style.background=o.grad;
+  i.addEventListener('input',()=>{set(+i.value);out.textContent=f(+i.value);renderPreview()});if(!o.nocommit)i.addEventListener('change',()=>commit(o.label||label));
+  wrap.querySelector('.sld-h').addEventListener('dblclick',()=>{const d=o.def!=null?o.def:(min<0?0:min);i.value=d;set(d);out.textContent=f(d);renderPreview();if(!o.nocommit)commit((o.label||label)+' sıfırla')});return wrap}
+function secBox(b,title,onReset){const s=document.createElement('div');s.className='sec';s.innerHTML=`<div class="sec-h"><span>${title}</span>${onReset?'<button class="lnk">Sıfırla</button>':''}</div>`;if(onReset)s.querySelector('.lnk').onclick=onReset;b.appendChild(s);return s}
+function renderRail(){const r=$('#pxRail');r.innerHTML='';TOOLS.forEach(([t,n])=>{const b=document.createElement('button');b.className='rb'+(P.tool===t?' on':'');b.innerHTML=ic(t)+`<span>${n}</span>`;b.onclick=()=>setTool(t);r.appendChild(b)})}
+function setTool(t){if(P.tool==='crop'&&t!=='crop')P.crop=null;if(t!=='face')P.editFace=false;if(t!=='text')P.selText=-1;P.tool=t;if(t==='crop'&&P.orig)enterCrop();view.classList.toggle('brush',t==='heal');renderRail();renderPanel();renderPreview()}
+function renderPanel(){$('#pxTitle').textContent=TOOL_TITLES[P.tool];const b=$('#pxPanel');b.innerHTML='';
+  if(!P.orig&&P.tool!=='ai'){b.innerHTML='<p class="muted">Başlamak için bir fotoğraf aç.</p>';return}
+  ({ai:panelAI,adjust:panelAdjust,looks:panelLooks,face:panelFace,crop:panelCrop,heal:panelHeal,text:panelText,history:panelHistory})[P.tool](b)}
+function panelAI(b){b.insertAdjacentHTML('beforeend',`<div class="ai-hero"><button class="btn grad big" id="aiAuto">${ic('ai')} Tek dokunuşla iyileştir</button><button class="btn big" id="aiVision">${ic('eye')} AI fotoğrafı incelesin ve düzenlesin</button></div>
+  <div class="ai-ask"><textarea id="pxAiIn" rows="2" placeholder="Ne istediğini yaz… örn: daha sinematik yap, gökyüzünü maviye çek"></textarea><button class="btn pri" id="pxAiGo">Gönder</button></div>
+  <div class="chips2" id="pxChips"></div><div id="pxAiOut">${P.aiOut||''}</div><p class="muted small" style="margin-top:12px">${AI?'<span class="dotlive"></span> Claude AI bağlı — fotoğrafını görerek düzenler.':'Yerel mod: komutlar anahtar kelimelerle anlaşılır. Pixtudio Claude içinde açıldığında AI fotoğrafını görerek düzenler.'}</p>`);
+  ['Daha sinematik yap','Gün batımı tonları','Portreyi parlat, cildi pürüzsüzleştir','Canlı ve net yap','Siyah beyaz, dramatik','Pastel ve yumuşak','Gökyüzünü maviye çek','Yaz havası ver'].forEach(t=>{const c=document.createElement('button');c.className='chip';c.textContent=t;c.onclick=()=>{$('#pxAiIn').value=t;runPxAI()};$('#pxChips').appendChild(c)});
+  $('#aiAuto').onclick=()=>{if(!P.orig)loadEdit(demoLandscape(),null,'manzara',true);const ch=autoEnhance();aiShow('⚡ Otomatik iyileştirme uygulandı.',ch)};
+  $('#aiVision').onclick=()=>runPxAI(true);$('#pxAiGo').onclick=()=>runPxAI();$('#pxAiIn').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();runPxAI()}}}
+function panelAdjust(b){
+  const group=(title,keys)=>{const s=secBox(b,title,()=>{keys.forEach(k=>P.dev[k]=0);commit(title+' sıfırla');renderPanel();renderPreview()});keys.forEach(k=>{const d=DEV.find(x=>x[0]===k);s.appendChild(sld(d[1],d[2],d[3],()=>P.dev[k],v=>P.dev[k]=v,{grad:GRADS[k]}))})};
+  group('Işık',['exposure','contrast','highlights','shadows','whites','blacks']);group('Renk',['temp','tint','vibrance','saturation']);
+  const hs=secBox(b,'Renk karışımı (HSL)',()=>{HSLC.forEach(c=>P.dev.hsl[c[0]]={h:0,s:0,l:0});commit('HSL sıfırla');renderPanel();renderPreview()}),dots=document.createElement('div');dots.className='hsl-dots';hs.appendChild(dots);
+  HSLC.forEach(c=>{const d=document.createElement('button');d.className='hdot'+(P.hslSel===c[0]?' on':'');d.style.background=c[2];d.title=c[1];d.onclick=()=>{P.hslSel=c[0];renderPanel()};dots.appendChild(d)});
+  const cur=HSLC.find(c=>c[0]===P.hslSel),H=P.dev.hsl[cur[0]];
+  hs.appendChild(sld(cur[1]+' · ton',-100,100,()=>H.h,v=>H.h=v,{label:cur[1]+' tonu'}));hs.appendChild(sld(cur[1]+' · doygunluk',-100,100,()=>H.s,v=>H.s=v,{label:cur[1]+' doygunluğu'}));hs.appendChild(sld(cur[1]+' · parlaklık',-100,100,()=>H.l,v=>H.l=v,{label:cur[1]+' parlaklığı'}));
+  const gd=secBox(b,'Renk derecelendirme',()=>{P.dev.grade={sh:210,ss:0,hh:40,hs:0};commit('Derecelendirme sıfırla');renderPanel();renderPreview()}),G=P.dev.grade;
+  gd.appendChild(sld('Gölge tonu',0,360,()=>G.sh,v=>G.sh=v,{grad:HUEGRAD,fmt:v=>v+'°',def:210}));gd.appendChild(sld('Gölge yoğunluğu',0,100,()=>G.ss,v=>G.ss=v));
+  gd.appendChild(sld('Parlak alan tonu',0,360,()=>G.hh,v=>G.hh=v,{grad:HUEGRAD,fmt:v=>v+'°',def:40}));gd.appendChild(sld('Parlak alan yoğunluğu',0,100,()=>G.hs,v=>G.hs=v));
+  group('Detay',['clarity','dehaze','sharpen']);group('Efektler',['vignette','grain','fade']);
+  b.insertAdjacentHTML('beforeend','<p class="muted small">İpucu: bir ayarı sıfırlamak için adına çift dokun.</p>')}
+function lookThumbs(){if(P.lookThumbs)return P.lookThumbs;const src=P.prev,s=120/Math.min(src.width,src.height),base=mk(120,120);base.getContext('2d').drawImage(src,(120-src.width*s)/2,(120-src.height*s)/2,src.width*s,src.height*s);
+  P.lookThumbs={};for(const n in LOOKS){const c=clone(base),L=LOOKS[n],d=defDev();Object.assign(d,L.d||{});if(L.g)Object.assign(d.grade,L.g);if(!devNeutral(d))develop(c.getContext('2d',{willReadFrequently:true}),d);P.lookThumbs[n]=c.toDataURL('image/jpeg',.82)}return P.lookThumbs}
+function panelLooks(b){const th=lookThumbs(),g=document.createElement('div');g.className='looks';
+  for(const n in LOOKS){const d=document.createElement('button');d.className='look'+(P.look===n?' on':'');d.innerHTML=`<img src="${th[n]}" alt=""><span>${n}</span>`;d.onclick=()=>{P.look=n;P.lookAmt=100;commit('Görünüm: '+n);renderPanel();renderPreview()};g.appendChild(d)}
+  b.appendChild(g);if(P.look!=='Orijinal'){const s=secBox(b,P.look);s.appendChild(sld('Yoğunluk',0,100,()=>P.lookAmt,v=>P.lookAmt=v,{label:'Görünüm yoğunluğu',def:100}))}
+  b.insertAdjacentHTML('beforeend','<p class="muted small">Görünümler, Ayarla panelindeki değerlerin üzerine eklenir; istediğin gibi ince ayar yapabilirsin.</p>')}
+function panelFace(b){const cats=CATS.filter(c=>c.opts||c.hair);if(!cats.find(c=>c.id===P.faceCat))P.faceCat='beauty';
+  const top=document.createElement('div');top.className='seg-scroll';cats.forEach(c=>{const x=document.createElement('button');x.className='chip'+(P.faceCat===c.id?' on':'');x.textContent=c.icon+' '+c.name;x.onclick=()=>{P.faceCat=c.id;P.faceActive=null;renderPanel()};top.appendChild(x)});b.appendChild(top);
+  const c=cats.find(c=>c.id===P.faceCat),row=document.createElement('div');row.className='tiles2';b.appendChild(row);
+  const T=(icn,label,on,sel,fn,bg)=>{const t=document.createElement('button');t.className='tile'+(on?' on':'')+(sel?' sel':'');t.innerHTML=`<span class="ic"${bg?` style="background:${bg}"`:''}>${icn}</span><span class="lb">${label}</span>`;t.onclick=fn;row.appendChild(t)};
+  const re=lbl=>{commit(lbl);renderPanel();renderPreview()},tog=k=>{if(P.fx[k]===0){P.fx[k]=60;P.faceActive=k}else if(P.faceActive===k){P.fx[k]=0;P.faceActive=null}else P.faceActive=k;re(FXN[k])};
+  if(c.opts){c.opts.forEach(([k,i])=>T(i,FXN[k],P.fx[k]>0,P.faceActive===k,()=>tog(k)));
+    if(c.colors){const set=c.colors==='beard'?BEARD_COLORS:LIP_COLORS,dots=document.createElement('div');dots.className='dots';dots.innerHTML='<span class="muted small">Renk</span>';
+      Object.entries(set).forEach(([n,h])=>{const d=document.createElement('button');d.className='dot'+(P.col[c.colors]===h?' on':'');d.style.background=h;d.title=n;d.onclick=()=>{P.col[c.colors]=h;re('Renk: '+n)};dots.appendChild(d)});b.appendChild(dots)}}
+  else{T('🚫','Orijinal',false,P.fx.hair===0,()=>{P.fx.hair=0;P.faceActive=null;re('Saç rengi kapat')});
+    Object.entries(HAIR_COLORS).forEach(([n,h])=>{const on=P.fx.hair>0&&P.col.hair===h;T('',n,on,on,()=>{if(on){P.fx.hair=0;P.faceActive=null}else{P.col.hair=h;P.fx.hair=P.fx.hair||75;P.faceActive='hair'}re('Saç: '+n)},h)})}
+  if(P.faceActive){const s=secBox(b,FXN[P.faceActive]);s.appendChild(sld('Yoğunluk',0,100,()=>P.fx[P.faceActive],v=>P.fx[P.faceActive]=v,{label:FXN[P.faceActive]}))}
+  const act=FXKEYS.filter(k=>P.fx[k]>0);
+  b.insertAdjacentHTML('beforeend',`<div class="sec"><div class="row"><button class="btn sm ${P.editFace?'ok':''}" id="faceEd">${P.editFace?'✓ Tamam':'🎯 Yüz noktalarını ayarla'}</button>${act.length?'<button class="btn sm" id="faceClr">Yüz efektlerini temizle</button>':''}</div>
+  <p class="muted small">${P.editFace?'Elipsi yüze oturt; renkli noktaları gözlere, ağza ve saça sürükle.':P.faceOk?'Yüz konumlandı. Efektler yanlış yere oturursa noktaları ayarla.':'Yüz otomatik bulunamadı — efektlerden önce noktaları gözlere, ağza ve saça taşı.'}</p></div>`);
+  $('#faceEd').onclick=()=>{P.editFace=!P.editFace;if(!P.editFace)P.faceOk=true;renderPanel();renderPreview()};const fc=$('#faceClr');if(fc)fc.onclick=()=>{P.fx=defFx();P.faceActive=null;re('Yüz efektlerini temizle')}}
+function panelCrop(b){const C=P.crop;if(!C)return;const g=document.createElement('div');g.className='chips2';
+  [['Serbest',null],['Orijinal','o'],['1:1',1],['4:5',.8],['3:4',.75],['16:9',16/9],['9:16',9/16]].forEach(([n,v])=>{const x=document.createElement('button');x.className='chip'+(C.arName===n?' on':'');x.textContent=n;x.onclick=()=>{setAspect(v==='o'?ecv.width/ecv.height:v,n);renderPanel()};g.appendChild(x)});b.appendChild(g);
+  const s=secBox(b,'Düzelt');s.appendChild(sld('Açı',-45,45,()=>C.ang,v=>{C.ang=v},{step:.5,fmt:v=>(v>0?'+':'')+v+'°',nocommit:true}));
+  b.insertAdjacentHTML('beforeend',`<div class="row" style="margin:12px 0"><button class="btn sm" id="cRot">${ic('rot')}90°</button><button class="btn sm" id="cFlipH">${ic('flip')}Yatay</button><button class="btn sm" id="cFlipV">Dikey çevir</button></div>
+  <div class="row"><button class="btn grad" id="cApply">✓ Kırpmayı uygula</button><button class="btn" id="cReset">Sıfırla</button></div><p class="muted small">Köşelerden sürükleyerek kırp, kutunun içinden tutup taşı.</p>`);
+  $('#cRot').onclick=()=>geoOp(o=>{const c=mk(o.height,o.width),x=c.getContext('2d');x.translate(o.height,0);x.rotate(Math.PI/2);x.drawImage(o,0,0);return c},(p,W,H)=>({x:H-p.y,y:p.x}),true,false,'90° döndür');
+  $('#cFlipH').onclick=()=>geoOp(o=>{const c=mk(o.width,o.height),x=c.getContext('2d');x.translate(o.width,0);x.scale(-1,1);x.drawImage(o,0,0);return c},(p,W)=>({x:W-p.x,y:p.y}),false,true,'Yatay çevir');
+  $('#cFlipV').onclick=()=>geoOp(o=>{const c=mk(o.width,o.height),x=c.getContext('2d');x.translate(0,o.height);x.scale(1,-1);x.drawImage(o,0,0);return c},(p,W,H)=>({x:p.x,y:H-p.y}),false,false,'Dikey çevir');
+  $('#cApply').onclick=applyCrop;$('#cReset').onclick=()=>{enterCrop();renderPanel();renderPreview()}}
+function panelHeal(b){const s=secBox(b,'Fırça');s.appendChild(sld('Boyut',1,15,()=>P.heal.size,v=>P.heal.size=v,{nocommit:true}));
+  b.insertAdjacentHTML('beforeend',`<div class="tipcard"><b>Nasıl kullanılır?</b><p>Silmek istediğin sivilceyi, lekeyi ya da küçük nesneyi fırçayla boya. Parmağını kaldırınca Pixtudio çevresinden uygun dokuyu bulup alanı otomatik doldurur.</p><p>Daha temiz sonuç için yakınlaştır (iki parmak ya da +) ve küçük fırça kullan.</p></div><button class="btn sm" id="hUndo">↶ Son rötuşu geri al</button>`);$('#hUndo').onclick=pxUndo}
+function panelText(b){const sel=P.texts[P.selText];
+  b.insertAdjacentHTML('beforeend',`<textarea id="tIn" rows="2" placeholder="Yazını gir…">${sel?esc(sel.text):''}</textarea><div class="sec"><div class="sec-h"><span>Yazı tipi</span></div><div class="chips2" id="tFonts" style="margin-top:0"></div></div><div class="sec"><div class="sec-h"><span>Renk</span></div><div class="dots" id="tCols" style="margin-top:0"></div></div><div id="tSz"></div><div class="row" id="tBtns" style="margin-top:12px"></div><p class="muted small">Yazıya dokunarak seç, sürükleyerek taşı.</p>`);
+  const ti=$('#tIn');ti.oninput=()=>{if(sel){sel.text=ti.value||' ';renderPreview()}};ti.onchange=()=>{if(sel)commit('Metni düzenle')};
+  Object.keys(FONTS).forEach(n=>{const c=document.createElement('button');const cur=sel?sel.font:P.tFont;c.className='chip'+(cur===n?' on':'');c.textContent=n;c.style.font=FONTS[n].replace('{s}','13');c.onclick=()=>{P.tFont=n;if(sel){sel.font=n;commit('Yazı tipi')}renderPanel();renderPreview()};$('#tFonts').appendChild(c)});
+  const curC=sel?sel.color:P.tColor;TEXT_COLORS.forEach(h=>{const d=document.createElement('button');d.className='dot'+(curC===h?' on':'');d.style.background=h;d.onclick=()=>{P.tColor=h;if(sel){sel.color=h;commit('Metin rengi')}renderPanel();renderPreview()};$('#tCols').appendChild(d)});
+  const pk=document.createElement('input');pk.type='color';pk.value=curC;pk.oninput=()=>{P.tColor=pk.value;if(sel){sel.color=pk.value;renderPreview()}};pk.onchange=()=>{if(sel)commit('Metin rengi')};$('#tCols').appendChild(pk);
+  $('#tSz').appendChild(sld('Boyut',2,20,()=>sel?sel.size:P.tSize,v=>{P.tSize=v;if(sel)sel.size=v},{label:'Metin boyutu',nocommit:!sel}));
+  const bt=$('#tBtns');if(sel){bt.innerHTML='<button class="btn sm" id="tNew">+ Yeni yazı</button><button class="btn sm" id="tDel">Sil</button>';$('#tNew').onclick=()=>{P.selText=-1;renderPanel();renderPreview()};$('#tDel').onclick=()=>{P.texts.splice(P.selText,1);P.selText=-1;commit('Metin sil');renderPanel();renderPreview()}}
+  else{bt.innerHTML='<button class="btn grad" id="tAdd">+ Metin ekle</button>';$('#tAdd').onclick=()=>{P.texts.push({text:ti.value.trim()||'Pixtudio',x:.5,y:.5,size:P.tSize,color:P.tColor,font:P.tFont});P.selText=P.texts.length-1;commit('Metin ekle');renderPanel();renderPreview()}}}
+function panelHistory(b){const l=document.createElement('div');l.className='hist-list';P.hist.forEach((h,i)=>{const x=document.createElement('button');x.className=(i===P.idx?'on':'')+(i>P.idx?' fut':'');x.innerHTML=`<i>${i+1}</i><span>${esc(h.label)}</span>`;x.onclick=()=>{P.idx=i;restore(h.s)};l.appendChild(x)});
+  b.appendChild(l);setTimeout(()=>{const on=l.querySelector('.on');on&&on.scrollIntoView({block:'nearest'})},0)}
+
+/* ---- Dışa aktarma ---- */
+const EX={fmt:'jpeg',q:92,size:'orig'};
+function renderExport(){$$('#exFmt button').forEach(b=>b.classList.toggle('on',b.dataset.v===EX.fmt));$$('#exSize button').forEach(b=>b.classList.toggle('on',b.dataset.v===EX.size));$('#exQW').hidden=EX.fmt==='png';$('#exQV').textContent=EX.q;
+  const W=P.orig.width,H=P.orig.height,L=EX.size==='orig'?0:+EX.size,s=L&&Math.max(W,H)>L?L/Math.max(W,H):1;$('#exInfo').textContent=`Çıktı: ${Math.round(W*s)} × ${Math.round(H*s)} px · tüm düzenlemeler tam çözünürlükte uygulanır.`}
+function openExport(){if(!needImg())return;$('#pxModal').hidden=false;renderExport()}
+async function doExport(){const btn=$('#exGo');btn.disabled=true;btn.textContent='Hazırlanıyor…';await new Promise(r=>setTimeout(r,40));
+  try{let c=renderEdited(P.orig,1,false);const L=EX.size==='orig'?0:+EX.size;if(L&&Math.max(c.width,c.height)>L){const s=L/Math.max(c.width,c.height),n=mk(Math.round(c.width*s),Math.round(c.height*s)),x=n.getContext('2d');x.imageSmoothingQuality='high';x.drawImage(c,0,0,n.width,n.height);c=n}
+    const ext=EX.fmt==='jpeg'?'jpg':EX.fmt;c.toBlob(b=>{download(b,'pixtudio-'+(P.name||'foto')+'.'+ext);btn.disabled=false;btn.textContent='İndir';$('#pxModal').hidden=true;toast('Fotoğraf dışa aktarıldı')},'image/'+EX.fmt,EX.q/100)}
+  catch(e){btn.disabled=false;btn.textContent='İndir';toast('Dışa aktarılamadı')}}
+$$('#exFmt button').forEach(b=>b.onclick=()=>{EX.fmt=b.dataset.v;renderExport()});$$('#exSize button').forEach(b=>b.onclick=()=>{EX.size=b.dataset.v;renderExport()});
+$('#exQ').oninput=()=>{EX.q=+$('#exQ').value;$('#exQV').textContent=EX.q};$('#exGo').onclick=doExport;$('#exX').onclick=()=>$('#pxModal').hidden=true;
+$('#pxModal').addEventListener('click',e=>{if(e.target.id==='pxModal')$('#pxModal').hidden=true});
+
+/* ---- Bağlantılar ---- */
+$('#pxOpen').onclick=openFile;$('#pxPick').onclick=openFile;
+$('#pxDemoL').onclick=()=>loadEdit(demoLandscape(),null,'manzara',true);
+$('#pxDemoP').onclick=()=>{const d=demoPhoto('B');loadEdit(d.img,d.e,'portre')};
+$('#pxUndo').onclick=pxUndo;$('#pxRedo').onclick=pxRedo;$('#pxExport').onclick=openExport;
+$('#pxSplit').onclick=()=>{if(!needImg())return;P.split=!P.split;P.splitX=.5;updBar();renderPreview()};
+const holdOn=e=>{if(!P.orig)return;e.preventDefault();P.hold=true;renderPreview()},holdOff=()=>{if(P.hold){P.hold=false;renderPreview()}};
+$('#pxHold').addEventListener('pointerdown',holdOn);['pointerup','pointerleave','pointercancel'].forEach(t=>$('#pxHold').addEventListener(t,holdOff));
+$('#pxZm').onclick=()=>setZoom(P.zoom/1.25);$('#pxZp').onclick=()=>setZoom(P.zoom*1.25);$('#pxFit').onclick=()=>setZoom(1);
+document.addEventListener('keydown',e=>{if(!$('#v-edit').classList.contains('on')||/INPUT|TEXTAREA/.test(document.activeElement.tagName))return;
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?pxRedo():pxUndo()}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();pxRedo()}
+  else if(e.key==='Escape')$('#pxModal').hidden=true});
+window.addEventListener('resize',()=>renderPreview());
+function pxInit(){$('#pxOpen').innerHTML=ic('open');$('#pxUndo').innerHTML=ic('undo');$('#pxRedo').innerHTML=ic('redo');$('#pxSplit').innerHTML=ic('split');$('#pxHold').innerHTML=ic('eye');
+  $('#pxExport').innerHTML=ic('download')+'<span>Dışa aktar</span>';$('#pxZm').innerHTML=ic('minus');$('#pxZp').innerHTML=ic('plus');$('#pxFit').innerHTML=ic('fit');$('.px-drop-ic').innerHTML=ic('image');
+  renderRail();renderPanel();updBar()}
 
 /* ================= YÜZ DEĞİŞTİR (FOTO) ================= */
 let hasRes=false;
@@ -876,6 +1279,7 @@ $('#aiGo').onclick=runAI;$('#aiStop').onclick=()=>aiCtl&&aiCtl.abort();
 $('#aiIn').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();runAI()}});
 
 bindOut();
+pxInit();
 window.addEventListener('resize',()=>{srcP.draw();dstP.draw();vFace.draw();if(!V.playing)drawVideo()});
 </script>
 </body>

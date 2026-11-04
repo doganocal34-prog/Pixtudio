@@ -4,7 +4,7 @@ Tarayıcıda çalışan, kurulum gerektirmeyen fotoğraf ve video düzenleyici. 
 
 ## Özellikler
 
-- **Fotoğraf (yüz editörü):** pürüzsüz cilt, ışıltı, gülümseme, yaşlandırma/gençleştirme, saç rengi, sakal/bıyık, gözlük, makyaj, yüz şekli, arka plan bulanıklaştırma, filtreler, ayarlar, kırpma, yazı ekleme ve önce/sonra karşılaştırması.
+- **Fotoğraf (pro editör):** AI asistan (tek dokunuşla iyileştirme, fotoğrafı görerek düzenleme, komutla düzenleme), ışık/renk/HSL/renk derecelendirme/netlik/pus giderme/keskinlik/vinyet/gren ayarları, 13 hazır görünüm, kırpma ve açı düzeltme, leke ve nesne silme fırçası, yüz rötuşu (gülümseme, yaş, saç rengi, sakal, gözlük, makyaj, yüz şekli, arka plan bulanıklığı), metin, histogram, yakınlaştırma, önce/sonra bölmesi, geçmiş ve JPG/PNG/WEBP dışa aktarma.
 - **Yüz Değiştir:** bir fotoğraftaki yüzü başka bir fotoğrafa taşır; ten rengi eşleme ve kenar yumuşatma içerir.
 - **AI Video:** Türkçe komutla animasyonlu sahne oluşturma, videoya yüz yerleştirme (anahtar karelerle takip), filtre, yazı ve efektler, MP4/WebM dışa aktarma.
 - **Komutla düzenleme:** Claude içinde açıldığında Claude yapay zekâsını, dosya olarak açıldığında internetsiz çalışan yerel bir komut çözücüyü kullanır.
